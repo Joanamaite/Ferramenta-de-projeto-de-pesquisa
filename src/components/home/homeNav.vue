@@ -1,0 +1,511 @@
+
+<!-- eslint-disable vue/multi-word-component-names -->
+<template id="template">
+  <div
+    v-if="$route.path !== '/login' && $route.path !== '/cadastro' && $route.path !== '/Login' && $route.path !== '/senha'">
+    <v-app-bar app dark color="#1B2F4A">
+      <div id="body container-fluid navbar navbar-expand-lg bg-body-tertiary">
+        <div class="header" id="header">
+          <button @click="toggleSidebar" class="btn_icon_header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-list"
+              viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+            </svg>
+          </button>
+          <div class="logo_header col-md-10">
+            <img src="Images/Logo.png" alt="Logo GN" class="img_logo_header img-fluid" @click="escola">
+          </div>
+
+          <div class="navigation_header" :class="{ showSidebar: isMenuOpen }" id="navigation_header">
+            <button @click="toggleSidebar" class="btn_icon_header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x mt-5"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <!--header dos professores-->
+
+            <div v-if="userType === 'professor'" class="ajustando">
+
+              <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
+
+              <v-menu offset-y>
+                <template v-slot:activator="{ on }">
+                  <v-btn class="itens_header col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
+                </template>
+                <v-list class="lista">
+                  <v-list-item @click="cursos(course.id)" v-for="course in courses" :key="course.id">
+                    {{ course.name }}
+                  </v-list-item>
+                </v-list>
+
+              </v-menu>
+              <v-btn text class="itens_header " @click="projetos()">PROJETOS</v-btn>
+              <v-btn text class=" itens_header " @click="logout">DESLOGAR</v-btn>
+
+
+            </div>
+
+            <!--header dos alunos-->
+            <div class="header itens_header" v-else-if="userType === 'aluno'">
+              <v-btn text class="button-item itens_header" @click="professor()">INÍCIO</v-btn>
+              <v-menu offset-y>
+                <template v-slot:activator="{ on }">
+                  <v-btn class="itens_header itens_header col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
+                </template>
+                <v-list class="lista">
+                  <v-list-item @click="cursos(course.id)" v-for="course in courses" :key="course.id" class="itemDrop">
+                    {{ course.name }}
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+
+              <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
+
+              <v-btn text class="button-item itens_header " @click="logout">DESLOGAR</v-btn>
+
+              <!-- <v-container class="fill-height itens_header">
+              <v-row justify="center">
+                <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
+              </v-row>
+            </v-container>
+
+            <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
+              <v-list-item>
+                <v-list-item-avatar>
+                  <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+                </v-list-item-avatar>
+
+                <v-list-item-content>
+                  <v-list-item-title>John Leider</v-list-item-title>
+                  <p class="email">JohnLeider2@educar.rs.gov.br</p>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider></v-divider>
+
+              <v-list dense>
+                <v-list-item v-for="item in items" :key="item.title" link>
+                  <v-list-item-icon>
+                    <v-icon @click="logout">{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-navigation-drawer>  -->
+            </div>
+            <!--header usuario não logados-->
+            <div class="ajustando" v-else>
+              <v-btn text class=" itens_header col-md-2 col-sm-2" @click="home()">INÍCIO</v-btn>
+              <div class="button-group">
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on }">
+                    <v-btn class="itens_header col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
+                  </template>
+                  <v-list class="lista">
+                    <v-list-item @click="cursos(course.id)" v-for="course in courses" :key="course.id">
+                      {{ course.name }}
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </div>
+              <v-btn text class=" itens_header" @click="login()">ENTRAR</v-btn>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </v-app-bar>
+  </div>
+</template>
+
+
+<script>
+
+import Cookies from 'js-cookie';
+
+export default {
+  computed: {
+    userType() {
+      return Cookies.get('userType') || 'default';
+    },
+  },
+  created() {
+    // Verifique se o usuário já fez login e atualize o userType com base nos cookies.
+    this.updateUserTypeFromCookies();
+  },
+  data() {
+    return {
+      isMenuOpen: false,
+      drawer: null,
+      items: [
+        { title: 'Deslogar', icon: 'mdi-view-dashboard' },//botão de deslogar
+      ],
+      courses: [
+        { id: 3, name: 'Informática' },
+        { id: 4, name: 'Meio ambiente' },
+        { id: 5, name: 'Eletrônica' },
+        { id: 6, name: 'Mecânica' },
+        { id: 7, name: 'Química' },
+        { id: 8, name: 'Design de móveis' },
+        { id: 9, name: 'Eletrotécnica' },
+        { id: 10, name: 'Móveis' },
+      
+      ],
+    }
+  },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+
+
+  methods: {
+    redirectAndCloseMenu(path) {
+      this.$router.push(path); // Redirecionar para a página desejada
+      this.isMenuOpen = false; // Fechar o menu
+    },
+
+
+    updateUserTypeFromCookies() {
+      const userType = Cookies.get('userType');
+      if (userType) {
+        this.$data.userType = userType;
+      }
+    },
+    //botão de logout para deslogar usuario da conta
+    logout() {
+      localStorage.removeItem('token');
+      Cookies.remove('token');
+      Cookies.remove('userType');
+
+      this.$router.push('/');
+      window.location.reload();
+
+    },
+    escola() {
+      window.open("http://www.cimol.g12.br/", "_blank"); //leva para o site do cimol
+    },
+    login() {
+      this.$router.push("/login"); //Já existe
+    },
+    cadastro() {
+      this.$router.push("/cadastro"); //Já existe
+    },
+    cursos(courseId) {
+      this.$router.push(`/Cursos/${courseId}`);
+      this.toggleSidebar();
+    },
+    home() {
+      this.$router.push("/"); //Já existe
+    },
+    exemplos() {
+      this.$router.push("/exemplos"); //já existe
+    },
+    projetos() {
+      this.$router.push("/projetos");
+      this.toggleSidebar();
+    },
+    professor() {
+      this.$router.push("/Professor");
+      this.toggleSidebar();
+    },
+    aluno() {
+      this.$router.push("/Aluno");
+    },
+    AreaAluno() {
+      this.$router.push("/AreaAluno");
+    },
+    handleResize() {
+      const screenWidth = window.innerWidth;
+      const navigationHeader = document.querySelector(".navigation_header");
+
+      if (screenWidth > 675) {
+        navigationHeader.classList.remove("menu-aberto");
+      }
+    },
+    toggleMenu() {
+      const navigationHeader = document.querySelector(".navigation_header");
+      navigationHeader.classList.toggle("menu-open");
+    },
+    toggleSidebar() {
+      const navigationHeader = document.getElementById('navigation_header');
+      navigationHeader.classList.toggle("showSidebar");
+      const content = document.getElementById('content');
+      content.classList.toggle("showSidebar");
+      this.isMenuOpen = !this.isMenuOpen;
+
+      setTimeout(() => {
+        const navigationHeader = document.getElementById('navigation_header');
+        navigationHeader.classList.remove('showSidebar');
+        const content = document.getElementById('content');
+        content.classList.remove('showSidebar');
+      }, 300);
+    },
+    closeSidebar() {
+      const navigationHeader = document.getElementById('navigation_header');
+      navigationHeader.classList.remove("showSidebar");
+      const content = document.getElementById('content');
+      content.classList.remove("showSidebar");
+    },
+
+
+  },
+};
+</script>
+
+<style scoped>
+
+#template {
+  background-color: #ffff;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+}
+
+.ajustando {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+}
+
+.email {
+  font-size: 1vw;
+  margin-top: 0.5rem;
+}
+
+.imagem {
+  width: 3vw;
+  border-radius: 20px;
+  cursor: pointer;
+  justify-content: end;
+}
+
+.perfil {
+  background-color: #1B2F4A !important;
+}
+
+.color {
+  background-color: transparent !important;
+  width: 8vw;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.escritafooter {
+  margin-left: 3%;
+}
+
+
+
+.logo_header {
+  height: 8.5vh;
+  margin-bottom: 1rem;
+}
+
+
+.btn_icon_header {
+  background-color: transparent;
+  border: none;
+  color: #ffff;
+  cursor: pointer;
+  display: none;
+}
+
+.bi.bi-x {
+  background-color: transparent;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-dark1);
+  color: var(--color-white);
+}
+
+.img_logo_header {
+  width: 35px;
+}
+
+.header,
+.navigation_header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+
+.header {
+  background-color: var(--color-dark2);
+  height: 3.5em;
+  box-shadow: 1px 1px 4px var(--color-dark4);
+}
+
+.navigation_header {
+  gap: 3em;
+  z-index: 2;
+}
+
+.content {
+  padding-top: 5em;
+  text-align: center;
+  height: 100vh;
+  transition: 1s;
+}
+
+.navigation_header a {
+  text-decoration: none;
+  color: var(--color-purple);
+  transition: 1s;
+  font-weight: bold;
+}
+
+.navigation_header a:hover {
+  color: var(--color-white);
+}
+
+.active {
+  background: var(--color-dark3);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.btn_icon_header {
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  display: none;
+}
+
+.itens_header {
+  width: 4vw;
+  margin-left: 3rem;
+}
+
+
+@media screen and (max-width: 675px) {
+  .navigation_header {
+    position: absolute;
+    flex-direction: column !important;
+    top: 0;
+    height: 100vh;
+    width: 60vw;
+    margin-left: -100vw;
+    background-color: #1B2F4A !important;
+    backdrop-filter: blur(50px);
+    z-index: 1;
+    transform-origin: top right;
+    opacity: 0;
+  }
+
+  .ajustando {
+    flex-direction: column;
+  }
+
+  .menu-aberto {
+    flex-direction: column !important;
+  }
+
+  .button-group {
+    display: block;
+  }
+
+  .navbar {
+    background-color: #1B2F4A !important;
+  }
+
+  #body {
+    background-color: #1B2F4A !important;
+  }
+
+  .itens_header {
+    width: 30vw;
+    height: 5vh !important;
+    margin-top: 2rem;
+    padding: 0% !important;
+    display: block;
+    z-index: 5;
+    margin-left: 0%;
+  }
+
+  .v-menu__content {
+    width: 20%;
+    background-color: #fff;
+  }
+
+  .v-list-item {
+    font-size: 2.5vw;
+  }
+
+  .lista {
+    z-index: 3;
+    background-color: #fff;
+  }
+
+  .btn_icon_header {
+    display: block;
+  }
+
+  .showSidebar {
+    margin-left: -10vw;
+    background-color: #1b2f4a7e !important;
+    transform: scale(1);
+    opacity: 1;
+    animation: 0.5s ease-in-out;
+    animation: bubble 0.5s ease-in-out;
+
+  }
+
+  .img_logo_header {
+    display: none;
+  }
+
+  .imagem {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 409px) {
+  v-app-bar {
+    width: 20vw;
+  }
+
+  .itemDrop {
+    font-size: 3vw;
+    text-align: center;
+  }
+}
+
+@keyframes bubble {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+</style>
