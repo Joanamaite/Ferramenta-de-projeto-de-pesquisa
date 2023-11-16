@@ -49,17 +49,30 @@
                     <label class="custom-file-upload">
                         <input type="file" ref="fileInput" id="fileInput" name="file" multiple @change="handleFileUpload($event)" />
 
-                        <span>Adicionar Arquivo</span>
+                        <span>Adicionar logo</span>
                     </label>
              
                 </div>
+                <p class="cor" v-if="arquivoAdicionado" >Arquivo adicionado com sucesso</p>
+                
+                <!-- Botão de Adicionar PDF -->
+                <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
+                    <label class="custom-file-upload">
+                        <input type="file" ref="fileInput" id="fileInput" name="file" @change="handleFile"
+                            accept=".pdf" />
+                        <span>Adicionar PDF</span>
+                    </label>
+                </div>
+                <!-- Exibe a mensagem de sucesso após adicionar PDF -->
+                <p class="cor" v-if="pdfAdicionado">PDF adicionado com sucesso</p>
+
             </div>
         </div>
         <div>
-    <label for="privacyToggle" class="toggle-label ms-5">Projeto {{ projetoEdit.isPrivate ? 'Privado' : 'Público' }}</label>
-    <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
-        v-model="projetoEdit.isPrivate">
-</div>
+            <label for="privacyToggle" class="toggle-label ms-5">Projeto {{ isPrivate ? 'Privado' : 'Público' }}</label>
+            <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
+                :checked="isPrivate">
+        </div>
         <div class="float-end mb-5 me-5 ">
             <v-btn class="color" @click="editarProjeto" :disabled="loading">
                 <template v-if="loading">
@@ -99,7 +112,7 @@ export default {
             // Buscar as informações do projeto pelo ID
             this.fetchProjeto(projetoId);
         }
-        // Chame os métodos para carregar alunos e professores aqui
+
         this.carregarAlunos();
         this.carregarProfessores();
     },
@@ -114,6 +127,8 @@ export default {
                 problema: '',
                 resumo: '',
                 abstract: '',
+                publico:this.decidir,
+                arquivoAdicionado: false,
                 logo_projeto: [],
                 alunosSelecionados: [],
                 alunoSelecionado: { id: null },
@@ -123,26 +138,21 @@ export default {
                 orientadorSelecionado: { id: null },
                 alunosDisponiveis: [],
                 professoresDisponiveis: [],
-                isPrivate: false,
                 numeroMaximoAutores: 3,
                 loading: false, 
                 mensagemSucesso: null, 
+                pdfAdicionado:false,
+                isPrivate:true,
             },
         };
     },
 
     methods: {
-    togglePrivacy() {
-    const toggleLabel = document.querySelector('.toggle-label');
-
-    if (this.projetoEdit.isPrivate) {
-        toggleLabel.textContent = 'Projeto Privado';
-        this.projetoEdit.publico = 1; 
-    } else {
-        toggleLabel.textContent = 'Projeto Público';
-        this.projetoEdit.publico = 0; 
-    }
-},
+        togglePrivacy() {
+            this.isPrivate = !this.isPrivate;
+            const decidir = this.projetoEdit.publico = this.isPrivate ? 0 : 1;
+            console.log(decidir)
+        },
 
         limitarAutores() {
             if (this.projetoEdit.autores.length > this.numeroMaximoAutores) {
@@ -161,6 +171,44 @@ export default {
                 return this.orientadorSelecionados?.map(professor => professor.id) || [];
             }
         },
+        async handleFile(event) {
+    try {
+      const file = event.target.files[0];
+      const cloudinaryCloudName = 'dzpbclwij';
+      const cloudinaryUploadPreset = 'bdsmg4su';
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('resource_type', 'raw');
+        formData.append('upload_preset', cloudinaryUploadPreset);
+
+        const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/raw/upload`, formData, {
+        
+            headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+
+        if (cloudinaryResponse.status === 200 && cloudinaryResponse.data.secure_url) {
+
+
+          this.projetoEdit.arquivo = cloudinaryResponse.data.secure_url;
+          
+          console.log(cloudinaryResponse.data.secure_url);
+
+          this.pdfAdicionado = true;
+        } else {
+          console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
+        }
+      } else {
+        console.warn('Nenhum arquivo selecionado');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+    
+    }
+  },
         handleFileUpload(event) {
     const files = event.target.files;
     console.log(files);
@@ -180,6 +228,7 @@ export default {
                 axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`, formData)
             );
         }
+        this.arquivoAdicionado = true;
 
         Promise.all(uploadPromises)
             .then((responses) => {
@@ -266,8 +315,6 @@ export default {
             'x-access-token': `${token}`
         };
 
-    
-        this.projetoEdit.publico = this.isPrivate ? 1 : 0;
 
      
         await axios.put(`https://api-thesis-track.vercel.app/projeto/atualiza/${this.$route.params.id}`, this.projetoEdit, { headers });

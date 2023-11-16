@@ -237,7 +237,7 @@ export default {
             sucessoAdicao: false,
             loading: false,
             url: '',
-            menu:true,
+            menu:false,
             charCount: {
                 titulo: 0,
                 tema: 0,
@@ -488,7 +488,7 @@ export default {
                     alunos: alunosIds,
                     url_projeto: this.url,
                     professores: [{ "id": orientadorId }],
-                    publico: this.isPrivate ? 0 : 1,
+                    publico: this.isPrivate ? 1 : 0,
                     logo_projeto: this.logo_projeto,
                     arquivo:this.urlPdf
                 };

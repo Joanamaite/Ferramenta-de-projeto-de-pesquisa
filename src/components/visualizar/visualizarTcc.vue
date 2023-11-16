@@ -3,9 +3,14 @@
     <v-container v-if="projeto">
       <v-row>
         <v-col cols="12">
+          <div class="ano float-end">
+          <p > Ano de publicação: {{ projeto.ano_publicacao || '' }}</p>
+        </div>
+
           <h1 class="titulo text-center">
             {{ projeto.titulo || '' }}
           </h1>
+          
         </v-col>
       </v-row>
       <v-row>
@@ -489,7 +494,9 @@ export default {
 .botao-deletar {
   width: 30%;
 }
-
+.ano{
+  margin-top: 6rem;
+}
 .titulo {
   font-family: 'Fondamento', cursive;
   margin-top: 7rem;
