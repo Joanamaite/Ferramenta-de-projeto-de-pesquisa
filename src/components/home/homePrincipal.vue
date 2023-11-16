@@ -22,8 +22,8 @@
       >
       <div class="card__img">
     <img
-      v-if="project.logo"
-      :src="project.logo"
+      v-if="project.logologo_projeto"
+      :src="project.logo_projeto"
       :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
     />
     <img
@@ -332,9 +332,6 @@ html, body {
   .escreva{
     font-size: 10vw;
     text-align: center;
-  }
-  .imagemFundo{
-   height:40%;
   }
 
 }

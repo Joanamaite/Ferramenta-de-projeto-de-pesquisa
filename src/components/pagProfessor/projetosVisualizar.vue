@@ -57,8 +57,8 @@
 >
   <div class="card__img">
     <img
-      v-if="projeto.logo"
-      :src="projeto.logo"
+      v-if="projeto.logo_projeto"
+      :src="projeto.logo_projeto"
       :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
     />
     <img

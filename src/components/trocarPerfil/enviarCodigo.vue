@@ -20,7 +20,7 @@
                           <h4 class="mb-4 pb-3">Reset senha</h4>
                           <p>Digite um email para enviar o código de verificação</p>
                           <div id="app">
-                            <div class="form-group">
+                            <div class="form-group ">
                               <input type="email" name="logemail" class="form-style" placeholder="Seu E-mail" id="logemail"
                                 autocomplete="off" v-model="loginEmail" />
                               <i class="input-icon uil uil-at"></i>

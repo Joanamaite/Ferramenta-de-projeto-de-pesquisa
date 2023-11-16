@@ -114,7 +114,7 @@ export default {
                 problema: '',
                 resumo: '',
                 abstract: '',
-                logo: [],
+                logo_projeto: [],
                 alunosSelecionados: [],
                 alunoSelecionado: { id: null },
                 professoresSelecionados: [],
@@ -166,7 +166,7 @@ export default {
     console.log(files);
 
     if (files.length > 0) {
-        this.projetoEdit.logo = []; 
+        this.projetoEdit.logo_projeto = []; 
         const cloudinaryCloudName = 'dzpbclwij';
         const cloudinaryUploadPreset = 'bdsmg4su';
         const uploadPromises = [];
@@ -184,8 +184,8 @@ export default {
         Promise.all(uploadPromises)
             .then((responses) => {
                 const imageUrls = responses.map((response) => response.data.secure_url);
-                this.projetoEdit.logo = imageUrls;
-                console.log(this.projetoEdit.logo);
+                this.projetoEdit.logo_projeto = imageUrls;
+                console.log(this.projetoEdit.logo_projeto);
             })
             .catch((error) => {
                 console.error('Erro ao fazer upload de logo:', error);

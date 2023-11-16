@@ -123,6 +123,10 @@
               class="estiloEscritaGrande mt-5 mb-5" style="color: #1B2F4A; text-decoration: underline;">
               Visitar Projeto
             </a>
+            <a v-if="projeto.arquivo && projeto.arquivo !== ''" :href="projeto.arquivo" target="_blank"
+              class="estiloEscritaGrande mt-5 mb-5" style="color: #1B2F4A; text-decoration: underline;">
+              Projeto finalizado
+            </a>
           </div>
       <v-col cols="12" sm="4" class="float-end">
         <div class="botoes-container d-flex justify-end">

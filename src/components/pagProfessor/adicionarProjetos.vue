@@ -1,189 +1,202 @@
 <!-- eslint-disable-next-line  -->
 <template>
-  <div>
-    <!-- Seção de Título -->
     <div>
-      <div class="col-sm-6  container">
-        <h1 class="tituloProjetos d-flex">ADICIONAR PROJETOS</h1>
-      </div>
+        <!-- Seção de Título -->
+        <div>
+            <div class="col-sm-6  container">
+                <h1 class="tituloProjetos d-flex">ADICIONAR PROJETOS</h1>
+            </div>
+        </div>
+
+        <!-- Exibição do Spinner durante o carregamento -->
+        <v-col cols="12" v-if="loading">
+            <div v-if="loading" class="loading-spinner">
+                <div class="three-body">
+                    <div class="three-body__dot"></div>
+                    <div class="three-body__dot"></div>
+                    <div class="three-body__dot"></div>
+                </div>
+            </div>
+        </v-col>
+
+        <!-- Linha divisória -->
+        <hr class="linhaAzul">
+
+        <!-- Container principal -->
+        <div class="container d-flex align-items-center justify-content-center mx-auto">
+
+            <!-- Linha de formulário -->
+            <div class="row">
+                <!-- Seleção de Alunos -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-combobox v-model="alunosSelecionados" :items="alunosDisponiveis" label="Selecione um Aluno"
+                        item-text="nome" item-value="id" :search-input.sync="alunoSearch" chips clearable multiple
+                        hide-details="auto" @change="validateAlunosSelecionados"></v-combobox>
+                </div>
+
+                <!-- Seleção de Orientador -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-combobox v-model="orientadorSelecionado" :items="professoresDisponiveis"
+                        label="Selecione um orientador" item-text="nome" item-value="id"
+                        :search-input.sync="orientadorSearch" chips clearable placeholder="Selecione um orientador">
+                    </v-combobox>
+                </div>
+
+                <!-- Campo de Título -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-text-field label="Título" hide-details="auto" class="input rounded-counter" filled dense rounded
+                        elevation="2" maxlength="100" :value="titulo" v-model="titulo"
+                        @input="limitCharCount('titulo', 100)">
+                        <template v-slot:append>
+                            <div class="char-counter">{{ charCount.titulo }}/100</div>
+                        </template>
+                    </v-text-field>
+                </div>
+
+                <!-- Campo de Tema -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-text-field label="Tema" hide-details="auto" class="input rounded-counter" filled dense rounded
+                        elevation="3" maxlength="45" :value="tema" v-model="tema" @input="limitCharCount('tema', 45)">
+                        <template v-slot:append>
+                            <div class="char-counter">{{ charCount.tema }}/45</div>
+                        </template>
+                    </v-text-field>
+                </div>
+
+                <!-- Campo de Problema -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg ">
+                    <v-text-field label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
+                        maxlength="200" v-model="problema" @input="limitCharCount('problema', 200)">
+                        <template v-slot:append>
+                            <div class="char-counter">{{ charCount.problema }}/200</div>
+                        </template>
+                    </v-text-field>
+                </div>
+
+                <!-- Campo de Objetivo Geral -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-textarea label="Objetivo geral" hide-details="auto" class="input rounded-counter mensagem" filled
+                        dense rounded elevation="2" maxlength="100" :value="objetivo_geral" v-model="objetivo_geral"
+                        rows="4" @input="limitCharCount('objetivo_geral', 100)">
+                        <template v-slot:append>
+                            <div class="char-counter">{{ charCount.objetivo_geral }}/100</div>
+                        </template>
+                    </v-textarea>
+                </div>
+
+                <!-- Campo de Objetivo Específico -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-text-field label="Objetivo específico" hide-details="auto" class="input" filled dense rounded
+                        elevation="3" maxlength="255" :value="objetivo_especifico" v-model="objetivo_especifico"
+                        @input="limitCharCount('objetivo_especifico', 255)">
+                        <template v-slot:append>
+                            <div class="char-counter">{{ charCount.objetivo_especifico }}/255</div>
+                        </template>
+                    </v-text-field>
+                </div>
+
+                <!-- Campo de Resumo -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
+                    <v-textarea label="Resumo" hide-details="auto" class="input mensagem" filled dense rounded elevation="3"
+                        v-model="resumo" rows="4" @input="limitCharCount('resumo', 300)" maxlength="300" :required="true">
+                        <template v-slot:append>
+                            <div class="char-counter">{{ charCount.resumo }}/300</div>
+                        </template>
+                    </v-textarea>
+                </div>
+
+                <!-- Campo de Abstract -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
+                    <v-textarea label="Abstract" hide-details="auto" class="input" filled dense rounded elevation="3"
+                        v-model="abstract" @input="limitCharCount('abstract', 300)" maxlength="300">
+                        <template v-slot:append>
+                            <div class="char-counter">{{ charCount.abstract }}/300</div>
+                        </template>
+                    </v-textarea>
+                </div>
+
+                <!-- Campo de URL do Projeto -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-text-field label="URL do Projeto" hide-details="auto" class="input" filled dense rounded
+                        elevation="3" v-model="url">
+                    </v-text-field>
+                </div>
+
+                <!-- Campo de Ano de Publicação com Menu de Data -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
+                    <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y
+                        origin="top center" full-width>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field v-model="ano_publicacao" label="Ano de Publicação" hide-details="auto" v-on="on"
+                                v-bind="attrs">
+                                <template v-slot:append>
+                                    <v-btn icon @click="menu = !menu">
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-btn>
+                                </template>
+                            </v-text-field>
+                        </template>
+
+                        <v-date-picker v-model="ano_publicacao" @input="menu = false" scrollable :year="true">
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                            <v-btn text color="primary" @click="$refs.picker.save(ano_publicacao)">OK</v-btn>
+                        </v-date-picker>
+                    </v-menu>
+                </div>
+
+                <!-- Upload de Arquivos -->
+                <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
+                    <label class="custom-file-upload">
+                        <input type="file" ref="fileInput" id="fileInput" name="file" multiple @change="handleFileUpload" />
+                        <span>Adicionar logo </span>
+                    </label>
+                </div>
+
+                <!-- Mensagem de sucesso após adicionar arquivos -->
+                <p class="cor" @click="projetos" v-if="logoAdicionada">Arquivo adicionado com sucesso</p>
+
+                <!-- Botão de Adicionar PDF -->
+                <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
+                    <label class="custom-file-upload">
+                        <input type="file" ref="fileInput" id="fileInput" name="file" @change="handleFile"
+                            accept=".pdf" />
+                        <span>Adicionar PDF</span>
+                    </label>
+                </div>
+                <!-- Exibe a mensagem de sucesso após adicionar PDF -->
+                <p class="cor" v-if="pdfAdicionado">PDF adicionado com sucesso</p>
+                
+                <!-- Exibição de mensagem de erro -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <div v-if="!mensagemErro" class="text-danger">
+                        {{ mensagemErro }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controle de Privacidade -->
+        <div>
+            <label for="privacyToggle" class="toggle-label ms-5">Projeto {{ isPrivate ? 'Privado' : 'Público' }}</label>
+            <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
+                :checked="isPrivate">
+        </div>
+
+        <!-- Botão de Navegação de Voltar -->
+        <div class="row q-gutter-sm">
+            <div>
+                <q-btn round size="sm" color="accent" @click="showNotif('left')">
+                    <q-icon name="arrow_back" />
+                </q-btn>
+            </div>
+        </div>
+
+        <!-- Botão de Adicionar Projeto -->
+        <div class="float-end mb-5 ">
+            <v-btn class="color" @click="projetos">Adicionar</v-btn>
+        </div>
     </div>
-
-    <!-- Exibição do Spinner durante o carregamento -->
-    <v-col cols="12" v-if="loading">
-      <div v-if="loading" class="loading-spinner">
-        <div class="three-body">
-          <div class="three-body__dot"></div>
-          <div class="three-body__dot"></div>
-          <div class="three-body__dot"></div>
-        </div>
-      </div>
-    </v-col>
-
-    <!-- Linha divisória -->
-    <hr class="linhaAzul">
-
-    <!-- Container principal -->
-    <div class="container d-flex align-items-center justify-content-center mx-auto">
-
-      <!-- Linha de formulário -->
-      <div class="row">
-        <!-- Seleção de Alunos -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <v-combobox v-model="alunosSelecionados" :items="alunosDisponiveis" label="Selecione um Aluno"
-            item-text="nome" item-value="id" :search-input.sync="alunoSearch" chips clearable multiple
-            hide-details="auto" @change="validateAlunosSelecionados"></v-combobox>
-        </div>
-
-        <!-- Seleção de Orientador -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <v-combobox v-model="orientadorSelecionado" :items="professoresDisponiveis"
-            label="Selecione um orientador" item-text="nome" item-value="id"
-            :search-input.sync="orientadorSearch" chips clearable placeholder="Selecione um orientador">
-          </v-combobox>
-        </div>
-
-        <!-- Campo de Título -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <v-text-field label="Título" hide-details="auto" class="input rounded-counter" filled dense rounded
-            elevation="2" maxlength="100" :value="titulo" v-model="titulo"
-            @input="limitCharCount('titulo', 100)">
-            <template v-slot:append>
-              <div class="char-counter">{{ charCount.titulo }}/100</div>
-            </template>
-          </v-text-field>
-        </div>
-
-        <!-- Campo de Tema -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <v-text-field label="Tema" hide-details="auto" class="input rounded-counter" filled dense rounded
-            elevation="3" maxlength="45" :value="tema" v-model="tema" @input="limitCharCount('tema', 45)">
-            <template v-slot:append>
-              <div class="char-counter">{{ charCount.tema }}/45</div>
-            </template>
-          </v-text-field>
-        </div>
-
-        <!-- Campo de Problema -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg ">
-          <v-text-field label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
-            maxlength="200" v-model="problema" @input="limitCharCount('problema', 200)">
-            <template v-slot:append>
-              <div class="char-counter">{{ charCount.problema }}/200</div>
-            </template>
-          </v-text-field>
-        </div>
-
-        <!-- Campo de Objetivo Geral -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <v-textarea label="Objetivo geral" hide-details="auto" class="input rounded-counter mensagem" filled
-            dense rounded elevation="2" maxlength="100" :value="objetivo_geral" v-model="objetivo_geral"
-            rows="4" @input="limitCharCount('objetivo_geral', 100)">
-            <template v-slot:append>
-              <div class="char-counter">{{ charCount.objetivo_geral }}/100</div>
-            </template>
-          </v-textarea>
-        </div>
-
-        <!-- Campo de Objetivo Específico -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <v-text-field label="Objetivo específico" hide-details="auto" class="input" filled dense rounded
-            elevation="3" maxlength="255" :value="objetivo_especifico" v-model="objetivo_especifico"
-            @input="limitCharCount('objetivo_especifico', 255)">
-            <template v-slot:append>
-              <div class="char-counter">{{ charCount.objetivo_especifico }}/255</div>
-            </template>
-          </v-text-field>
-        </div>
-
-        <!-- Campo de Resumo -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
-          <v-textarea label="Resumo" hide-details="auto" class="input mensagem" filled dense rounded elevation="3"
-            v-model="resumo" rows="4" @input="limitCharCount('resumo', 300)" maxlength="300" :required="true">
-            <template v-slot:append>
-              <div class="char-counter">{{ charCount.resumo }}/300</div>
-            </template>
-          </v-textarea>
-        </div>
-
-        <!-- Campo de Abstract -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
-          <v-textarea label="Abstract" hide-details="auto" class="input" filled dense rounded elevation="3"
-            v-model="abstract" @input="limitCharCount('abstract', 300)" maxlength="300">
-            <template v-slot:append>
-              <div class="char-counter">{{ charCount.abstract }}/300</div>
-            </template>
-          </v-textarea>
-        </div>
-
-        <!-- Campo de Ano de Publicação com Menu de Data -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
-          <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y origin="top center" full-width>
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field v-model="ano_publicacao" label="Ano de Publicação" hide-details="auto" v-on="on" v-bind="attrs">
-                <template v-slot:append>
-                  <v-btn icon @click="menu = !menu">
-                    <v-icon>mdi-calendar</v-icon>
-                  </v-btn>
-                </template>
-              </v-text-field>
-            </template>
-
-            <v-date-picker v-model="ano_publicacao" @input="menu = false" scrollable :year="true">
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.picker.save(ano_publicacao)">OK</v-btn>
-            </v-date-picker>
-          </v-menu>
-        </div>
-
-        <!-- Campo de URL do Projeto -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <v-text-field label="URL do Projeto" hide-details="auto" class="input" filled dense rounded
-            elevation="3" v-model="url">
-          </v-text-field>
-        </div>
-
-        <!-- Upload de Arquivos -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
-          <label class="custom-file-upload">
-            <input type="file" ref="fileInput" id="fileInput" name="file" multiple @change="handleFileUpload" />
-            <span>Adicionar Arquivos</span>
-          </label>
-        </div>
-
-        <!-- Mensagem de sucesso após adicionar arquivos -->
-        <p class="cor" @click="projetos" v-if="logoAdicionada">Arquivo adicionado com sucesso</p>
-
-        <!-- Exibição de mensagem de erro -->
-        <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-          <div v-if="!mensagemErro" class="text-danger">
-            {{ mensagemErro }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Controle de Privacidade -->
-    <div>
-      <label for="privacyToggle" class="toggle-label ms-5">Projeto {{ isPrivate ? 'Privado' : 'Público' }}</label>
-      <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
-        :checked="isPrivate">
-    </div>
-
-    <!-- Botão de Navegação de Voltar -->
-    <div class="row q-gutter-sm">
-      <div>
-        <q-btn round size="sm" color="accent" @click="showNotif('left')">
-          <q-icon name="arrow_back" />
-        </q-btn>
-      </div>
-    </div>
-
-    <!-- Botão de Adicionar Projeto -->
-    <div class="float-end mb-5 ">
-      <v-btn class="color" @click="projetos">Adicionar</v-btn>
-    </div>
-  </div>
 </template>
   
 <script>
@@ -192,7 +205,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            
+
             valueDeterminate: 50,
             alunosSelecionados: [],
             alunoSelecionado: { id: null },
@@ -208,7 +221,7 @@ export default {
             delimitacao: '',
             problema: '',
             resumo: '',
-            logo: '',
+            logo_projeto: '',
             objetivo_geral: '',
             abstract: '',
             objetivo_especifico: '',
@@ -216,6 +229,7 @@ export default {
             autores: [],
             imagens: [],
             isPrivate: false,
+            pdfAdicionado:false,
             alunosDisponiveis: [],
             professoresDisponiveis: [],
             logoAdicionada: false,
@@ -223,6 +237,7 @@ export default {
             sucessoAdicao: false,
             loading: false,
             url: '',
+            menu:true,
             charCount: {
                 titulo: 0,
                 tema: 0,
@@ -269,11 +284,52 @@ export default {
         togglePrivacy() {
             this.isPrivate = !this.isPrivate;
         },
+        //função para enviar o pdf para o Cloudinary
+        async handleFile(event) {
+    try {
+      const file = event.target.files[0];
+      const cloudinaryCloudName = 'dzpbclwij';
+      const cloudinaryUploadPreset = 'bdsmg4su';
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('resource_type', 'raw');
+        formData.append('upload_preset', cloudinaryUploadPreset);
+
+        const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/raw/upload`, formData, {
+        
+            headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+
+        if (cloudinaryResponse.status === 200 && cloudinaryResponse.data.secure_url) {
+
+          const urlPdf = cloudinaryResponse.data.secure_url;
+
+          this.urlPdf = urlPdf;
+          console.log(this.urlPdf)
+          console.log(cloudinaryResponse.data.secure_url);
+
+          this.pdfAdicionado = true;
+        } else {
+          console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
+        }
+      } else {
+        console.warn('Nenhum arquivo selecionado');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+    
+    }
+  },
+      //função para enviar a imagem para o Cloudinary
         handleFileUpload(event) {
             const files = event.target.files;
 
             if (files.length > 0) {
-                this.logoAdicionada = true;
+
                 const cloudinaryCloudName = 'dzpbclwij';
                 const cloudinaryUploadPreset = 'bdsmg4su';
                 const uploadPromises = [];
@@ -288,13 +344,14 @@ export default {
                         axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`, formData)
                     );
                 }
-
+                this.logoAdicionada = true;
                 Promise.all(uploadPromises)
                     .then((responses) => {
                         const imageUrls = responses.map((response) => response.data.secure_url);
-                        this.logo = imageUrls;
-                        console.log(this.logo);
+                        this.logo_projeto = imageUrls;
+                        console.log(this.logo_projeto);
                     })
+                    
                     .catch((error) => {
                         console.error('Erro ao fazer upload de logo:', error);
                     });
@@ -325,7 +382,7 @@ export default {
             }
         },
         computed: {
-            
+
 
             alunosIds() {
                 return this.alunosSelecionados?.map(aluno => aluno.id) || [];
@@ -395,7 +452,7 @@ export default {
                 }
 
                 let uploadedImageUrls = [];
-                for (const file of this.logo) {
+                for (const file of this.logo_projeto) {
                     const formData = new FormData();
                     formData.append('resource_type', 'raw');
                     formData.append('file', file);
@@ -432,10 +489,11 @@ export default {
                     url_projeto: this.url,
                     professores: [{ "id": orientadorId }],
                     publico: this.isPrivate ? 0 : 1,
-                    logo: this.logo,
+                    logo_projeto: this.logo_projeto,
+                    arquivo:this.urlPdf
                 };
                 console.log(formData);
-                console.log(this.logo);
+                console.log(this.logo_projeto);
 
                 const headers = {
                     'x-access-token': `${token}`
@@ -481,6 +539,9 @@ export default {
 }
 
 .three-body {
+    --uib-size: 35px;
+    --uib-speed: 0.8s;
+    --uib-color: #fff;
     position: relative;
     display: inline-block;
     height: var(--uib-size);
@@ -597,17 +658,21 @@ export default {
         opacity: 0.8;
     }
 }
+
 .imagemFundo {
     background-color: #1B2F4A;
     max-width: 100%;
     max-height: 75vh;
 }
+
 .cor {
     color: #1b4a3c;
 }
+
 .mensagem {
     padding-bottom: 20px;
 }
+
 .custom-file-upload {
     background-color: #1B2F4A;
     color: white;
@@ -649,11 +714,13 @@ input[type="file"] {
     color: #fff !important;
 }
 
-.flip-enter-active, .flip-leave-active {
+.flip-enter-active,
+.flip-leave-active {
     transition: transform 0.3s ease-in-out;
 }
 
-.flip-enter, .flip-leave-to {
+.flip-enter,
+.flip-leave-to {
     transform: rotateY(180deg);
     opacity: 0;
 }
@@ -755,5 +822,4 @@ input[type="file"] {
     .input {
         border: none !important;
     }
-}
-</style>
+}</style>

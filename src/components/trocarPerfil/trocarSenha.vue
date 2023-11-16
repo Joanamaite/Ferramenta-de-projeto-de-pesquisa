@@ -20,26 +20,26 @@
                     <p>Por favor, informe o código de verificação e a nova senha para concluir a alteração.</p>
 
                         <div id="app">
-                          <div class="form-group">
+                          <div class="form-group ">
                             <input type="email" name="logemail" class="form-style" placeholder="Seu E-mail" id="logemail"
                               autocomplete="off" v-model="loginEmail" />
                             <i class="input-icon uil uil-at"></i>
                           </div>
 
                           <!-- Adicionando campos para código, senha e confirmação de senha -->
-                          <div class="form-group">
+                          <div class="form-group  mt-2">
                             <input type="text" name="codigo" class="form-style" placeholder="Código de Verificação"
                               id="codigo" autocomplete="off" v-model="codigo" />
                             <i class="input-icon uil uil-key"></i>
                           </div>
 
-                          <div class="form-group">
+                          <div class="form-group  mt-2">
                             <input type="password" name="senha" class="form-style" placeholder="Nova Senha" id="senha"
                               autocomplete="new-password" v-model="novaSenha" />
                             <i class="input-icon uil uil-lock"></i>
                           </div>
 
-                          <div class="form-group">
+                          <div class="form-group  mt-2">
                             <input type="password" name="confirmarSenha" class="form-style"
                               placeholder="Confirmar Nova Senha" id="confirmarSenha" autocomplete="new-password"
                               v-model="confirmarSenha" />
@@ -134,7 +134,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 85vh;
   position: fixed;
   width: 100%;
   background: rgba(255, 255, 255, 0.7);
