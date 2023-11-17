@@ -2,15 +2,13 @@
   <div>
     <v-container v-if="projeto">
       <v-row>
-        <v-col cols="12">
-          <div class="ano float-end">
-          <p > Ano de publicação: {{ projeto.ano_publicacao || '' }}</p>
+              <div cols='12' class="ano">
+          <p class="ano"> Ano de publicação: {{ projeto.ano_publicacao || '' }}</p>
         </div>
-
+        <v-col cols="12">
           <h1 class="titulo text-center">
             {{ projeto.titulo || '' }}
           </h1>
-          
         </v-col>
       </v-row>
       <v-row>
@@ -495,13 +493,11 @@ export default {
   width: 30%;
 }
 .ano{
-  margin-top: 6rem;
+  margin-top: 3rem;
+  display:block;
 }
 .titulo {
   font-family: 'Fondamento', cursive;
-  margin-top: 7rem;
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -625,6 +621,9 @@ button {
   .estiloEscrita {
     text-align: start !important;
   }
+  .ano{
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 580px) {
@@ -644,6 +643,10 @@ button {
   .estiloEscrita {
 
     display: block;
+  }
+  .ano{
+    text-align: center;
+    justify-content: center;
   }
 }
 

@@ -178,7 +178,7 @@
 
         <!-- Controle de Privacidade -->
       <div>
-            <label for="privacyToggle" class="toggle-label ms-5">Projeto {{ isPrivate ? 'Privado' : 'Público' }}</label>
+            <label for="privacyToggle" class="toggle-label ms-5">Tornar {{ isPrivate ? 'Privado' : 'Público' }}</label>
             <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
                 :checked="isPrivate">
         </div>

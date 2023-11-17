@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-container v-if="projeto">
-      <v-row>
-        <v-col cols="12">
-          <div class="ano float-end">
+     <div class="ano float-end" >
           <p> Ano de publicação: {{ projeto.ano_publicacao || '' }}</p>
         </div>
+      <v-row>
+        <v-col cols="12" sm='12' md='12'>
           <h1 class="titulo text-center">
             {{ projeto.titulo || '' }}
           </h1>
@@ -312,6 +312,9 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
+}
+.ano{
+    display: block;
 }
 .expansion {
   width: 100%;

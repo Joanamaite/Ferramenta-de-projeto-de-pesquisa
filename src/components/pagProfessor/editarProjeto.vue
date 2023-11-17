@@ -240,8 +240,9 @@ export default {
             uploadPromises.push(
                 axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`, formData)
             );
+             this.arquivoAdicionado = true;
         }
-        this.arquivoAdicionado = true;
+       
 
         Promise.all(uploadPromises)
             .then((responses) => {
