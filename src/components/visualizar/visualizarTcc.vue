@@ -2,9 +2,6 @@
   <div>
     <v-container v-if="projeto">
       <v-row>
-              <div cols='12' class="ano">
-          <p class="ano"> Ano de publicação: {{ projeto.ano_publicacao || '' }}</p>
-        </div>
         <v-col cols="12">
           <h1 class="titulo text-center">
             {{ projeto.titulo || '' }}
@@ -23,15 +20,18 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" sm="6">
+        <v-col cols="12" sm="4">
           <p class="estiloEscrita">
             Autores: {{ getAutoresNome(projeto) || '' }}
           </p>
         </v-col>
-        <v-col cols="12" sm="6">
+        <v-col cols="12" sm="4">
           <p class="estiloEscrita">
             Orientador: {{ getOrientadorNome(projeto) || '' }}
           </p>
+        </v-col>
+           <v-col cols='12' sm="4" >
+          <p class="estiloEscrita"> Publicado em {{ projeto.ano_publicacao || '' }}</p>
         </v-col>
       </v-row>
 
@@ -498,6 +498,7 @@ export default {
 }
 .titulo {
   font-family: 'Fondamento', cursive;
+  margin-top: 7rem;
   justify-content: center;
 }
 
