@@ -22,7 +22,7 @@
       >
       <div class="card__img">
     <img
-      v-if="project.logologo_projeto"
+      v-if="project.logo_projeto"
       :src="project.logo_projeto"
       :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
     />
@@ -161,6 +161,8 @@ body {
 
 .card__body {
   margin: 1rem 0; 
+  flex-grow: 1;
+  
 }
 
 .card:hover {
