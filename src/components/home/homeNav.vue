@@ -2,7 +2,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template id="template">
   <div
-    v-if="$route.path !== '/login' && $route.path !== '/cadastro' && $route.path !== '/Login' && $route.path !== '/senha'">
+    v-if="$route.path !== '/login' && $route.path !== '/cadastro' && $route.path !== '/Login' && $route.path !== '/senha' && $route.path !== '/enviar'">
     <v-app-bar app dark color="#1B2F4A">
       <div id="body container-fluid navbar navbar-expand-lg bg-body-tertiary">
         <div class="header" id="header">

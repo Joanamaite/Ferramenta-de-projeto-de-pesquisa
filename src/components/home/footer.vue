@@ -1,6 +1,6 @@
 <!--eslint-disable-->
 <template>
-  <div v-if="$route.path !== '/login' && $route.path !== '/cadastro' && $route.path !== '/Login'  && $route.path !== '/senha'">
+  <div v-if="$route.path !== '/login' && $route.path !== '/cadastro' && $route.path !== '/Login'  && $route.path !== '/senha' && $route.path !== '/enviar'">
         <v-footer class=" fixar-rodape col-md-12 col-sm-12">
 
 <div class="container">
