@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container v-if="projeto">
-     <div class="ano float-end" >
+     <div class="ano" >
           <p> Ano de publicação: {{ projeto.ano_publicacao || '' }}</p>
         </div>
       <v-row>
@@ -493,7 +493,6 @@ export default {
 }
 .titulo {
   font-family: 'Fondamento', cursive;
-  margin-top: 7rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
