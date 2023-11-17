@@ -21,16 +21,17 @@
                     </v-text-field>
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg ">
-                    <v-text-field label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
-                        v-model="projetoEdit.problema" maxlength="200"></v-text-field>
+                    <v-textarea label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
+                        v-model="projetoEdit.problema" maxlength="200"></v-textarea>
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg ">
                     <v-textarea label="Objetivo geral" hide-details="auto" class="input" filled dense rounded
                         elevation="3" v-model="projetoEdit.objetivo_geral" maxlength="100"></v-textarea>
+                       
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg ">
-                    <v-text-field label="Objetivo especifico" hide-details="auto" class="input" filled dense rounded
-                        elevation="3" v-model="projetoEdit.objetivo_especifico" maxlength="255"></v-text-field>
+                    <v-textarea label="Objetivo especifico" hide-details="auto" class="input" filled dense rounded
+                        elevation="3" v-model="projetoEdit.objetivo_especifico" maxlength="255"></v-textarea>
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg  ">
                     <v-textarea label="Resumo" hide-details="auto" class="input" filled dense rounded elevation="3"
@@ -142,12 +143,24 @@ export default {
                 loading: false, 
                 mensagemSucesso: null, 
                 pdfAdicionado:false,
-                isPrivate:true,
+                isPrivate:false,
+                  charCount: {
+                titulo: 0,
+                tema: 0,
+                delimitacao: 0,
+
+            },
             },
         };
     },
 
     methods: {
+               limitCharCount(field, limit) {
+            if (this[field].length > limit) {
+                this[field] = this[field].substr(0, limit);
+            }
+            this.charCount[field] = this[field].length;
+        },
         togglePrivacy() {
             this.isPrivate = !this.isPrivate;
             const decidir = this.projetoEdit.publico = this.isPrivate ? 0 : 1;

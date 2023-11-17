@@ -117,7 +117,7 @@ export default {
     },
 
     senha() {
-      this.$router.push('/senha');
+      this.$router.push('/enviar');
     },
 
     //verifica a validação do email 

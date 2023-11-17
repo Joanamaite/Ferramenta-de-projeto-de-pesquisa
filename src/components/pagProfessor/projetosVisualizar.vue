@@ -47,7 +47,6 @@
       <div v-if="semProjeto" class="col-12 text-center mt-5 textAlter">
         <img src="Images/sem projeto.png" class="imagemilustrada" alt="imagem ilustrativa">
         <p class="textAlter mb-5">Você não possui nenhum trabalho aqui.</p>
-
       </div>
       <div class="cards row mt-5 mb-5">
         <div
@@ -346,6 +345,8 @@ body {
 }
 
 .imagemilustrada {
+  align-itens: center;
+  margin-left:35rem;
   width: 15vw;
 }
 

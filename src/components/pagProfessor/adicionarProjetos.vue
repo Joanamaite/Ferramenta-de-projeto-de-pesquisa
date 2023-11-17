@@ -65,34 +65,34 @@
 
                 <!-- Campo de Problema -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg ">
-                    <v-text-field label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
+                    <v-textarea label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
                         maxlength="200" v-model="problema" @input="limitCharCount('problema', 200)">
                         <template v-slot:append>
                             <div class="char-counter">{{ charCount.problema }}/200</div>
                         </template>
-                    </v-text-field>
+                    </v-textarea>
                 </div>
 
                 <!-- Campo de Objetivo Geral -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
                     <v-textarea label="Objetivo geral" hide-details="auto" class="input rounded-counter mensagem" filled
-                        dense rounded elevation="2" maxlength="100" :value="objetivo_geral" v-model="objetivo_geral"
-                        rows="4" @input="limitCharCount('objetivo_geral', 100)">
+                        dense rounded elevation="2" maxlength="200" :value="objetivo_geral" v-model="objetivo_geral"
+                        rows="4" @input="limitCharCount('objetivo_geral', 200)">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.objetivo_geral }}/100</div>
+                            <div class="char-counter">{{ charCount.objetivo_geral }}/200</div>
                         </template>
                     </v-textarea>
                 </div>
 
                 <!-- Campo de Objetivo Específico -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-                    <v-text-field label="Objetivo específico" hide-details="auto" class="input" filled dense rounded
+                    <v-textarea label="Objetivo específico" hide-details="auto" class="input" filled dense rounded
                         elevation="3" maxlength="255" :value="objetivo_especifico" v-model="objetivo_especifico"
                         @input="limitCharCount('objetivo_especifico', 255)">
                         <template v-slot:append>
                             <div class="char-counter">{{ charCount.objetivo_especifico }}/255</div>
                         </template>
-                    </v-text-field>
+                    </v-textarea>
                 </div>
 
                 <!-- Campo de Resumo -->
@@ -177,7 +177,7 @@
         </div>
 
         <!-- Controle de Privacidade -->
-        <div>
+      <div>
             <label for="privacyToggle" class="toggle-label ms-5">Projeto {{ isPrivate ? 'Privado' : 'Público' }}</label>
             <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
                 :checked="isPrivate">
@@ -283,6 +283,8 @@ export default {
         },
         togglePrivacy() {
             this.isPrivate = !this.isPrivate;
+            console.log(this.isPrivate)
+            
         },
         //função para enviar o pdf para o Cloudinary
         async handleFile(event) {
@@ -488,12 +490,13 @@ export default {
                     alunos: alunosIds,
                     url_projeto: this.url,
                     professores: [{ "id": orientadorId }],
-                    publico: this.isPrivate ? 1 : 0,
+                    publico: this.isPrivate ? 0 : 1,
                     logo_projeto: this.logo_projeto,
                     arquivo:this.urlPdf
                 };
                 console.log(formData);
-                console.log(this.logo_projeto);
+                console.log(this.publico);
+
 
                 const headers = {
                     'x-access-token': `${token}`
