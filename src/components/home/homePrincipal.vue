@@ -12,37 +12,40 @@
           </div>
         </div>
       </div>
-
     </div>
+
     <div class="cards row mt-5 mb-5">
       <div
         v-for="project in projects"
         :key="project.id_projeto"
-        class="card col-sm-6 col-md-4 col-lg-3"
+        class="card col-sm-6 col-md-4 col-lg-3 d-flex"
       >
-      <div class="card__img">
-    <img
-      v-if="project.logo_projeto"
-      :src="project.logo_projeto"
-      :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
-    />
-    <img
-      v-else
-      src="Images/Logo.png"
-      :style="{ 'height': '140px', 'object-fit': 'cover', 'border-radius': '12px' }"
-    />
-  </div>
-        <div class="card__body">
-          <h2 class="card__head">{{ project.tema }}</h2>
-          <p class="card__desc">{{ project.titulo }}</p>
+        <div class="card__img">
+          <img
+            v-if="project.logo_projeto"
+            :src="project.logo_projeto"
+            :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
+          />
+          <img
+            v-else
+            src="Images/Logo.png"
+            :style="{ 'height': '140px', 'object-fit': 'cover', 'border-radius': '12px' }"
+          />
         </div>
-        <a href="#" class="card__btn" @click.prevent="visualizar(project.id_projeto)">
-          Visualizar
-        </a>
+        <div class="card__body d-flex flex-column justify-content-between">
+          <div>
+            <h2 class="card__head">{{ project.tema }}</h2>
+            <p class="card__desc">{{ project.titulo }}</p>
+          </div>
+          <a href="#" class="card__btn" @click.prevent="visualizar(project.id_projeto)">
+            Visualizar
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import Cookies from 'js-cookie';
@@ -131,8 +134,7 @@ body {
   display: flex;
   justify-content: space-around;
   gap: 20px; 
-  width: 100%;
-  
+  max-width: 100%;
 }
 
 .card {
@@ -148,11 +150,11 @@ body {
   box-sizing: border-box;
   margin-bottom: 15px;
   box-shadow: 0 10px 30px -7px #171e35;
-  height: 100%; 
+  max-height: 100%; 
   border: 1px solid #ffffff;
   transition: transform 0.3s ease-in-out;
- 
 }
+
 .card__img {
   filter: drop-shadow(0 4px 10px rgba(black, .4));
   border-radius: 12px; 
@@ -162,7 +164,6 @@ body {
 .card__body {
   margin: 1rem 0; 
   flex-grow: 1;
-  
 }
 
 .card:hover {
@@ -197,11 +198,11 @@ body {
 
 .card__btn:hover,
 .card__btn.active {
-
   background-color: #ffffff;
   box-shadow: 0 10px 17px -7px #ffffff;
   color: #1b2f4a;
 }
+
 .card__btn.active {
    background-color: #fff;
    border: none;
@@ -210,6 +211,7 @@ body {
 }
 
  @media (max-width:900px) {
+  
    .cards {
       margin-top: 5vh;
       display: grid;
@@ -218,8 +220,8 @@ body {
       width: 100%;
       gap: 2rem; 
       justify-items: center;
-      
    }
+
    .card {
       display: flex;
       flex-direction: column;
@@ -230,16 +232,17 @@ body {
       width: 90%;
       height: 80%;
    }
+
    .card:nth-child(2) {
       position: relative;
       box-shadow: none;
       margin: 0;
    }
 } 
+
   .imagemFundo{
     background-color: #1B2F4A;
     width: 100%;
-  
   }
 
 html, body {
@@ -250,12 +253,8 @@ html, body {
 .imagemFundo {
   background-color: #1B2F4A;
   width: 100%;
-
-
 }
 
-
-/*transform: SCALE(0.9) translateY(-30px);*/
 .elevate-12 {
   transform: translateY(50px);
 }
@@ -295,7 +294,6 @@ html, body {
   justify-content: center;
 }
 
-
 @keyframes fade-in-down {
   0% {
     opacity: 0;
@@ -324,25 +322,29 @@ html, body {
     margin-top:3rem !important;
     justify-content: center !important;
   }
+
   .tam{
     max-width: 350px !important;
     margin-left: 0 !important;
   }
+
   .row{
     margin:0 !important;
   }
+
   .escreva{
     font-size: 10vw;
     text-align: center;
   }
-
 }
+
 @media screen and (max-width: 370px) {
 
 .tam{
   max-width: 300px !important;
   margin-left: 0 !important;
 }
+
 .row{
   margin:0 !important;
 }

@@ -186,7 +186,6 @@ export default {
 
 </script>
   
-  
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
@@ -197,8 +196,8 @@ export default {
   -ms-flex-pack: start;
   justify-content: start;
   justify-content: center;
-
 }
+
 label{
   color: #fff;
 }
@@ -245,7 +244,6 @@ p {
   font-weight: 500;
   font-size: 14px;
   line-height: 1.7;
-
 }
 
 .invalid-input {
