@@ -3,10 +3,22 @@
     <div>
         <div>
             <div class="col-sm-6  container">
-                <h1 class="tituloProjetos d-flex">EDITAR PROJETO</h1>
+                <h1 class="tituloProjetos d-flex">EDITE SEU PROJETO</h1>
             </div>
         </div>
         <hr class="linhaAzul">
+
+ <!-- Exibição do Spinner durante o carregamento -->
+        <v-col cols="12" v-if="loading">
+            <div v-if="loading" class="loading-spinner">
+                <div class="three-body">
+                    <div class="three-body__dot"></div>
+                    <div class="three-body__dot"></div>
+                    <div class="three-body__dot"></div>
+                </div>
+            </div>
+        </v-col>
+
         <div class="container align-items-center justify-content-center mx-auto d-flex ">
             <div class="row">
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg">
@@ -257,8 +269,6 @@ export default {
         console.warn('Nenhuma logo selecionado');
     }
 },
-
-
         async carregarAlunos() {
             const token = localStorage.getItem('token');
             console.log(token)
@@ -321,16 +331,15 @@ export default {
                 console.error('Erro ao buscar projeto:', error);
             }
         },
-        async editarProjeto() {
-            this.loading = true;
+
+        async editarProjeto() {   
     try {
+         this.loading = true;
         const token = localStorage.getItem('token');
         const headers = {
             'x-access-token': `${token}`
         };
 
-
-     
         await axios.put(`https://api-thesis-track.vercel.app/projeto/atualiza/${this.$route.params.id}`, this.projetoEdit, { headers });
         this.loading = false;
         this.mensagemSucesso = 'Projeto editado com sucesso';
@@ -338,14 +347,14 @@ export default {
         console.log('Projeto editado com sucesso');
     } catch (error) {
         console.error('Erro ao editar projeto:', error);
-         this.loading = false;
-    }
-}
+    }finally {
 
+                this.loading = false;
+            }
+}
     }
 };
 </script>
-  
   
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inika&display=swap');
@@ -355,7 +364,6 @@ export default {
     background-color: #1B2F4A;
     max-width: 100%;
     max-height: 75vh;
-
 }
 
 .toggle-label {
@@ -375,6 +383,19 @@ export default {
 
 .toggle-checkbox:checked {
     background-color: #3498db;
+}
+
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .cor {
@@ -414,12 +435,12 @@ input[type="file"] {
     left: 20px;
 }
 
-
 .color {
     background-color: #1B2F4A !important;
     color: #fff !important;
 
 }
+
 .three-body {
   --uib-size: 35px;
   --uib-speed: 0.8s;
@@ -497,7 +518,6 @@ input[type="file"] {
 }
 
 @keyframes wobble1 {
-
   0%,
   100% {
     transform: translateY(0%) scale(1);
@@ -511,7 +531,6 @@ input[type="file"] {
 }
 
 @keyframes wobble2 {
-
   0%,
   100% {
     transform: translateY(0%) scale(1);
@@ -523,6 +542,7 @@ input[type="file"] {
     opacity: 0.8;
   }
 }
+
 .container {
     display: inline-block;
 }
@@ -576,4 +596,5 @@ input[type="file"] {
         margin: 0;
         width: 100%;
     }
-}</style>
+}
+</style>

@@ -61,7 +61,7 @@
     name: "HomePrincipal",
     data() {
       return {
-        projects: [], // Array para armazenar os projetos da API
+        projects: [],
       
       activeIndex: -1,
     };

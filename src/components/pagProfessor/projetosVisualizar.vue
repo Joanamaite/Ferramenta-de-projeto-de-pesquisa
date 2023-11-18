@@ -46,7 +46,7 @@
     <v-row class="fade-in-down cards mx-auto justify-content-between">
       <div v-if="semProjeto" class="col-12 text-center mt-5 textAlter">
         <img src="Images/sem projeto.png" class="imagemilustrada" alt="imagem ilustrativa">
-        <p class="textAlter mb-5">Você não possui nenhum trabalho aqui.</p>
+        <p class="textAlter mb-5">Putz... Você não tem nenhum projeto cadastrado.</p>
       </div>
       <div class="cards row mt-5 mb-5">
         <div
