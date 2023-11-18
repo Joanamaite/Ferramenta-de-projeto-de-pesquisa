@@ -1,19 +1,16 @@
 <!-- eslint-disable -->
 <template>
   <div class="cards  row  mb-5">
-      <div
-        v-for="project in projects"
-        :key="project.id_projeto"
-        class="card col-sm-6 col-md-4 col-lg-3"
-      >
+     <div
+  class="card col-sm-6 col-md-4 col-lg-3">
         <div class="card__img">
-          <img :src="project.arquivo" :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }" />
+          <img :src="projects.arquivo" :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }" />
         </div>
         <div class="card__body">
-          <h2 class="card__head">{{ project.tema }}</h2>
-          <p class="card__desc">{{ project.titulo }}</p>
+          <h2 class="card__head">{{ projects.tema }}</h2>
+          <p class="card__desc">{{ projects.titulo }}</p>
         </div>
-        <a href="#" class="card__btn" @click.prevent="visualizar(project.id_projeto)">
+        <a href="#" class="card__btn" @click.prevent="visualizar(projects.id_projeto)">
           Visualizar
         </a>
       </div>
@@ -28,14 +25,7 @@ export default {
     autoPlayInterval: null,
     projects: [],
   }),
-  computed: {
-    shouldShowCarousel() {
-      return window.innerWidth >= 450;
-    },
-    shouldShowArrows() {
-      return window.innerWidth >= 409;
-    },
-  },
+ 
   watch: {
     '$route.params.id': 'loadProjects', 
   },
@@ -76,7 +66,6 @@ export default {
         navigationHeader.classList.remove("menu-aberto");
       }
     },
-
 
     stopAutoPlay() {
       clearInterval(this.autoPlayInterval);
