@@ -1,4 +1,3 @@
-
 <!-- eslint-disable vue/multi-word-component-names -->
 <template id="template">
   <div
@@ -115,8 +114,6 @@
               <v-btn text class=" itens_header" @click="login()">ENTRAR</v-btn>
             </div>
           </div>
-
-
         </div>
       </div>
     </v-app-bar>
@@ -125,7 +122,6 @@
 
 
 <script>
-
 import Cookies from 'js-cookie';
 
 export default {
@@ -259,6 +255,11 @@ export default {
 
 <style scoped>
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #template {
   background-color: #ffff;
 }
@@ -272,10 +273,6 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.header {
-  width: 100%;
 }
 
 .email {
@@ -325,16 +322,7 @@ export default {
   background-color: transparent;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-}
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: var(--color-dark1);
-  color: var(--color-white);
-}
 
 .img_logo_header {
   width: 35px;
@@ -345,7 +333,6 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-
 }
 
 .header {
@@ -354,27 +341,11 @@ body {
   box-shadow: 1px 1px 4px var(--color-dark4);
 }
 
-.navigation_header {
-  gap: 3em;
-  z-index: 2;
-}
-
 .content {
   padding-top: 5em;
   text-align: center;
   height: 100vh;
   transition: 1s;
-}
-
-.navigation_header a {
-  text-decoration: none;
-  color: var(--color-purple);
-  transition: 1s;
-  font-weight: bold;
-}
-
-.navigation_header a:hover {
-  color: var(--color-white);
 }
 
 .active {
@@ -395,7 +366,6 @@ body {
   width: 4vw;
   margin-left: 3rem;
 }
-
 
 @media screen and (max-width: 675px) {
   .navigation_header {

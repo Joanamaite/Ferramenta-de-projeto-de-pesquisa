@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg ">
                     <v-textarea label="Objetivo especifico" hide-details="auto" class="input" filled dense rounded
-                        elevation="3" v-model="projetoEdit.objetivo_especifico" maxlength="255"></v-textarea>
+                        elevation="3" v-model="projetoEdit.objetivos_especificos" maxlength="255"></v-textarea>
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg  ">
                     <v-textarea label="Resumo" hide-details="auto" class="input" filled dense rounded elevation="3"

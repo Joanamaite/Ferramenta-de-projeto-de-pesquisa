@@ -4,7 +4,7 @@
         <!-- Seção de Título -->
         <div>
             <div class="col-sm-6  container">
-                <h1 class="tituloProjetos d-flex">ADICIONAR PROJETOS</h1>
+                <h1 class="tituloProjetos d-flex">ADICIONE SEU PROJETO</h1>
             </div>
         </div>
 
@@ -86,11 +86,11 @@
 
                 <!-- Campo de Objetivo Específico -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-                    <v-textarea label="Objetivo específico" hide-details="auto" class="input" filled dense rounded
+                    <v-textarea label="Objetivos específicos" hide-details="auto" class="input" filled dense rounded
                         elevation="3" maxlength="255" :value="objetivo_especifico" v-model="objetivo_especifico"
                         @input="limitCharCount('objetivo_especifico', 255)">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.objetivo_especifico }}/255</div>
+                            <div class="char-counter">{{ charCount.objetivos_especificos }}/255</div>
                         </template>
                     </v-textarea>
                 </div>
@@ -123,27 +123,31 @@
                 </div>
 
                 <!-- Campo de Ano de Publicação com Menu de Data -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
-                    <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y
-                        origin="top center" full-width>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field v-model="ano_publicacao" label="Ano de Publicação" hide-details="auto" v-on="on"
-                                v-bind="attrs">
-                                <template v-slot:append>
-                                    <v-btn icon @click="menu = !menu">
-                                        <v-icon>mdi-calendar</v-icon>
-                                    </v-btn>
-                                </template>
-                            </v-text-field>
-                        </template>
+                 <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
+    <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y origin="top center" full-width>
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+          v-model="ano_publicacao"
+          label="Data de Publicação"
+          hide-details="auto"
+          v-on="on"
+          v-bind="attrs"
+        >
+          <template v-slot:append>
+            <v-btn icon @click="menu = !menu">
+              <v-icon>mdi-calendar</v-icon>
+            </v-btn>
+          </template>
+        </v-text-field>
+      </template>
 
-                        <v-date-picker v-model="ano_publicacao" @input="menu = false" scrollable :year="true">
-                            <v-spacer></v-spacer>
-                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                            <v-btn text color="primary" @click="$refs.picker.save(ano_publicacao)">OK</v-btn>
-                        </v-date-picker>
-                    </v-menu>
-                </div>
+      <v-date-picker v-model="ano_publicacao" @input="menu = false" scrollable :year="true" format="DD/MM/YYYY">
+        <v-spacer></v-spacer>
+        <v-btn text color="primary" @click="menu = false">Cancelar</v-btn>
+        <v-btn text color="primary" @click="$refs.picker.save(ano_publicacao)">OK</v-btn>
+      </v-date-picker>
+    </v-menu>
+  </div>
 
                 <!-- Upload de Arquivos -->
                 <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
@@ -201,11 +205,12 @@
   
 <script>
 import axios from 'axios';
+import moment from 'moment';
+import 'moment/locale/pt-br'; // Se desejar usar o formato de data em português
 
 export default {
     data() {
         return {
-
             valueDeterminate: 50,
             alunosSelecionados: [],
             alunoSelecionado: { id: null },
@@ -255,16 +260,22 @@ export default {
                 'objetivo_especifico',
                 'abstract',
                 'ano_publicacao',
-
             ],
 
         };
+   },
+  computed: {
+    formattedDate() {
+      if (this.ano_publicacao && moment(this.ano_publicacao).isValid()) {
+        return moment(this.ano_publicacao).format('DD/MM/YYYY');
+      }
+      return '';
     },
-
-    created() {
-        this.carregarAlunos();
-        this.carregarProfessores();
-    },
+  },
+  created() {
+    this.carregarAlunos();
+    this.carregarProfessores();
+  },
 
     methods: {
         limitCharCount(field, limit) {
@@ -273,19 +284,22 @@ export default {
             }
             this.charCount[field] = this[field].length;
         },
+
         shouldHideDetails(selectedItems) {
             return selectedItems.length === 0 ? 'auto' : true;
         },
+
         validateAlunosSelecionados() {
             if (this.alunosSelecionados.length > 3) {
                 this.alunosSelecionados.pop();
             }
         },
+
         togglePrivacy() {
             this.isPrivate = !this.isPrivate;
-            console.log(this.isPrivate)
-            
+            console.log(this.isPrivate)    
         },
+
         //função para enviar o pdf para o Cloudinary
         async handleFile(event) {
     try {
@@ -305,7 +319,6 @@ export default {
           },
         });
 
-
         if (cloudinaryResponse.status === 200 && cloudinaryResponse.data.secure_url) {
 
           const urlPdf = cloudinaryResponse.data.secure_url;
@@ -323,9 +336,9 @@ export default {
       }
     } catch (error) {
       console.error('Erro:', error);
-    
     }
   },
+
       //função para enviar a imagem para o Cloudinary
         handleFileUpload(event) {
             const files = event.target.files;
@@ -384,18 +397,15 @@ export default {
             }
         },
         computed: {
-
-
             alunosIds() {
                 return this.alunosSelecionados?.map(aluno => aluno.id) || [];
-
             },
             professoresIds() {
                 return this.professoresSelecionados?.map(professor => professor.id) || [];
             },
             orientadorIds() {
                 return this.orientadorSelecionados?.map(professor => professor.id) || [];
-            }
+            },
         },
         async carregarAlunos() {
             const token = localStorage.getItem('token');

@@ -25,6 +25,7 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.1",
     "md5": "^2.3.0",
+    "moment": "^2.29.4",
     "mysql2": "^3.6.0",
     "quasar": "^2.13.1",
     "toasted": "^1.1.8",
