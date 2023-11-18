@@ -44,8 +44,6 @@
               </v-menu>
               <v-btn text class="itens_header " @click="projetos()">PROJETOS</v-btn>
               <v-btn text class=" itens_header " @click="logout">DESLOGAR</v-btn>
-
-
             </div>
 
             <!--header dos alunos-->
