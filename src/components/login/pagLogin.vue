@@ -7,24 +7,34 @@
           <div class="col-12 text-center align-self-center py-5">
             <div class="section pb-5 pt-5 pt-sm-2 text-center">
 
+              <!-- Card de Login -->
               <div :class="['card-3d-wrap mx-auto', { active: checked }]">
                 <div class="card-3d-wrapper">
                   <div class="card-front">
+                    <!-- Spinner de Carregamento -->
                     <div v-if="isLoading" class="loading-animation">
+                      <div class="spinner"></div>
+                    </div>
 
-                          <div class="spinner"></div>
-                          </div>
+                    <!-- Ícone de Voltar -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                       class="bi bi-chevron-left justify-content-start" viewBox="0 0 16 16" @click="Home">
                       <path fill-rule="evenodd"
                         d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                     </svg>
+
+                    <!-- Conteúdo do Card -->
                     <div class="center-wrap">
                       <div class="section text-center">
-                        <h4 class="mb-4 pb-3">Logar</h4>
+                        <!-- Ícone de Usuário -->
+                        <v-card-title style="display: flex; justify-content: center; align-items: center;">
+                          <v-icon x-large color="#102770">mdi-account</v-icon>
+                        </v-card-title>
+
+                        <!-- Formulário de Login -->
                         <div id="app">
                           <div class="form-group">
-                            <input type="email" name="logemail" class="form-style" placeholder="Seu E-mail" id="logemail"
+                            <input type="email"  name="logemail" class="form-style" placeholder="Seu E-mail" id="logemail"
                               autocomplete="off" v-model="loginEmail" :class="{ 'invalid-input': isEmailInvalid }" />
                             <i class="input-icon uil uil-at"></i>
                             <p class="error-message" v-if="isEmailInvalid">Email inválido. Por favor, insira um email
@@ -39,29 +49,22 @@
                             <p class="error-message" v-if="credenciaisError">Email ou senha incorretos</p>
                             <p class="error-message" v-if="select">Selecione um tipo de usuário</p>
                           </div>
-                          <div class="d-flex justify-content-between">
-                            <div class="form-check col-sm-6 ms-5">
-                              <v-radio-group v-model="selectedOption">
-                                <v-radio userType="professor" value="professor" label="Professor" class="raio"></v-radio>
-                              </v-radio-group>
-                            </div>
-                            <div class="form-check col-sm-6">
-                              <v-radio-group v-model="selectedOption">
-                                <v-radio userType="aluno" value="aluno" label="Aluno"></v-radio>
-                              </v-radio-group>
-                            </div>
-                          </div>
-                          <button @click="submitForm" class="btn mt-4">Enviar</button>
 
+                          <!-- Botão de Envio -->
+                          <button @click="submitForm" class="btn mt-4">Enviar</button>
                         </div>
                       </div>
+
+                      <!-- Links de Cadastro e Recuperação de Senha -->
                       <p class="mb-0 mt-4 text-center"><a @click="cadastro()" class="link">Não possui cadastro?</a></p>
                       <p class="mb-0 mt-4 text-center"><a @click="senha()" class="link">Esqueceu a senha?</a></p>
- 
                     </div>
                   </div>
                 </div>
+
+                <!-- Parte de Trás do Card (se necessário) -->
                 <div class="card-back">
+                  <!-- Conteúdo da parte de trás do card, se necessário -->
                 </div>
               </div>
             </div>
@@ -75,26 +78,20 @@
 <script>
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
 export default {
   data() {
     return {
       checked: false,
-      isProfessorChecked: "",
-      isAlunoChecked: "",
-      loginEmail: '',
-      loginPassword: '',
       isEmailInvalid: false,
       isPasswordInvalid: false,
-      confirmPassword: '',
-      isSidebarOpen: false,
-      password: '',
-      email: '',
-      name: '',
-      selectedOption: '',
       loginError: false,
       credenciaisError: false,
       select: '',
       isLoading: false,
+      loginEmail: '',
+      loginPassword: '',
+      selectedOption: '',
     };
   },
 
@@ -120,9 +117,7 @@ export default {
       this.$router.push('/enviar');
     },
 
-    //verifica a validação do email 
     submitForm() {
-
       if (!this.validateEmail(this.loginEmail)) {
         this.isEmailInvalid = true;
         this.isPasswordInvalid = false;
@@ -135,64 +130,35 @@ export default {
         return;
       }
 
-      //define qual será o tipo de usuario logado
-      let userType = '';
-      if (this.selectedOption === 'professor') {
-        userType = 'professor';
-        this.select = false;
-      } 
-      
-      else if (this.selectedOption === 'aluno') {
-        userType = 'aluno';
-        this.select = false;
-      } else {
-        console.log('Por favor, selecione um tipo de usuário.');
-        this.select = true;
-        return;
-      }
-
       this.loginError = false;
       this.credenciaisError = false;
       this.select = false;
-      //informações que foram enviadas na requisição
-    
+
       const formData = {
         email: this.loginEmail,
         senha: this.loginPassword,
-        userType: userType
       };
 
       this.isLoading = true;
- 
+
       axios
         .post('https://api-thesis-track.vercel.app/user/login', formData)
         .then((response) => {
           console.log(response);
 
           if (response.data.auth) {
-            if ((userType == 'professor' && response.data.user.professor === 1) ||
-              (userType == 'aluno' && response.data.user.professor === 0)) {
-              //salvando informações nos cookies definindo seu tempo 
-              axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-              Cookies.set('token', response.data.token, { expires: 8 / 24 });
-              localStorage.setItem('token', response.data.token);
-              Cookies.set('userType', userType, { expires: 8 / 24 });
-              Cookies.set('id', response.data.user.id, { expires: 8 / 24 });
-              if (userType == 'professor') {
+            // Salvando informações nos cookies definindo seu tempo 
+            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+            Cookies.set('token', response.data.token, { expires: 8 / 24 });
+            localStorage.setItem('token', response.data.token);
+            Cookies.set('userType', response.data.user.professor === 1 ? 'professor' : 'aluno', { expires: 8 / 24 });
+            Cookies.set('id', response.data.user.id, { expires: 8 / 24 });
 
-                this.$router.push('/Professor');
-                window.location.reload();
-                this.isLoading = true;
-              } else if (userType == 'aluno') {
-                this.$router.push('/Professor');
-                window.location.reload();
-                this.isLoading = true;
-              }
-            } else {
-              this.isLoading = false;
-              console.log('Tipo de usuário inválido');
-              this.loginError = true;
-            }
+            // Redirecionando com base no tipo de usuário
+            const redirectTo = response.data.user.professor === 1 ? '/Professor' : '/Aluno';
+            this.$router.push(redirectTo);
+            window.location.reload();
+            this.isLoading = true;
           } else {
             this.isLoading = false;
             console.log('Credenciais inválidas');
@@ -225,10 +191,8 @@ export default {
       console.log(dadosJSON);
     }
   }
-
 };
 </script>
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
