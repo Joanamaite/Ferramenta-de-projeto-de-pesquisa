@@ -8,7 +8,7 @@
         </div>
         <hr class="linhaAzul">
 
- <!-- Exibição do Spinner durante o carregamento -->
+        <!-- Exibição do Spinner durante o carregamento -->
         <v-col cols="12" v-if="loading">
             <div v-if="loading" class="loading-spinner">
                 <div class="three-body">
@@ -22,9 +22,10 @@
         <div class="container align-items-center justify-content-center mx-auto d-flex ">
             <div class="row">
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg">
-                    <v-text-field label="Título" hide-details="auto" class="input" filled dense rounded elevation="2"
+                    <v-text-field label="Título" hide-details="auto" @input="atualizarTitulo" class="input" filled dense rounded elevation="2"
                         v-model="projetoEdit.titulo" maxlength="50">
                     </v-text-field>
+
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg">
                     <v-text-field label="Tema" hide-details="auto" class="input" filled dense rounded elevation="3"
@@ -37,13 +38,13 @@
                         v-model="projetoEdit.problema" maxlength="200"></v-textarea>
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg ">
-                    <v-textarea label="Objetivo geral" hide-details="auto" class="input" filled dense rounded
-                        elevation="3" v-model="projetoEdit.objetivo_geral" maxlength="100"></v-textarea>
-                       
+                    <v-textarea label="Objetivo geral" hide-details="auto" class="input" filled dense rounded elevation="3"
+                        v-model="projetoEdit.objetivo_geral" maxlength="100"></v-textarea>
+
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg ">
                     <v-textarea label="Objetivo especifico" hide-details="auto" class="input" filled dense rounded
-                        elevation="3" v-model="projetoEdit.objetivos_especificos" maxlength="255"></v-textarea>
+                        elevation="3" v-model="projetoEdit.objetivo_especifico" maxlength="255"></v-textarea>
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg  ">
                     <v-textarea label="Resumo" hide-details="auto" class="input" filled dense rounded elevation="3"
@@ -60,19 +61,19 @@
                 </div>
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg">
                     <label class="custom-file-upload">
-                        <input type="file" ref="fileInput" id="fileInput" name="file" multiple @change="handleFileUpload($event)" />
+                        <input type="file" ref="fileInput" id="fileInput" name="file" multiple
+                            @change="handleFileUpload($event)" />
 
                         <span>Adicionar logo</span>
                     </label>
-             
+
                 </div>
-                <p class="cor" v-if="arquivoAdicionado" >Arquivo adicionado com sucesso</p>
-                
+                <p class="cor" v-if="arquivoAdicionado">Arquivo adicionado com sucesso</p>
+
                 <!-- Botão de Adicionar PDF -->
                 <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
                     <label class="custom-file-upload">
-                        <input type="file" ref="fileInput" id="fileInput" name="file" @change="handleFile"
-                            accept=".pdf" />
+                        <input type="file" ref="fileInput" id="fileInput" name="file" @change="handleFile" accept=".pdf" />
                         <span>Adicionar PDF</span>
                     </label>
                 </div>
@@ -81,8 +82,8 @@
 
             </div>
         </div>
-         <!-- Controle de Privacidade -->
-            <div>
+        <!-- Controle de Privacidade -->
+        <div>
             <label for="privacyToggle" class="toggle-label ms-5">Tornar {{ isPrivate ? 'Público' : 'Privado' }} ?</label>
             <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
                 :checked="isPrivate">
@@ -91,14 +92,14 @@
             <v-btn class="color" @click="editarProjeto" :disabled="loading">
                 <template v-if="loading">
                     <v-col cols="12">
-          <div  class="loading-spinner">
-            <div class="three-body">
-              <div class="three-body__dot"></div>
-              <div class="three-body__dot"></div>
-              <div class="three-body__dot"></div>
-            </div>
-          </div>
-        </v-col>
+                        <div class="loading-spinner">
+                            <div class="three-body">
+                                <div class="three-body__dot"></div>
+                                <div class="three-body__dot"></div>
+                                <div class="three-body__dot"></div>
+                            </div>
+                        </div>
+                    </v-col>
                 </template>
                 <template v-else>
                     <span>Salvar</span>
@@ -118,32 +119,31 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default {
-
-    created() {
-        const projetoId = this.$route.params.id;
-
-        if (projetoId) {
-            // Buscar as informações do projeto pelo ID
-            this.fetchProjeto(projetoId);
-        }
-
-        this.carregarAlunos();
-        this.carregarProfessores();
-    },
-
-
     data() {
         return {
-            projetoEdit: {
-                titulo: '',
-                tema: '',
-                delimitacao: '',
-                problema: '',
-                resumo: '',
-                abstract: '',
-                publico:this.decidir,
-                arquivoAdicionado: false,
-                logo_projeto: [],
+      projetoEdit: {
+         titulo: '',
+         tema: '',
+         delimitacao: '',
+         problema: '',
+         resumo: '',
+         abstract: '',
+         publico: "0",
+         objetivo_geral: '',
+         objetivo_especifico: '',
+         logo_projeto: [],
+      },
+            charCount: {
+                    titulo: 0,
+                    tema: 0,
+                    delimitacao: 0,
+
+                },
+                 numeroMaximoAutores: 3,
+                loading: false,
+                mensagemSucesso: null,
+                pdfAdicionado: false,
+                isPrivate: false,
                 alunosSelecionados: [],
                 alunoSelecionado: { id: null },
                 professoresSelecionados: [],
@@ -152,32 +152,36 @@ export default {
                 orientadorSelecionado: { id: null },
                 alunosDisponiveis: [],
                 professoresDisponiveis: [],
-                numeroMaximoAutores: 3,
-                loading: false, 
-                mensagemSucesso: null, 
-                pdfAdicionado:false,
-                isPrivate:false,
-                  charCount: {
-                titulo: 0,
-                tema: 0,
-                delimitacao: 0,
-
-            },
-            },
+                arquivoAdicionado: false,
         };
+        
+    },
+        async created() {
+        const projetoId = this.$route.params.id;
+
+        if (projetoId) {
+      
+            await this.fetchProjeto(projetoId);
+        }
+
+        this.carregarAlunos();
+        this.carregarProfessores();
     },
 
     methods: {
-               limitCharCount(field, limit) {
-            if (this[field].length > limit) {
-                this[field] = this[field].substr(0, limit);
+         atualizarTitulo() {
+      console.log('Título atualizado:', this.projetoEdit.titulo);
+   },
+        limitCharCount(field, limit) {
+            if (this.projetoEdit[field].length > limit) {
+                this.projetoEdit[field] = this.projetoEdit[field].substr(0, limit);
             }
-            this.charCount[field] = this[field].length;
+            this.charCount[field] = this.projetoEdit[field].length;
         },
+
         togglePrivacy() {
             this.isPrivate = !this.isPrivate;
-            const decidir = this.projetoEdit.publico = this.isPrivate ? 0 : 1;
-            console.log(decidir)
+            console.log(this.isPrivate);
         },
 
         limitarAutores() {
@@ -185,91 +189,79 @@ export default {
                 this.projetoEdit.autores.pop();
             }
         },
-        computed: {
+        async handleFile(event) {
+            try {
+                const file = event.target.files[0];
+                const cloudinaryCloudName = 'dzpbclwij';
+                const cloudinaryUploadPreset = 'bdsmg4su';
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('resource_type', 'raw');
+                    formData.append('upload_preset', cloudinaryUploadPreset);
 
-            alunosIds() {
-                return this.alunosSelecionados?.map(aluno => aluno.id) || [];
-            },
-            professoresIds() {
-                return this.professoresSelecionados?.map(professor => professor.id) || [];
-            },
-            orientadorIds() {
-                return this.orientadorSelecionados?.map(professor => professor.id) || [];
+                    const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/raw/upload`, formData, {
+
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+
+
+                    if (cloudinaryResponse.status === 200 && cloudinaryResponse.data.secure_url) {
+
+
+                        this.projetoEdit.arquivo = cloudinaryResponse.data.secure_url;
+
+                        console.log(cloudinaryResponse.data.secure_url);
+
+                        this.pdfAdicionado = true;
+                    } else {
+                        console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
+                    }
+                } else {
+                    console.warn('Nenhum arquivo selecionado');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+
             }
         },
-        async handleFile(event) {
-    try {
-      const file = event.target.files[0];
-      const cloudinaryCloudName = 'dzpbclwij';
-      const cloudinaryUploadPreset = 'bdsmg4su';
-      if (file) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('resource_type', 'raw');
-        formData.append('upload_preset', cloudinaryUploadPreset);
-
-        const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/raw/upload`, formData, {
-        
-            headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-
-        if (cloudinaryResponse.status === 200 && cloudinaryResponse.data.secure_url) {
-
-
-          this.projetoEdit.arquivo = cloudinaryResponse.data.secure_url;
-          
-          console.log(cloudinaryResponse.data.secure_url);
-
-          this.pdfAdicionado = true;
-        } else {
-          console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
-        }
-      } else {
-        console.warn('Nenhum arquivo selecionado');
-      }
-    } catch (error) {
-      console.error('Erro:', error);
-    
-    }
-  },
         handleFileUpload(event) {
-    const files = event.target.files;
-    console.log(files);
+            const files = event.target.files;
+            console.log(files);
 
-    if (files.length > 0) {
-        this.projetoEdit.logo_projeto = []; 
-        const cloudinaryCloudName = 'dzpbclwij';
-        const cloudinaryUploadPreset = 'bdsmg4su';
-        const uploadPromises = [];
+            if (files.length > 0) {
+                this.projetoEdit.logo_projeto = [];
+                const cloudinaryCloudName = 'dzpbclwij';
+                const cloudinaryUploadPreset = 'bdsmg4su';
+                const uploadPromises = [];
 
-        for (const file of files) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', cloudinaryUploadPreset);
+                for (const file of files) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('upload_preset', cloudinaryUploadPreset);
 
-            uploadPromises.push(
-                axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`, formData)
-            );
-             this.arquivoAdicionado = true;
-        }
-       
+                    uploadPromises.push(
+                        axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`, formData)
+                    );
+                    this.arquivoAdicionado = true;
+                }
 
-        Promise.all(uploadPromises)
-            .then((responses) => {
-                const imageUrls = responses.map((response) => response.data.secure_url);
-                this.projetoEdit.logo_projeto = imageUrls;
-                console.log(this.projetoEdit.logo_projeto);
-            })
-            .catch((error) => {
-                console.error('Erro ao fazer upload de logo:', error);
-            });
-    } else {
-        console.warn('Nenhuma logo selecionado');
-    }
-},
+
+                Promise.all(uploadPromises)
+                    .then((responses) => {
+                        const imageUrls = responses.map((response) => response.data.secure_url);
+                        this.projetoEdit.logo_projeto = imageUrls;
+                        console.log(this.projetoEdit.logo_projeto);
+                    })
+                    .catch((error) => {
+                        console.error('Erro ao fazer upload de logo:', error);
+                    });
+            } else {
+                console.warn('Nenhuma logo selecionado');
+            }
+        },
         async carregarAlunos() {
             const token = localStorage.getItem('token');
             console.log(token)
@@ -322,37 +314,38 @@ export default {
 
                 const response = await axios.get(`https://api-thesis-track.vercel.app/projeto/listar/${this.$route.params.id}/pessoa/${userId}`, { headers });
                 console.log(response);
-                // Preencher os campos do projeto com as informações obtidas
+
                 this.projetoEdit = response.data;
-                this.projetoEdit.autores = null;
-                this.projetoEdit.orientadores = null;
-               
+    
+
 
             } catch (error) {
                 console.error('Erro ao buscar projeto:', error);
             }
         },
 
-        async editarProjeto() {   
-    try {
-         this.loading = true;
-        const token = localStorage.getItem('token');
-        const headers = {
-            'x-access-token': `${token}`
-        };
+        async editarProjeto() {
+            try {
+                this.loading = true;
+                const token = localStorage.getItem('token');
+                const headers = {
+                    'x-access-token': `${token}`
+                };
+                console.log(this.projetoEdit)
 
-        await axios.put(`https://api-thesis-track.vercel.app/projeto/atualiza/${this.$route.params.id}`, this.projetoEdit, { headers });
-        this.loading = false;
-        this.mensagemSucesso = 'Projeto editado com sucesso';
-        this.$router.push(`/visualizar/${this.$route.params.id}`);
-        console.log('Projeto editado com sucesso');
-    } catch (error) {
-        console.error('Erro ao editar projeto:', error);
-    }finally {
+                await axios.put(`https://api-thesis-track.vercel.app/projeto/atualiza/${this.$route.params.id}`, this.projetoEdit, { headers });
+                this.loading = false;
+                console.log('Resposta da edição:', this.projetoEdit);
+                this.mensagemSucesso = 'Projeto editado com sucesso';
+                this.$router.push(`/visualizar/${this.$route.params.id}`);
+                console.log('Projeto editado com sucesso');
+            } catch (error) {
+                console.error('Erro ao editar projeto:', error);
+            } finally {
 
                 this.loading = false;
             }
-}
+        }
     }
 };
 </script>
@@ -443,105 +436,107 @@ input[type="file"] {
 }
 
 .three-body {
-  --uib-size: 35px;
-  --uib-speed: 0.8s;
-  --uib-color: #1B2F4A;
-  position: relative;
-  display: inline-block;
-  height: var(--uib-size);
-  width: var(--uib-size);
-  animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+    --uib-size: 35px;
+    --uib-speed: 0.8s;
+    --uib-color: #ffffff;
+    position: relative;
+    display: inline-block;
+    height: var(--uib-size);
+    width: var(--uib-size);
+    animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
 }
 
 .three-body__dot {
-  position: absolute;
-  height: 100%;
-  width: 30%;
+    position: absolute;
+    height: 100%;
+    width: 30%;
 }
 
 .three-body__dot:after {
-  content: '';
-  position: absolute;
-  height: 0%;
-  width: 100%;
-  padding-bottom: 100%;
-  background-color: var(--uib-color);
-  border-radius: 50%;
+    content: '';
+    position: absolute;
+    height: 0%;
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: var(--uib-color);
+    border-radius: 50%;
 }
 
 .three-body__dot:nth-child(1) {
-  bottom: 5%;
-  left: 0;
-  transform: rotate(60deg);
-  transform-origin: 50% 85%;
+    bottom: 5%;
+    left: 0;
+    transform: rotate(60deg);
+    transform-origin: 50% 85%;
 }
 
 .three-body__dot:nth-child(1)::after {
-  bottom: 0;
-  left: 0;
-  animation: wobble1 var(--uib-speed) infinite ease-in-out;
-  animation-delay: calc(var(--uib-speed) * -0.3);
+    bottom: 0;
+    left: 0;
+    animation: wobble1 var(--uib-speed) infinite ease-in-out;
+    animation-delay: calc(var(--uib-speed) * -0.3);
 }
 
 .three-body__dot:nth-child(2) {
-  bottom: 5%;
-  right: 0;
-  transform: rotate(-60deg);
-  transform-origin: 50% 85%;
+    bottom: 5%;
+    right: 0;
+    transform: rotate(-60deg);
+    transform-origin: 50% 85%;
 }
 
 .three-body__dot:nth-child(2)::after {
-  bottom: 0;
-  left: 0;
-  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
+    bottom: 0;
+    left: 0;
+    animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
 }
 
 .three-body__dot:nth-child(3) {
-  bottom: -5%;
-  left: 0;
-  transform: translateX(116.666%);
+    bottom: -5%;
+    left: 0;
+    transform: translateX(116.666%);
 }
 
 .three-body__dot:nth-child(3)::after {
-  top: 0;
-  left: 0;
-  animation: wobble2 var(--uib-speed) infinite ease-in-out;
+    top: 0;
+    left: 0;
+    animation: wobble2 var(--uib-speed) infinite ease-in-out;
 }
 
 @keyframes spin78236 {
-  0% {
-    transform: rotate(0deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
 
-  100% {
-    transform: rotate(360deg);
-  }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes wobble1 {
-  0%,
-  100% {
-    transform: translateY(0%) scale(1);
-    opacity: 1;
-  }
 
-  50% {
-    transform: translateY(-66%) scale(0.65);
-    opacity: 0.8;
-  }
+    0%,
+    100% {
+        transform: translateY(0%) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-66%) scale(0.65);
+        opacity: 0.8;
+    }
 }
 
 @keyframes wobble2 {
-  0%,
-  100% {
-    transform: translateY(0%) scale(1);
-    opacity: 1;
-  }
 
-  50% {
-    transform: translateY(66%) scale(0.65);
-    opacity: 0.8;
-  }
+    0%,
+    100% {
+        transform: translateY(0%) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(66%) scale(0.65);
+        opacity: 0.8;
+    }
 }
 
 .container {
@@ -587,13 +582,13 @@ input[type="file"] {
     .tituloProjetos {
         font-size: 6vw;
     }
-    .input{
-    border:none !important;
-}
+
+    .input {
+        border: none !important;
+    }
 
     .linhaAzul {
         margin: 0;
         width: 100%;
     }
-}
-</style>
+}</style>

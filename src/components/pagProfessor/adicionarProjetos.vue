@@ -3,10 +3,10 @@
     <div>
         <!-- Seção de Título -->
         <div>
-    <div class="col-sm-12 container d-flex justify-content-center align-items-center">
-      <h1 class="tituloProjetos animated-title">ADICIONE SEU PROJETO</h1>
-    </div>
-  </div>
+            <div class="col-sm-12 container d-flex justify-content-center align-items-center">
+                <h1 class="tituloProjetos animated-title">ADICIONE SEU PROJETO</h1>
+            </div>
+        </div>
 
         <!-- Exibição do Spinner durante o carregamento -->
         <v-col cols="12" v-if="loading">
@@ -26,25 +26,25 @@
         <div class="container d-flex align-items-center justify-content-center mx-auto">
             <!-- Linha de formulário -->
             <div class="row">
-           
-             <!-- Seleção de Orientador -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+
+                <!-- Seleção de Orientador -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5">
                     <v-combobox v-model="orientadorSelecionado" :items="professoresDisponiveis"
                         label="Selecione um orientador" item-text="nome" item-value="id"
                         :search-input.sync="orientadorSearch" chips clearable placeholder="Selecione um orientador">
                     </v-combobox>
                 </div>
-            
+
                 <!-- Seleção de Alunos -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5">
                     <v-combobox v-model="alunosSelecionados" :items="alunosDisponiveis" label="Selecione um aluno"
                         item-text="nome" item-value="id" :search-input.sync="alunoSearch" chips clearable multiple
                         hide-details="auto" @change="validateAlunosSelecionados"></v-combobox>
                 </div>
 
-               
+
                 <!-- Campo de Título -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5">
                     <v-text-field label="Título" hide-details="auto" class="input rounded-counter" filled dense rounded
                         elevation="2" maxlength="100" :value="titulo" v-model="titulo"
                         @input="limitCharCount('titulo', 200)">
@@ -55,7 +55,7 @@
                 </div>
 
                 <!-- Campo de Tema -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5">
                     <v-text-field label="Tema" hide-details="auto" class="input rounded-counter" filled dense rounded
                         elevation="3" maxlength="45" :value="tema" v-model="tema" @input="limitCharCount('tema', 100)">
                         <template v-slot:append>
@@ -65,17 +65,18 @@
                 </div>
 
                 <!-- Campo de Problema -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg ">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
                     <v-textarea label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
                         maxlength="200" v-model="problema" @input="limitCharCount('problema', 350)">
                         <template v-slot:append>
                             <div class="char-counter">{{ charCount.problema }}/350</div>
                         </template>
                     </v-textarea>
+
                 </div>
 
                 <!-- Campo de Objetivo Geral -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
                     <v-textarea label="Objetivo geral" hide-details="auto" class="input rounded-counter mensagem" filled
                         dense rounded elevation="2" maxlength="200" :value="objetivo_geral" v-model="objetivo_geral"
                         rows="4" @input="limitCharCount('objetivo_geral', 300)">
@@ -86,7 +87,7 @@
                 </div>
 
                 <!-- Campo de Objetivo Específico -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
                     <v-textarea label="Objetivos específicos" hide-details="auto" class="input" filled dense rounded
                         elevation="3" maxlength="350" :value="objetivo_especifico" v-model="objetivo_especifico"
                         @input="limitCharCount('objetivo_especifico', 350)">
@@ -97,7 +98,7 @@
                 </div>
 
                 <!-- Campo de Resumo -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
                     <v-textarea label="Resumo" hide-details="auto" class="input mensagem" filled dense rounded elevation="3"
                         v-model="resumo" rows="4" @input="limitCharCount('resumo', 400)" maxlength="400" :required="true">
                         <template v-slot:append>
@@ -117,41 +118,38 @@
                 </div>
 
                 <!-- Campo de URL do Projeto -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                <div class="col-md-10 col-sm-8 align-self-center mt-5">
                     <v-text-field label="URL do Projeto" hide-details="auto" class="input" filled dense rounded
                         elevation="3" v-model="url">
                     </v-text-field>
                 </div>
 
                 <!-- Campo de Ano de Publicação com Menu de Data -->
-                 <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
-    <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y origin="top center" full-width>
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-          v-model="ano_publicacao"
-          label="Data de Publicação"
-          hide-details="auto"
-          v-on="on"
-          v-bind="attrs"
-        >
-          <template v-slot:append>
-            <v-btn icon @click="menu = !menu">
-              <v-icon>mdi-calendar</v-icon>
-            </v-btn>
-          </template>
-        </v-text-field>
-      </template>
+                <div class="col-md-10 col-sm-8 align-self-center mt-5">
+                    <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y
+                        origin="top center" full-width>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field v-model="ano_publicacao" label="Data de Publicação" hide-details="auto" v-on="on"
+                                v-bind="attrs">
+                                <template v-slot:append>
+                                    <v-btn icon @click="menu = !menu">
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-btn>
+                                </template>
+                            </v-text-field>
+                        </template>
 
-      <v-date-picker v-model="ano_publicacao" @input="menu = false" scrollable :year="true" format="DD/MM/YYYY">
-        <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="menu = false">Cancelar</v-btn>
-        <v-btn text color="primary" @click="$refs.picker.save(ano_publicacao)">OK</v-btn>
-      </v-date-picker>
-    </v-menu>
-  </div>
+                        <v-date-picker v-model="ano_publicacao" @input="menu = false" scrollable :year="true"
+                            format="DD/MM/YYYY">
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="menu = false">Cancelar</v-btn>
+                            <v-btn text color="primary" @click="$refs.picker.save(ano_publicacao)">OK</v-btn>
+                        </v-date-picker>
+                    </v-menu>
+                </div>
 
                 <!-- Upload de Arquivos -->
-                <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
+                <div class="col-md-6 col-sm-6 align-self-center mt-5">
                     <label class="custom-file-upload">
                         <input type="file" ref="fileInput" id="fileInput" name="file" multiple @change="handleFileUpload" />
                         <span>Adicionar logo </span>
@@ -162,27 +160,34 @@
                 <p class="cor" @click="projetos" v-if="logoAdicionada">Arquivo adicionado com sucesso</p>
 
                 <!-- Botão de Adicionar PDF -->
-                <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
+                <div class="col-md-6 col-sm-6 align-self-center mt-5">
                     <label class="custom-file-upload">
-                        <input type="file" ref="fileInput" id="fileInput" name="file" @change="handleFile"
-                            accept=".pdf" />
+                        <input type="file" ref="fileInput" id="fileInput" name="file" @change="handleFile" accept=".pdf" />
                         <span>Adicionar PDF</span>
                     </label>
                 </div>
                 <!-- Exibe a mensagem de sucesso após adicionar PDF -->
                 <p class="cor" v-if="pdfAdicionado">PDF adicionado com sucesso</p>
-                
+
                 <!-- Exibição de mensagem de erro -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-                    <div v-if="!mensagemErro" class="text-danger">
-                        {{ mensagemErro }}
-                    </div>
+                <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
+                    <div class="text-danger">{{ errorMessages.problema }}</div>
+                    <div class="text-danger">{{ errorMessages.tema }}</div>
+                    <div class="text-danger">{{ errorMessages.titulo }}</div>
+                    <div class="text-danger">{{ errorMessages.objetivo_geral }}</div>
+                    <div class="text-danger">{{ errorMessages.objetivo_especifico }}</div>
+                    <div class="text-danger">{{ errorMessages.resumo }}</div>
+                    <div class="text-danger">{{ errorMessages.abstract }}</div>
+                    <div class="text-danger">{{ errorMessages.ano_publicacao }}</div>
+                    <div class="text-danger">{{ errorMessages.alunosSelecionados }}</div>
+                    <div class="text-danger">{{ errorMessages.orientadorSelecionado }}</div>
                 </div>
+
             </div>
         </div>
 
         <!-- Controle de Privacidade -->
-      <div>
+        <div>
             <label for="privacyToggle" class="toggle-label ms-5">Tornar {{ isPrivate ? 'Público' : 'Privado' }} ?</label>
             <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
                 :checked="isPrivate">
@@ -212,6 +217,18 @@ import 'moment/locale/pt-br'; // Se desejar usar o formato de data em português
 export default {
     data() {
         return {
+            errorMessages: {
+                alunosSelecionados: '',
+                orientadorSelecionado: '',
+                titulo: '',
+                tema: '',
+                problema: '',
+                objetivo_geral: '',
+                resumo: '',
+                objetivo_especifico: '',
+                abstract: '',
+                ano_publicacao: '',
+            },
             valueDeterminate: 50,
             alunosSelecionados: [],
             alunoSelecionado: { id: null },
@@ -235,7 +252,7 @@ export default {
             autores: [],
             imagens: [],
             isPrivate: false,
-            pdfAdicionado:false,
+            pdfAdicionado: false,
             alunosDisponiveis: [],
             professoresDisponiveis: [],
             logoAdicionada: false,
@@ -243,7 +260,7 @@ export default {
             sucessoAdicao: false,
             loading: false,
             url: '',
-            menu:false,
+            menu: false,
             charCount: {
                 titulo: 0,
                 tema: 0,
@@ -264,19 +281,19 @@ export default {
             ],
 
         };
-   },
-  computed: {
-    formattedDate() {
-      if (this.ano_publicacao && moment(this.ano_publicacao).isValid()) {
-        return moment(this.ano_publicacao).format('DD/MM/YYYY');
-      }
-      return '';
     },
-  },
-  created() {
-    this.carregarAlunos();
-    this.carregarProfessores();
-  },
+    computed: {
+        formattedDate() {
+            if (this.ano_publicacao && moment(this.ano_publicacao).isValid()) {
+                return moment(this.ano_publicacao).format('DD/MM/YYYY');
+            }
+            return '';
+        },
+    },
+    created() {
+        this.carregarAlunos();
+        this.carregarProfessores();
+    },
 
     methods: {
         limitCharCount(field, limit) {
@@ -298,49 +315,49 @@ export default {
 
         togglePrivacy() {
             this.isPrivate = !this.isPrivate;
-            console.log(this.isPrivate)    
+            console.log(this.isPrivate)
         },
 
         //função para enviar o pdf para o Cloudinary
         async handleFile(event) {
-    try {
-      const file = event.target.files[0];
-      const cloudinaryCloudName = 'dzpbclwij';
-      const cloudinaryUploadPreset = 'bdsmg4su';
-      if (file) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('resource_type', 'raw');
-        formData.append('upload_preset', cloudinaryUploadPreset);
+            try {
+                const file = event.target.files[0];
+                const cloudinaryCloudName = 'dzpbclwij';
+                const cloudinaryUploadPreset = 'bdsmg4su';
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('resource_type', 'raw');
+                    formData.append('upload_preset', cloudinaryUploadPreset);
 
-        const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/raw/upload`, formData, {
-        
-            headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+                    const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/raw/upload`, formData, {
 
-        if (cloudinaryResponse.status === 200 && cloudinaryResponse.data.secure_url) {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
 
-          const urlPdf = cloudinaryResponse.data.secure_url;
+                    if (cloudinaryResponse.status === 200 && cloudinaryResponse.data.secure_url) {
 
-          this.urlPdf = urlPdf;
-          console.log(this.urlPdf)
-          console.log(cloudinaryResponse.data.secure_url);
+                        const urlPdf = cloudinaryResponse.data.secure_url;
 
-          this.pdfAdicionado = true;
-        } else {
-          console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
-        }
-      } else {
-        console.warn('Nenhum arquivo selecionado');
-      }
-    } catch (error) {
-      console.error('Erro:', error);
-    }
-  },
+                        this.urlPdf = urlPdf;
+                        console.log(this.urlPdf)
+                        console.log(cloudinaryResponse.data.secure_url);
 
-      //função para enviar a imagem para o Cloudinary
+                        this.pdfAdicionado = true;
+                    } else {
+                        console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
+                    }
+                } else {
+                    console.warn('Nenhum arquivo selecionado');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        },
+
+        //função para enviar a imagem para o Cloudinary
         handleFileUpload(event) {
             const files = event.target.files;
 
@@ -367,7 +384,7 @@ export default {
                         this.logo_projeto = imageUrls;
                         console.log(this.logo_projeto);
                     })
-                    
+
                     .catch((error) => {
                         console.error('Erro ao fazer upload de logo:', error);
                     });
@@ -455,14 +472,29 @@ export default {
                 const cloudinaryCloudName = 'dzpbclwij';
                 const cloudinaryUploadPreset = 'atk1tfs8';
                 this.sucessoAdicao = true;
-
+                //campo para percorrer e mostrar as mensagens de preencher os inputs 
                 for (const field of this.requiredFields) {
-                    if (!this[field]) {
-                        this.mensagemErro = `Por favor, preencha o campo ${field.replace(/_/g, ' ')}.`;
-                        console.log(this.mensagemErro)
+                    if (!this[field] || (Array.isArray(this[field]) && this[field].length === 0)) {
+                        // Verifique se o campo está vazio ou se é um array vazio
+                        this.errorMessages[field] = `Por favor, preencha o campo ${field.replace(/_/g, ' ')}.`;
+                        setTimeout(() => {
+                        for (const field of this.requiredFields) {
+                            this.errorMessages[field] = '';
+                        }
+                    }, 4000);
+
                         return;
                     }
+                  
+
                 }
+                console.log(this.field);
+                console.log("caiu aqui")
+                if (Object.values(this.errorMessages).some(message => message !== '')) {
+                    // Se houver erros, não prossiga com a lógica de projeto
+                    return;
+                }
+
 
                 let uploadedImageUrls = [];
                 for (const file of this.logo_projeto) {
@@ -503,7 +535,7 @@ export default {
                     professores: [{ "id": orientadorId }],
                     publico: this.isPrivate ? 0 : 1,
                     logo_projeto: this.logo_projeto,
-                    arquivo:this.urlPdf
+                    arquivo: this.urlPdf
                 };
                 console.log(formData);
                 console.log(this.publico);
@@ -551,21 +583,25 @@ export default {
     --background-color: #1B2F4A;
     --primary-color: #1b4a3c;
 }
+*{
+    border:none!important;
+}
 
 .animated-title {
-  position: relative;
-  animation: fadeIn 2s ease-in-out;
+    position: relative;
+    animation: fadeIn 2s ease-in-out;
 }
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .three-body {
@@ -577,6 +613,10 @@ export default {
     height: var(--uib-size);
     width: var(--uib-size);
     animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+}
+
+.text-danger {
+    color: #df0c0c;
 }
 
 .loading-spinner {

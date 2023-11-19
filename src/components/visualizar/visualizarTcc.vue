@@ -219,12 +219,24 @@ export default {
     getAutoresNome(projeto) {
   try {
     const autores = JSON.parse(projeto.autores);
+
     if (autores && Array.isArray(autores) && autores.length > 0) {
-      return autores.map(autor => autor.nome).join(', ');
+      const numeroDeAutores = autores.length;
+
+      if (numeroDeAutores === 1) {
+        return `Autor: ${autores[0].nome}`;
+      } else if (numeroDeAutores === 2) {
+        return `Autores: ${autores[0].nome} e ${autores[1].nome}`;
+      } else if (numeroDeAutores > 2) {
+        const nomes = autores.map(autor => autor.nome);
+        const autoresString = nomes.slice(0, -1).join(', ') + ` e ${nomes.slice(-1)}`;
+        return `Autores: ${autoresString}`;
+      }
     }
   } catch (error) {
     console.error('Error parsing autores:', error);
   }
+
   return '';
 },
     getOrientadorNome(projeto) {
