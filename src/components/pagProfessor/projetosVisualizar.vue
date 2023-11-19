@@ -1,28 +1,31 @@
 <template>
   <div>
+    <!-- Seção do Aluno -->
     <div v-if="userType === 'aluno'" class="imagemFundo col-sm-6 col-md-12">
       <div class="container" style="height: auto; display: flex; flex-direction: column;">
         <div class="row align-items-center">
           <div class="col-sm-4 col-md-6">
-            <h1 class="escreva">Área do Aluno</h1>
-            <p class="escritaProjetos mt-4">Esta é sua área de projetos. Aqui você poderá criar, alterar e
+             <h1 class="escreva fade-up">Área do Aluno</h1>
+            <p class="escritaProjetos fade-up mt-4">Esta é sua área de projetos. Aqui você poderá criar, alterar e
               excluir seus projetos compartilhados. Use este espaço para se organizar e orientar.</p>
           </div>
-          <div class="col-md-6 col-sm-4">
+          <div class="col-md-6 col-sm-6">
             <img src="Images/projetos.png" class="imagem img-fluid">
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Seção do Professor -->
     <div v-if="userType === 'professor'" class="imagemFundo col-sm-6 col-md-12">
       <div style="height: auto; display: flex; flex-direction: column;">
         <div class="row align-items-center">
           <div class="col-sm-4 col-md-6">
-            <h1 class="escreva">Área do professor</h1>
-            <p class="escritaProjetos mt-4">Esta é sua área de projetos. Aqui você poderá criar, alterar e
+            <h1 class="escreva fade-up">Área do Professor</h1>
+            <p class="escritaProjetos fade-up mt-4">Esta é sua área de projetos. Aqui você poderá criar, alterar e
               excluir seus projetos compartilhados. Use este espaço para se organizar e orientar.</p>
           </div>
-          <div class="col-md-6 col-sm-4">
+          <div class="col-md-6 col-sm-6">
             <img src="Images/projetos.png" class="imagem img-fluid">
           </div>
         </div>
@@ -31,16 +34,16 @@
 
     <div>
       <div class="container" style="display: flex;">
-  <h1 class="tituloProjetos col-sm-4 col-lg-4" @click="adicionar">{{ pageTitle }}</h1>
-  <div class="col-sm-4 col-lg-4 maisProjeto d-flex" @click="adicionar">
-    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor"
-         class="bi bi-plus-circle ms-5 d-flex rounded float-end" viewBox="0 0 16 16">
-      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-      <path
-        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-    </svg>
-  </div>
-</div>
+        <h1 class="tituloProjetos col-sm-4 col-lg-4" @click="adicionar">{{ pageTitle }}</h1>
+        <div class="col-sm-4 col-lg-4 maisProjeto d-flex" @click="adicionar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor"
+               class="bi bi-plus-circle ms-5 d-flex rounded float-end" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+        </div>
+      </div>
     </div>
     <hr class="linhaAzul">
     <v-row class="fade-in-down cards mx-auto justify-content-between">
@@ -49,37 +52,31 @@
         <p class="textAlter mb-5">Putz... Você não tem nenhum projeto cadastrado.</p>
       </div>
       <div class="cards row mt-5 mb-5">
-        <div
-  v-for="projeto in projetosDoUsuario"
-  :key="projeto.id_projeto"
-  class="card col-sm-6 col-md-4 col-lg-3"
->
-  <div class="card__img">
-    <img
-      v-if="projeto.logo_projeto"
-      :src="projeto.logo_projeto"
-      :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
-    />
-    <img
-      v-else
-      src="Images/Logo.png"
-      :style="{ 'height': '140px', 'object-fit': 'cover', 'border-radius': '12px' }"
-    />
-  </div>
-  <div class="card__body">
-    <h2 class="card__head">{{ projeto.titulo }}</h2>
-    <h2 class="card__desc">{{ projeto.publico ? 'Público' : 'Privado' }}</h2>
-
-  </div>
-  <a href="#" class="card__btn" @click.prevent="visualizar(projeto.id_projeto)">
-    Visualizar
-  </a>
-</div>
-    </div>
-
+        <div v-for="projeto in projetosDoUsuario" :key="projeto.id_projeto" class="card col-sm-6 col-md-4 col-lg-3">
+          <div class="card__img">
+            <img
+              v-if="projeto.logo_projeto"
+              :src="projeto.logo_projeto"
+              :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
+            />
+            <img
+              v-else
+              src="Images/Logo.png"
+              :style="{ 'height': '140px', 'object-fit': 'cover', 'border-radius': '12px' }"
+            />
+          </div>
+          <div class="card__body">
+            <h2 class="card__head">{{ projeto.tema }}</h2>
+            <p class="card__desc">{{ projeto.titulo }}</p>
+            <h2 class="card__desc">{{ projeto.publico ? 'Público' : 'Privado' }}</h2>
+          </div>
+          <a href="#" class="card__btn" @click.prevent="visualizar(projeto.id_projeto)">Visualizar</a>
+        </div>
+      </div>
     </v-row>
   </div>
 </template>
+
 <script>
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -93,12 +90,16 @@ export default {
       const userType = Cookies.get('userType');
       return userType || 'default';
     },
+
+       userName() {
+        const userName = Cookies.get('userName');
+        return userName || 'default';
+       },
     userId() {
       const userId = Cookies.get('id');
       return userId || null;
     },
   },
-
   data() {
     return {
       projetosDoUsuario: [], // Array para armazenar os projetos filtrados
@@ -177,19 +178,17 @@ export default {
       // Redirecionar para a página de visualização do projeto com o ID do projeto e do orientador
       this.$router.push({ path: `/Visualizar/${projeto}`, query: { orientadorId } });
     }
-
   },
+
   created() {
     this.loadProjects();
     // Detectar o tamanho da tela e atualizar pageTitle
     window.addEventListener('resize', this.updatePageTitle);
     this.updatePageTitle(); // Chame a função para definir o valor inicial
   },
-
 };
 </script>
 
-  
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inika&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inder&display=swap');
@@ -354,46 +353,18 @@ body {
   color: #3f3f3f;
   font-family: Agbalumo;
   font-size: 1.5vw;
-
 }
 
-.container {
-  display: inline-block;
-  justify-content: center;
-}
-
-h3 {
-  color: #fff;
-
-}
-
-p {
-  color: #fff;
-  font-family: 'Inika', serif;
-}
-
-.adicionar {
-  margin-right: 8rem;
-  cursor: pointer;
-}
 v-row{
 margin:0;
 }
 
-
 .linhaAzul {
-  width: 95%;
-  height: 4px;
+  width: 100%;
+  height: 3px;
   background-color: #1B2F4A;
-  margin-left: 2rem;
-}
-
-.escritarfooter {
-  color: #fff !important;
-}
-
-.escritascard {
-  color: #fff;
+  margin-bottom: 2rem;
+  margin-top: -1rem
 }
 
 .escritaProjetos {
@@ -401,9 +372,9 @@ margin:0;
   font-size: 1.5vw;
   font-family: 'Inder', sans-serif;
   font-weight: 100;
-  width: 35vw;
-  /*animation-duration: 5s;
-    animation-name: slidein;*/
+  max-width: 100%;
+  animation-duration: 5s;
+  animation-name: slidein;
 }
 
 .imagem {
@@ -411,8 +382,8 @@ margin:0;
   margin-top: 4rem;
   margin-left: 2rem;
  
-
 }
+
 .maisProjeto{
   margin-top:5rem;
 margin-left:10rem;
@@ -423,28 +394,22 @@ margin-left:10rem;
   margin-top: 5rem;
   margin-left: 5rem;
   width:5vw;
-
 }
 
-@keyframes slidein {
-  from {
-    margin-left: 100%;
-    width: 200%;
-  }
 
-  to {
-    margin-left: 0%;
-    width: 100%;
-  }
-}
 
-.escreva {
-  font-family: 'Inika', serif;
-  color: #fff;
-  margin-top: 7rem;
-  font-size: 3.5vw;
-
-}
+.escreva{ font-family: 'Inika', serif;
+ color: #fff;
+  margin-top: 5rem; 
+  font-size: 3rem; 
+  } 
+  @keyframes fade-in-down { 
+    0% { opacity: 0;
+     transform: translateX(-57px);
+      }
+       100% { opacity: 1; transform: translateX(0);
+        } 
+        } @keyframes slideUpFadeIn { from { opacity: 0; transform: translateY(50px); /* Altere a distância desejada do slide-up */ } to { opacity: 1; transform: translateY(0); } } .fade-up { animation: slideUpFadeIn 3s ease-in-out; }
 
 @media screen and (max-width: 636px) {
   .imagem {
@@ -487,12 +452,6 @@ margin-left:10rem;
     text-align: center;
   }
 
-  .linhaAzul {
-    margin-left: 0;
-    margin-right: 0;
-    width:100%;
-  }
-
   .maisProjeto {
     margin-top: 3rem;
 
@@ -510,9 +469,5 @@ margin-left:10rem;
   .row {
     margin: 0 !important;
   }
-
-
 }
-
-
 </style>

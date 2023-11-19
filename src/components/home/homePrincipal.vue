@@ -91,7 +91,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inika&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inika&display=swap');
@@ -126,7 +125,6 @@ body {
    line-height: 1.6;
    color: var(--clr-body);
    background-color: var(--clr-bg);
-   
    align-items: center;
 }
 

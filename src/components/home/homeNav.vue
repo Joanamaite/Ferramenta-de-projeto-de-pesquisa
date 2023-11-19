@@ -24,8 +24,8 @@
                   d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
               </svg>
             </button>
+           
             <!--header dos professores-->
-
             <div v-if="userType === 'professor'" class="ajustando">
 
               <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
@@ -150,7 +150,6 @@ export default {
         { id: 8, name: 'Design de móveis' },
         { id: 9, name: 'Eletrotécnica' },
         { id: 10, name: 'Móveis' },
-      
       ],
     }
   },
@@ -158,13 +157,11 @@ export default {
     window.addEventListener('resize', this.handleResize);
   },
 
-
   methods: {
     redirectAndCloseMenu(path) {
       this.$router.push(path); // Redirecionar para a página desejada
       this.isMenuOpen = false; // Fechar o menu
     },
-
 
     updateUserTypeFromCookies() {
       const userType = Cookies.get('userType');
@@ -180,7 +177,6 @@ export default {
 
       this.$router.push('/');
       window.location.reload();
-
     },
     escola() {
       window.open("http://www.cimol.g12.br/", "_blank"); //leva para o site do cimol
@@ -222,11 +218,14 @@ export default {
       if (screenWidth > 675) {
         navigationHeader.classList.remove("menu-aberto");
       }
+
     },
+
     toggleMenu() {
       const navigationHeader = document.querySelector(".navigation_header");
       navigationHeader.classList.toggle("menu-open");
     },
+
     toggleSidebar() {
       const navigationHeader = document.getElementById('navigation_header');
       navigationHeader.classList.toggle("showSidebar");
@@ -241,20 +240,18 @@ export default {
         content.classList.remove('showSidebar');
       }, 300);
     },
+    
     closeSidebar() {
       const navigationHeader = document.getElementById('navigation_header');
       navigationHeader.classList.remove("showSidebar");
       const content = document.getElementById('content');
       content.classList.remove("showSidebar");
     },
-
-
   },
 };
 </script>
 
 <style scoped>
-
 * {
   margin: 0;
   padding: 0;
@@ -302,13 +299,10 @@ export default {
   margin-left: 3%;
 }
 
-
-
 .logo_header {
   height: 8.5vh;
   margin-bottom: 1rem;
 }
-
 
 .btn_icon_header {
   background-color: transparent;
@@ -322,14 +316,11 @@ export default {
   background-color: transparent;
 }
 
-
-
 .img_logo_header {
   width: 35px;
 }
 
-.header,
-.navigation_header {
+.header, .navigation_header {
   display: flex;
   flex-direction: row;
   align-items: center;
