@@ -172,10 +172,11 @@ export default {
               (userType == 'aluno' && response.data.user.professor === 0)) {
               //salvando informações nos cookies definindo seu tempo 
               axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-                Cookies.set('token', response.data.token, { expires: 8 / 24 });
+        Cookies.set('token', response.data.token, { expires: 8 / 24 });
         localStorage.setItem('token', response.data.token);
         Cookies.set('userType', userType, { expires: 8 / 24 });
-        Cookies.set('userName', response.data.user.nome, { expires: 8 / 24 }); // Alteração aqui
+        Cookies.set('userName', response.data.user.nome, { expires: 8 / 24 }); 
+        Cookies.set('userEmail', response.data.user.email, { expires: 8 / 24 }); 
         Cookies.set('id', response.data.user.id, { expires: 8 / 24 });
               if (userType == 'professor') {
 

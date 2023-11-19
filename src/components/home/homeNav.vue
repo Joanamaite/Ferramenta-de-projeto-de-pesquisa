@@ -26,24 +26,56 @@
             </button>
            
             <!--header dos professores-->
-            <div v-if="userType === 'professor'" class="ajustando">
-
+            <!--header dos alunos-->
+            <div  class="ajustando" v-if="userType === 'professor'">
               <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
-
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                  <v-btn class="itens_header col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
+                  <v-btn class="itens_header  col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
                 </template>
                 <v-list class="lista">
-                  <v-list-item @click="cursos(course.id)" v-for="course in courses" :key="course.id">
+                  <v-list-item @click="cursos(course.id)" v-for="course in courses" :key="course.id" class="itemDrop">
                     {{ course.name }}
                   </v-list-item>
                 </v-list>
               </v-menu>
-              <v-btn text class="itens_header " @click="projetos()">PROJETOS</v-btn>
-              
-              <v-btn text class=" itens_header " @click="logout">DESLOGAR</v-btn>
+
+              <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
+
+              <v-container class="fill-height itens_header">
+              <v-row justify="center">
+                <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
+              </v-row>
+            </v-container>
+
+            <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
+              <v-list-item>
+                <v-list-item-avatar>
+                  <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+                </v-list-item-avatar>
+
+                <v-list-item-content>
+                  <v-list-item-title>{{ userName }}</v-list-item-title>
+                  <p class="email">{{userEmail}}</p>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider></v-divider>
+
+              <v-list icon @click="logout" dense>
+                <v-list-item v-for="item in items" :key="item.title" link>
+                  <v-list-item-icon>
+                    <v-icon @click="logout">{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-navigation-drawer>  
             </div>
+
 
             <!--header dos alunos-->
             <div  class="ajustando" v-else-if="userType === 'aluno'">
@@ -61,9 +93,7 @@
 
               <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
 
-              <v-btn text class="button-item itens_header" @click="logout">DESLOGAR</v-btn>
-
-              <!-- <v-container class="fill-height itens_header">
+              <v-container class="fill-height itens_header">
               <v-row justify="center">
                 <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
               </v-row>
@@ -76,14 +106,14 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <v-list-item-title>John Leider</v-list-item-title>
-                  <p class="email">JohnLeider2@educar.rs.gov.br</p>
+                  <v-list-item-title>{{ userName }}</v-list-item-title>
+                  <p class="email">{{userEmail}}</p>
                 </v-list-item-content>
               </v-list-item>
 
               <v-divider></v-divider>
 
-              <v-list dense>
+              <v-list icon @click="logout" dense>
                 <v-list-item v-for="item in items" :key="item.title" link>
                   <v-list-item-icon>
                     <v-icon @click="logout">{{ item.icon }}</v-icon>
@@ -94,7 +124,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-navigation-drawer>  -->
+            </v-navigation-drawer>  
             </div>
             <!--header usuario não logados-->
             <div class="ajustando" v-else>
@@ -129,6 +159,14 @@ export default {
     userType() {
       return Cookies.get('userType') || 'default';
     },
+    userName() {
+       const userName = Cookies.get('userName');
+       return userName || 'default';
+      },
+      userEmail() {
+       const userEmail = Cookies.get('userEmail');
+       return userEmail || 'default';
+      },
   },
   created() {
     // Verifique se o usuário já fez login e atualize o userType com base nos cookies.
@@ -174,7 +212,7 @@ export default {
       localStorage.removeItem('token');
       Cookies.remove('token');
       Cookies.remove('userType');
-
+      Cookies.remove('userName');
       this.$router.push('/');
       window.location.reload();
     },
