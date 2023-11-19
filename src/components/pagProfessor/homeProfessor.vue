@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="cards row mt-5 mb-5">
+    <div class="cards row mt-5 mb-5 me-2">
       <div
         v-for="project in projects"
         :key="project.id_projeto"
