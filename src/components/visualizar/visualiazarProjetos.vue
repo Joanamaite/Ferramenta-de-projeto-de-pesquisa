@@ -181,10 +181,10 @@ export default {
       ) {
         return true;
       }
-
       return false;
     }
   },
+
   async created() {
     const projetoId = this.$route.params.id;
     const orientadorId = this.$route.query.orientadorId;
@@ -200,11 +200,9 @@ export default {
     }
   },
 
-
-
   methods: {
-
     getAutoresNome(projeto) {
+      
   try {
     const autores = JSON.parse(projeto.autores);
     if (autores && Array.isArray(autores) && autores.length > 0) {

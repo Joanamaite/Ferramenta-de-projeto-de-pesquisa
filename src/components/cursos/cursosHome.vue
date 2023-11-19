@@ -4,7 +4,7 @@
      <div
   class="card col-sm-6 col-md-4 col-lg-3">
         <div class="card__img">
-          <img :src="projects.arquivo" :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }" />
+          <img :src="projects.logo_projeto" :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }" />
         </div>
         <div class="card__body">
           <h2 class="card__head">{{ projects.tema }}</h2>

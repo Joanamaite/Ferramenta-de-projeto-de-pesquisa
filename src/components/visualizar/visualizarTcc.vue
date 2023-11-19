@@ -39,7 +39,7 @@
         <div  class="expansion">
         <v-expansion-panels inset class="my-3 expansion">
               <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header">
+                <v-expansion-panel-header class="expansion-header fadeIn">
                   <div class="title">O tema do projeto</div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -53,7 +53,7 @@
             </v-expansion-panels>
             <v-expansion-panels inset class="my-3 ">
               <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header">
+                <v-expansion-panel-header class="expansion-header fadeIn">
                   <div class="title">Problema</div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -67,7 +67,7 @@
             </v-expansion-panels>
                  <v-expansion-panels inset class="my-3 ">
               <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header" >
+                <v-expansion-panel-header class="expansion-header">
                   <div class="title">Objetivo geral</div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -82,7 +82,7 @@
             <v-expansion-panels inset class="my-3">
               <v-expansion-panel>
                 <v-expansion-panel-header class="expansion-header">
-                  <div class="title">Objetivo especifico</div>
+                  <div class="title">Objetivos específicos</div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <div>
@@ -299,16 +299,13 @@ export default {
     }
 
   },
-
 };
-
-
 </script>
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Fondamento&family=IM+Fell+French+Canon&family=Inter&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Brygada+1918&display=swap');
+
 .mensagem-deletado {
   background-color: #8a0000;
   color: #fff;
@@ -320,30 +317,50 @@ export default {
   transform: translate(-50%, -50%);
   z-index: 999;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* Desloca para cima para um efeito suave */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .expansion {
   width: 100%;
   color: #000;
-  justify-content:center;
-  
+  justify-content: center;
 }
 
-
 .expansion-panels {
-  width: 100%; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  transition: box-shadow 0.3s ease;
 }
 
 .expansion-panel-content {
-  width: 100%; 
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  animation: fadeIn 0.5s ease-in-out; /* Adicione a animação de fade-in */
 }
 
 .expansion-header {
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .expansion-header.active {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 }
 
+.expansion-content {
+  padding: 15px;
+}
 
 .three-body {
   --uib-size: 35px;
