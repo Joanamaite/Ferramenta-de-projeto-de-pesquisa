@@ -137,11 +137,7 @@
   </svg>
   Projeto finalizado
 </a>
-
-
-
   </div>
-
           </div>
           <v-col cols="12" sm="4" class="float-end">
     <div class="botoes-container d-flex justify-end">

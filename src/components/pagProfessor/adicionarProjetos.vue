@@ -24,31 +24,32 @@
 
         <!-- Container principal -->
         <div class="container d-flex align-items-center justify-content-center mx-auto">
-
             <!-- Linha de formulário -->
             <div class="row">
-                <!-- Seleção de Alunos -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
-                    <v-combobox v-model="alunosSelecionados" :items="alunosDisponiveis" label="Selecione um Aluno"
-                        item-text="nome" item-value="id" :search-input.sync="alunoSearch" chips clearable multiple
-                        hide-details="auto" @change="validateAlunosSelecionados"></v-combobox>
-                </div>
-
-                <!-- Seleção de Orientador -->
+           
+             <!-- Seleção de Orientador -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
                     <v-combobox v-model="orientadorSelecionado" :items="professoresDisponiveis"
                         label="Selecione um orientador" item-text="nome" item-value="id"
                         :search-input.sync="orientadorSearch" chips clearable placeholder="Selecione um orientador">
                     </v-combobox>
                 </div>
+            
+                <!-- Seleção de Alunos -->
+                <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
+                    <v-combobox v-model="alunosSelecionados" :items="alunosDisponiveis" label="Selecione um aluno"
+                        item-text="nome" item-value="id" :search-input.sync="alunoSearch" chips clearable multiple
+                        hide-details="auto" @change="validateAlunosSelecionados"></v-combobox>
+                </div>
 
+               
                 <!-- Campo de Título -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
                     <v-text-field label="Título" hide-details="auto" class="input rounded-counter" filled dense rounded
                         elevation="2" maxlength="100" :value="titulo" v-model="titulo"
-                        @input="limitCharCount('titulo', 100)">
+                        @input="limitCharCount('titulo', 200)">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.titulo }}/100</div>
+                            <div class="char-counter">{{ charCount.titulo }}/200</div>
                         </template>
                     </v-text-field>
                 </div>
@@ -56,9 +57,9 @@
                 <!-- Campo de Tema -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
                     <v-text-field label="Tema" hide-details="auto" class="input rounded-counter" filled dense rounded
-                        elevation="3" maxlength="45" :value="tema" v-model="tema" @input="limitCharCount('tema', 45)">
+                        elevation="3" maxlength="45" :value="tema" v-model="tema" @input="limitCharCount('tema', 100)">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.tema }}/45</div>
+                            <div class="char-counter">{{ charCount.tema }}/100</div>
                         </template>
                     </v-text-field>
                 </div>
@@ -66,9 +67,9 @@
                 <!-- Campo de Problema -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg ">
                     <v-textarea label="Problema" hide-details="auto" class="input" filled dense rounded elevation="3"
-                        maxlength="200" v-model="problema" @input="limitCharCount('problema', 200)">
+                        maxlength="200" v-model="problema" @input="limitCharCount('problema', 350)">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.problema }}/200</div>
+                            <div class="char-counter">{{ charCount.problema }}/350</div>
                         </template>
                     </v-textarea>
                 </div>
@@ -77,9 +78,9 @@
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
                     <v-textarea label="Objetivo geral" hide-details="auto" class="input rounded-counter mensagem" filled
                         dense rounded elevation="2" maxlength="200" :value="objetivo_geral" v-model="objetivo_geral"
-                        rows="4" @input="limitCharCount('objetivo_geral', 200)">
+                        rows="4" @input="limitCharCount('objetivo_geral', 300)">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.objetivo_geral }}/200</div>
+                            <div class="char-counter">{{ charCount.objetivo_geral }}/300</div>
                         </template>
                     </v-textarea>
                 </div>
@@ -87,10 +88,10 @@
                 <!-- Campo de Objetivo Específico -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5  shadow-lg">
                     <v-textarea label="Objetivos específicos" hide-details="auto" class="input" filled dense rounded
-                        elevation="3" maxlength="255" :value="objetivo_especifico" v-model="objetivo_especifico"
-                        @input="limitCharCount('objetivo_especifico', 255)">
+                        elevation="3" maxlength="350" :value="objetivo_especifico" v-model="objetivo_especifico"
+                        @input="limitCharCount('objetivo_especifico', 350)">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.objetivos_especificos }}/255</div>
+                            <div class="char-counter">{{ charCount.objetivos_especificos }}/350</div>
                         </template>
                     </v-textarea>
                 </div>
@@ -98,9 +99,9 @@
                 <!-- Campo de Resumo -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5 shadow-lg">
                     <v-textarea label="Resumo" hide-details="auto" class="input mensagem" filled dense rounded elevation="3"
-                        v-model="resumo" rows="4" @input="limitCharCount('resumo', 300)" maxlength="300" :required="true">
+                        v-model="resumo" rows="4" @input="limitCharCount('resumo', 400)" maxlength="400" :required="true">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.resumo }}/300</div>
+                            <div class="char-counter">{{ charCount.resumo }}/400</div>
                         </template>
                     </v-textarea>
                 </div>
@@ -108,9 +109,9 @@
                 <!-- Campo de Abstract -->
                 <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
                     <v-textarea label="Abstract" hide-details="auto" class="input" filled dense rounded elevation="3"
-                        v-model="abstract" @input="limitCharCount('abstract', 300)" maxlength="300">
+                        v-model="abstract" @input="limitCharCount('abstract', 400)" maxlength="400">
                         <template v-slot:append>
-                            <div class="char-counter">{{ charCount.abstract }}/300</div>
+                            <div class="char-counter">{{ charCount.abstract }}/400</div>
                         </template>
                     </v-textarea>
                 </div>
