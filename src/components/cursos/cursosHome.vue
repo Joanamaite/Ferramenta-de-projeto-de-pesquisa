@@ -163,31 +163,30 @@ body {
 }
 
 .card__btn {
-  display: inline-block;
   color: var(--clr-gray);
   font-weight: bold;
   font-size: 1rem;
-  padding: .6em 2em;
+
   border: 2px solid var(--clr-border);
   border-radius: 5px;
   transition: all 250ms ease-in-out;
   background-color: #fff;
-  color:#171e35;
+  color: #171e35;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .card__btn:hover,
 .card__btn.active {
-
   background-color: #ffffff;
   box-shadow: 0 10px 17px -7px #ffffff;
   color: #1b2f4a;
 }
+
 .card__btn.active {
-   background-color: #fff;
-   border: none;
-   color: #171e35;
-   box-shadow: 0 10px 17px -7px #1B2F4A;
+  background-color: #fff;
+  border: none;
+  color: #171e35;
+  box-shadow: 0 10px 17px -7px #1B2F4A;
 }
 
 
