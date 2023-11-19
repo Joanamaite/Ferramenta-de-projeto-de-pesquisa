@@ -3,10 +3,10 @@
     <div>
         <!-- Seção de Título -->
         <div>
-            <div class="col-sm-6  container">
-                <h1 class="tituloProjetos d-flex">ADICIONE SEU PROJETO</h1>
-            </div>
-        </div>
+    <div class="col-sm-12 container d-flex justify-content-center align-items-center">
+      <h1 class="tituloProjetos animated-title">ADICIONE SEU PROJETO</h1>
+    </div>
+  </div>
 
         <!-- Exibição do Spinner durante o carregamento -->
         <v-col cols="12" v-if="loading">
@@ -182,7 +182,7 @@
 
         <!-- Controle de Privacidade -->
       <div>
-            <label for="privacyToggle" class="toggle-label ms-5">Tornar {{ isPrivate ? 'Privado' : 'Público' }}</label>
+            <label for="privacyToggle" class="toggle-label ms-5">Tornar {{ isPrivate ? 'Público' : 'Privado' }} ?</label>
             <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
                 :checked="isPrivate">
         </div>
@@ -551,6 +551,22 @@ export default {
     --primary-color: #1b4a3c;
 }
 
+.animated-title {
+  position: relative;
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .three-body {
     --uib-size: 35px;
     --uib-speed: 0.8s;
@@ -773,19 +789,19 @@ input[type="file"] {
 }
 
 .container {
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
 .linhaAzul {
-    width: 85%;
-    height: 4px;
+    width: 100%;
+    height: 3px;
     background-color: #1B2F4A;
-    margin-left: 4rem;
 }
 
 .tituloProjetos {
     font-family: 'Inika', serif;
-    margin-top: 5rem;
+    margin-top: 6rem;
     margin-left: 5rem;
 }
 
@@ -835,4 +851,5 @@ input[type="file"] {
     .input {
         border: none !important;
     }
-}</style>
+}
+</style>

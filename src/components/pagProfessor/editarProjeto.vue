@@ -3,7 +3,7 @@
     <div>
         <div>
             <div class="col-sm-6  container">
-                <h1 class="tituloProjetos d-flex">EDITE SEU PROJETO</h1>
+                <h1 class="tituloProjetos d-flex">EDIÇÃO DE PROJETO</h1>
             </div>
         </div>
         <hr class="linhaAzul">
@@ -81,8 +81,9 @@
 
             </div>
         </div>
-        <div>
-            <label for="privacyToggle" class="toggle-label ms-5">Projeto {{ isPrivate ? 'Privado' : 'Público' }}</label>
+         <!-- Controle de Privacidade -->
+            <div>
+            <label for="privacyToggle" class="toggle-label ms-5">Tornar {{ isPrivate ? 'Público' : 'Privado' }} ?</label>
             <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
                 :checked="isPrivate">
         </div>
@@ -548,17 +549,15 @@ input[type="file"] {
 }
 
 .linhaAzul {
-    width: 85%;
-    height: 4px;
+    width: 100%;
+    height: 3px;
     background-color: #1B2F4A;
-    margin-left: 4rem;
 }
 
 .tituloProjetos {
     font-family: 'Inika', serif;
     margin-top: 5rem;
     margin-left: 5rem;
-
 }
 
 .input {
