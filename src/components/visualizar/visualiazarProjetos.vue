@@ -82,7 +82,7 @@
             <v-expansion-panels inset class="my-3">
               <v-expansion-panel>
                 <v-expansion-panel-header class="expansion-header">
-                  <div class="title">Objetivo especifico</div>
+                  <div class="title">Objetivos específicos</div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <div>

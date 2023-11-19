@@ -39,18 +39,18 @@
                     {{ course.name }}
                   </v-list-item>
                 </v-list>
-
               </v-menu>
               <v-btn text class="itens_header " @click="projetos()">PROJETOS</v-btn>
+              
               <v-btn text class=" itens_header " @click="logout">DESLOGAR</v-btn>
             </div>
 
             <!--header dos alunos-->
-            <div class="header itens_header" v-else-if="userType === 'aluno'">
-              <v-btn text class="button-item itens_header" @click="professor()">INÍCIO</v-btn>
+            <div  class="ajustando" v-else-if="userType === 'aluno'">
+              <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                  <v-btn class="itens_header itens_header col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
+                  <v-btn class="itens_header  col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
                 </template>
                 <v-list class="lista">
                   <v-list-item @click="cursos(course.id)" v-for="course in courses" :key="course.id" class="itemDrop">
@@ -61,7 +61,7 @@
 
               <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
 
-              <v-btn text class="button-item itens_header " @click="logout">DESLOGAR</v-btn>
+              <v-btn text class="button-item itens_header" @click="logout">DESLOGAR</v-btn>
 
               <!-- <v-container class="fill-height itens_header">
               <v-row justify="center">
@@ -295,10 +295,6 @@ export default {
   box-shadow: none !important;
 }
 
-.escritafooter {
-  margin-left: 3%;
-}
-
 .logo_header {
   height: 8.5vh;
   margin-bottom: 1rem;
@@ -355,7 +351,8 @@ export default {
 
 .itens_header {
   width: 4vw;
-  margin-left: 3rem;
+  margin-left: 3.5rem;
+  margin-right: 0.3rem; 
 }
 
 @media screen and (max-width: 675px) {
@@ -366,7 +363,7 @@ export default {
     height: 100vh;
     width: 60vw;
     margin-left: -100vw;
-    background-color: #1B2F4A !important;
+    background-color: #1B2F4A;
     backdrop-filter: blur(50px);
     z-index: 1;
     transform-origin: top right;

@@ -6,8 +6,9 @@
         <div class="row align-items-center">
           <div class="col-sm-4 col-md-6">
              <h1 class="escreva fade-up">Área do Aluno</h1>
-            <p class="escritaProjetos fade-up mt-4">Esta é sua área de projetos. Aqui você poderá criar, alterar e
-              excluir seus projetos compartilhados. Use este espaço para se organizar e orientar.</p>
+            <p class="escritaProjetos fade-up mt-4">Esta é a sua área de projetos. Aqui, você pode criar,
+             editar e excluir seus projetos em colaboração com seu orientador. 
+             Utilize este espaço para se organizar e receber orientação.</p>
           </div>
           <div class="col-md-6 col-sm-6">
             <img src="Images/projetos.png" class="imagem img-fluid">
@@ -18,12 +19,13 @@
 
     <!-- Seção do Professor -->
     <div v-if="userType === 'professor'" class="imagemFundo col-sm-6 col-md-12">
-      <div style="height: auto; display: flex; flex-direction: column;">
+       <div class="container" style="height: auto; display: flex; flex-direction: column;">
         <div class="row align-items-center">
           <div class="col-sm-4 col-md-6">
-            <h1 class="escreva fade-up">Área do Professor</h1>
-            <p class="escritaProjetos fade-up mt-4">Esta é sua área de projetos. Aqui você poderá criar, alterar e
-              excluir seus projetos compartilhados. Use este espaço para se organizar e orientar.</p>
+            <h1 class="escreva fade-up">Área do Orientador</h1>
+            <p class="escritaProjetos fade-up mt-4">Esta é sua área de orientação. 
+            Aqui você poderá criar, revisar e gerenciar projetos compartilhados com seus orientandos.
+             Utilize este espaço para se organizar e fornecer orientação.</p>
           </div>
           <div class="col-md-6 col-sm-6">
             <img src="Images/projetos.png" class="imagem img-fluid">
