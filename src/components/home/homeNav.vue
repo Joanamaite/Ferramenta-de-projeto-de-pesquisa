@@ -42,7 +42,7 @@
               </v-menu>
 
               <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
-              <v-container class="ms-5">
+              <v-container>
               <v-row justify="center">
                 <v-menu
                   bottom
@@ -547,9 +547,11 @@ export default {
     opacity: 0;
   }
   .container {
-    margin-left: 0% !important;
+    margin-left: 0 !important;
   }
-  
+  .v-application--is-ltr {
+    margin-left: 0 !important;
+  }
 
   .ajustando {
     flex-direction: column;
