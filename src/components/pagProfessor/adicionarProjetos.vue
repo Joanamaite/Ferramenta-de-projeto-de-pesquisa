@@ -500,7 +500,7 @@ export default {
                     if (!this[field] || (Array.isArray(this[field]) && this[field].length === 0)) {
                         // Verifique se o campo está vazio ou se é um array vazio
                         this.errorMessages[field] = `Por favor, preencha o campo ${field.replace(/_/g, ' ')}.`;
-                        this.mensagem = true;
+                        this.loading= false;
                         setTimeout(() => {
                             for (const field of this.requiredFields) {
                                 this.errorMessages[field] = '';
