@@ -10,7 +10,7 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <div v-if="projetoDeletado" class="loading-spinner">
+          <div v-if="loadingDelecao" class="loading-spinner">
             <div class="three-body">
               <div class="three-body__dot"></div>
               <div class="three-body__dot"></div>
@@ -18,6 +18,7 @@
             </div>
           </div>
         </v-col>
+        <v-alert  v-if="projetoDeletado"   color="red" shaped type="info" class="mensagem-container float-end">Projeto deletado</v-alert>
       </v-row>
       <v-row>
         <v-col cols="12" sm="4">
@@ -29,124 +30,134 @@
           <p class="estiloEscrita">
             Orientador: {{ getOrientadorNome(projeto) || '' }}
           </p>
-             </v-col>
-          <v-col cols='12' sm="4" >
+        </v-col>
+        <v-col cols='12' sm="4">
           <p class="estiloEscrita"> Publicado em {{ projeto.ano_publicacao || '' }}</p>
         </v-col>
       </v-row>
 
-      <div class="expansion align-items-center justify-content-center mx-auto" col="12" >
-        <div  class="expansion">
-        <v-expansion-panels inset class="my-3 expansion">
-              <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header">
-                  <div class="title">O tema do projeto</div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div>
-                    <p>
-                      {{ projeto.tema || '' }}
-                    </p>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-            <v-expansion-panels inset class="my-3 ">
-              <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header">
-                  <div class="title">Problema</div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div>
-                    <p>
-                      {{ projeto.problema|| '' }}
-                    </p>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-                 <v-expansion-panels inset class="my-3 ">
-              <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header" >
-                  <div class="title">Objetivo geral</div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div>
-                    <p>
-                      {{ projeto.objetivo_geral || '' }}
-                    </p>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-            <v-expansion-panels inset class="my-3">
-              <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header">
-                  <div class="title">Objetivos específicos</div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div>
-                    <p>
-                      {{ projeto.objetivo_especifico || '' }}
-                    </p>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-             <v-expansion-panels inset class="my-3">
-              <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header">
-                  <div class="title">Resumo</div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div>
-                    <p>
-                      {{ projeto.resumo || '' }}
-                    </p>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-             <v-expansion-panels inset class="my-3">
-              <v-expansion-panel>
-                <v-expansion-panel-header class="expansion-header" >
-                  <div class="title">Abstract</div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div>
-                    <p>
-                      {{ projeto.abstract || '' }}
-                    </p>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
+      <div class="expansion align-items-center justify-content-center mx-auto" col="12">
+        <div class="expansion">
+          <v-expansion-panels inset class="my-3 expansion">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="expansion-header">
+                <div class="title">O tema do projeto</div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <p>
+                    {{ projeto.tema || '' }}
+                  </p>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-expansion-panels inset class="my-3 ">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="expansion-header">
+                <div class="title">Problema</div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <p>
+                    {{ projeto.problema || '' }}
+                  </p>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-expansion-panels inset class="my-3 ">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="expansion-header">
+                <div class="title">Objetivo geral</div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <p>
+                    {{ projeto.objetivo_geral || '' }}
+                  </p>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-expansion-panels inset class="my-3">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="expansion-header">
+                <div class="title">Objetivos específicos</div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <p>
+                    {{ projeto.objetivo_especifico || '' }}
+                  </p>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-expansion-panels inset class="my-3">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="expansion-header">
+                <div class="title">Resumo</div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <p>
+                    {{ projeto.resumo || '' }}
+                  </p>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-expansion-panels inset class="my-3">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="expansion-header">
+                <div class="title">Abstract</div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <p>
+                    {{ projeto.abstract || '' }}
+                  </p>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </div>
 
-             <div>
- <a v-if="projeto.url_projeto && projeto.url_projeto !== ''" :href="projeto.url_projeto" target="_blank" class="estiloEscritaGrande mt-5 mb-5" style="color: #1B2F4A; text-decoration: none; display: flex; align-items: center;">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" style="width: 1.5em; height: 1.5em; margin-right: 0.5em;">
-    <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM111 257.1l26.8 89.2 31.6-90.3c3.4-9.6 12.5-16.1 22.7-16.1s19.3 6.4 22.7 16.1l31.6 90.3L273 257.1c3.8-12.7 17.2-19.9 29.9-16.1s19.9 17.2 16.1 29.9l-48 160c-3 10-12 16.9-22.4 17.1s-19.8-6.2-23.2-16.1L192 336.6l-33.3 95.3c-3.4 9.8-12.8 16.3-23.2 16.1s-19.5-7.1-22.4-17.1l-48-160c-3.8-12.7 3.4-26.1 16.1-29.9s26.1 3.4 29.9 16.1z" fill="#4285F4"/>
-  </svg>
-  Visite o Projeto
-</a>
+        <div>
+          <a v-if="projeto.url_projeto && projeto.url_projeto !== ''" :href="projeto.url_projeto" target="_blank"
+            class="estiloEscritaGrande mt-5 mb-5"
+            style="color: #1B2F4A; text-decoration: none; display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+              style="width: 1.5em; height: 1.5em; margin-right: 0.5em;">
+              <path
+                d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM111 257.1l26.8 89.2 31.6-90.3c3.4-9.6 12.5-16.1 22.7-16.1s19.3 6.4 22.7 16.1l31.6 90.3L273 257.1c3.8-12.7 17.2-19.9 29.9-16.1s19.9 17.2 16.1 29.9l-48 160c-3 10-12 16.9-22.4 17.1s-19.8-6.2-23.2-16.1L192 336.6l-33.3 95.3c-3.4 9.8-12.8 16.3-23.2 16.1s-19.5-7.1-22.4-17.1l-48-160c-3.8-12.7 3.4-26.1 16.1-29.9s26.1 3.4 29.9 16.1z"
+                fill="#4285F4" />
+            </svg>
+            Visite o Projeto
+          </a>
 
-<a v-if="projeto.arquivo && projeto.arquivo !== ''" :href="projeto.arquivo" target="_blank" class="estiloEscritaGrande mt-5 mb-5" style="color: #1B2F4A; text-decoration: none; display: flex; align-items: center;">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" style="width: 1.5em; height: 1.5em; margin-right: 0.5em;">
-    <path d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z" fill="#FF0000"/>
-  </svg>
-  Projeto finalizado
-</a>
-  </div>
-          </div>
-          <v-col cols="12" sm="4" class="float-end">
-    <div class="botoes-container d-flex justify-end">
-      <v-btn class="botao-editar" v-if="canEditOrDelete" @click="editarProjeto">Editar</v-btn>
-      <v-btn @click="deletarProjeto" v-if="canEditOrDelete" color="red" class="ml-2" dark>
-        Deletar Projeto
-      </v-btn>
-    </div>
-  </v-col>
+          <a v-if="projeto.arquivo && projeto.arquivo !== ''" :href="projeto.arquivo" target="_blank"
+            class="estiloEscritaGrande mt-5 mb-5"
+            style="color: #1B2F4A; text-decoration: none; display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+              style="width: 1.5em; height: 1.5em; margin-right: 0.5em;">
+              <path
+                d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"
+                fill="#FF0000" />
+            </svg>
+            Projeto finalizado
+          </a>
+        </div>
+      </div>
+      <v-col cols="12" sm="4" class="float-end">
+        <div class="botoes-container d-flex justify-end">
+          <v-btn class="botao-editar" v-if="canEditOrDelete" @click="editarProjeto">Editar</v-btn>
+          <v-btn @click="deletarProjeto" v-if="canEditOrDelete" color="red" class="ml-2" dark>
+            Deletar Projeto
+          </v-btn>
+        </div>
+      </v-col>
     </v-container>
     <v-container v-else>
       <div>
@@ -173,7 +184,7 @@ export default {
     };
   },
 
-    computed: {
+  computed: {
     canEditOrDelete() {
       if (!this.projeto || !this.currentUserId) {
         return false;
@@ -211,31 +222,31 @@ export default {
 
   methods: {
     getAutoresNome(projeto) {
-  try {
-    const autores = JSON.parse(projeto.autores);
+      try {
+        const autores = JSON.parse(projeto.autores);
 
-    if (autores && Array.isArray(autores) && autores.length > 0) {
-      const numeroDeAutores = autores.length;
+        if (autores && Array.isArray(autores) && autores.length > 0) {
+          const numeroDeAutores = autores.length;
 
-      if (numeroDeAutores === 1) {
-        return `Autor: ${autores[0].nome}`;
-      } else if (numeroDeAutores === 2) {
-        return `Autores: ${autores[0].nome} e ${autores[1].nome}`;
-      } else if (numeroDeAutores > 2) {
-        const nomes = autores.map(autor => autor.nome);
-        const autoresString = nomes.slice(0, -1).join(', ') + ` e ${nomes.slice(-1)}`;
-        return `Autores: ${autoresString}`;
+          if (numeroDeAutores === 1) {
+            return `Autor: ${autores[0].nome}`;
+          } else if (numeroDeAutores === 2) {
+            return `Autores: ${autores[0].nome} e ${autores[1].nome}`;
+          } else if (numeroDeAutores > 2) {
+            const nomes = autores.map(autor => autor.nome);
+            const autoresString = nomes.slice(0, -1).join(', ') + ` e ${nomes.slice(-1)}`;
+            return `Autores: ${autoresString}`;
+          }
+        }
+      } catch (error) {
+        console.error('Error parsing autores:', error);
       }
-    }
-  } catch (error) {
-    console.error('Error parsing autores:', error);
-  }
 
-  return '';
-},
+      return '';
+    },
     getOrientadorNome(projeto) {
       try {
-        const orientadores= JSON.parse(projeto.orientadores);
+        const orientadores = JSON.parse(projeto.orientadores);
         if (orientadores && Array.isArray(orientadores) && orientadores.length > 0) {
           return orientadores.map(orientador => orientador.nome).join(', ');
         }
@@ -279,9 +290,9 @@ export default {
         };
 
         const projetoId = this.$route.params.id;
+        this.loadingDelecao = true;
 
 
-        this.projetoDeletado = true;
         const response = await axios.delete(`https://api-thesis-track.vercel.app/projeto/delete/${projetoId}`, { headers });
         console.log(response)
         // Desativar o estado de carregamento após um curto atraso
@@ -320,6 +331,7 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Fondamento&family=IM+Fell+French+Canon&family=Inter&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Brygada+1918&display=swap');
+
 .mensagem-deletado {
   background-color: #8a0000;
   color: #fff;
@@ -331,23 +343,34 @@ export default {
   transform: translate(-50%, -50%);
   z-index: 999;
 }
-.ano{
-    display: block;
+
+.ano {
+  display: block;
 }
+
 .expansion {
   width: 100%;
   color: #000;
-  justify-content:center;
-  
+  justify-content: center;
+
+}
+.mensagem-container {
+  position: fixed;
+  top: 20%;
+  left: 30px; 
+  transform: translateY(-50%);
+  z-index: 999;
+  background-color: rgb(189, 14, 14)818  !important ;
+  color:#fff !important ;
 }
 
 
 .expansion-panels {
-  width: 100%; 
+  width: 100%;
 }
 
 .expansion-panel-content {
-  width: 100%; 
+  width: 100%;
 }
 
 .expansion-header {
@@ -355,7 +378,7 @@ export default {
 }
 
 .expansion-header.active {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 }
 
 
@@ -418,9 +441,12 @@ export default {
   left: 0;
   transform: translateX(116.666%);
 }
+
 .icon {
-  font-size: 1.2em; /* Ajuste conforme necessário */
-  margin-right: 5px; /* Adapte conforme desejado */
+  font-size: 1.2em;
+  /* Ajuste conforme necessário */
+  margin-right: 5px;
+  /* Adapte conforme desejado */
 }
 
 
@@ -511,9 +537,11 @@ export default {
 .botao-deletar {
   width: 30%;
 }
-.ano{
+
+.ano {
   margin-top: 6rem;
 }
+
 .titulo {
   font-family: 'Fondamento', cursive;
   display: flex;
@@ -668,5 +696,4 @@ button {
   .tamanho {
     display: inline-block;
   }
-}
-</style>
+}</style>

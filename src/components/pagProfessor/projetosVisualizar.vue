@@ -23,12 +23,12 @@
         <div class="row align-items-center">
           <div class="col-sm-4 col-md-6">
             <h1 class="escreva fade-up">Área do Orientador</h1>
-            <p class="escritaProjetos fade-up mt-4">Esta é sua área de orientação. 
+            <p class="escritaProjetos fade-up mt-6">Esta é sua área de orientação. 
             Aqui você poderá criar, revisar e gerenciar projetos compartilhados com seus orientandos.
              Utilize este espaço para se organizar e fornecer orientação.</p>
           </div>
           <div class="col-md-6 col-sm-6">
-            <img src="Images/projetos.png" class="imagem img-fluid">
+           <img src="Images/imagem8.png" class="imagem img-fluid">
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Inika&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
-*, *::before,*::after {
+ *::before,::after {
    box-sizing: border-box;
    margin: 0;
    padding: 0;
@@ -234,7 +234,7 @@ body {
 .cards {
   display: flex;
   justify-content: space-around;
-  gap: 20px; /* Adicionado espaço uniforme entre os cards */
+  gap: 20px; 
   width: 100%;
 }
 
@@ -346,7 +346,7 @@ body {
 }
 
 .imagemilustrada {
-  align-itens: center;
+  align-items: center;
   margin-left:35rem;
   width: 15vw;
 }
@@ -380,10 +380,9 @@ margin:0;
 }
 
 .imagem {
-  width: 40vw;
-  margin-top: 4rem;
-  margin-left: 2rem;
- 
+  width: 75%;
+  margin-top: 2rem;
+  margin-left: 5rem;
 }
 
 .maisProjeto{

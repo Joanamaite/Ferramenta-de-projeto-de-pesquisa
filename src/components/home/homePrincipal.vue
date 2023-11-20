@@ -1,24 +1,25 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
-    <div class="imagemFundo col-sm-12">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-6 col-md-6">
-            <h1 class="escreva" :aspect-ratio="16 / 9">Veja nossos projetos sendo construídos</h1>
-          </div>
-          <div class="col-sm-6 col-md-6">
-            <img src="Images/Imagem5.svg" class="imagem">
-          </div>
-        </div>
+     <div class="parallax-section">
+      <div class="parallax-overlay">
+        <h1 class="fade-in-up">Explorando o Conhecimento dos Estudantes</h1>
+        <p class="fade-in-up">
+          Seja inspirado pelos projetos excepcionais de estudantes que foram aprovados pela banca,
+          ou mergulhe na coragem daqueles que compartilharam publicamente seus projetos para contribuir com o aprendizado de todos.
+        </p>
       </div>
     </div>
+
+    <div class="content-section">
+      <h1 class="fade-in">Projetos Aprovados e Compartilhados</h1>
+    </div>
+
 
     <div class="cards row mt-5 mb-5">
       <div
         v-for="project in projects"
         :key="project.id_projeto"
-        class="card col-sm-6 col-md-4 col-lg-3 d-flex"
+        class="card col-sm-6 col-md-4 col-lg-3 d-flex animate_animated animate_fadeInUp"
       >
         <div class="card__img">
           <img
@@ -96,7 +97,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Inika&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
-*, *::before,*::after {
+*::before,::after {
    box-sizing: border-box;
    margin: 0;
    padding: 0;
@@ -126,6 +127,53 @@ body {
    color: var(--clr-body);
    background-color: var(--clr-bg);
    align-items: center;
+}
+
+.parallax-section {
+  height: 600px; 
+  background-image: url('/public/Images/imagem5.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff; 
+  text-align: center;
+  font-size: 28px;
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s forwards;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 9s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.parallax-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+  padding: 20px;
+}
+
+.content-section {
+  padding: 40px;
+  text-align: center;
+  background-color: #ffffff; /* Cor de fundo da seção de conteúdo */
+  color: #333333; /* Cor do texto na seção de conteúdo */
+  line-height: 1.6;
 }
 
 .cards {
@@ -217,6 +265,10 @@ body {
       width: 100%;
       gap: 2rem; 
       justify-items: center;
+   }
+
+   .parallax-section{
+    margin-top: 2rem;
    }
 
    .card {

@@ -1,5 +1,33 @@
 <!-- eslint-disable -->
 <template>
+  <div>
+    <v-menu
+      transition="slide-x-transition"
+      bottom
+      right
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="deep-orange"
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Slide X Transition
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+        >
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
   <div class="cards  row  mb-5">
      <div
   class="card col-sm-6 col-md-4 col-lg-3">
@@ -15,6 +43,7 @@
         </a>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -24,6 +53,16 @@ export default {
     model: null,
     autoPlayInterval: null,
     projects: [],
+    dropdownVisible: false,
+      selectedOption: { text: 'Ano de publicação', value: 'hide' },
+      options: [
+        { text: '2020', value: '2020' },
+        { text: '2021', value: '2021' },
+        { text: '2022', value: '2022' },
+        { text: '2023', value: '2023' },
+        { text: '2024', value: '2024' },
+        { text: '2025', value: '2025' },
+      ],
   }),
  
   watch: {
@@ -40,6 +79,25 @@ export default {
   },
 
   methods: {
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    selectOption(option) {
+      this.selectedOption = option;
+      this.dropdownVisible = false;
+
+      // Chame a função de busca de projetos com o ano selecionado
+      this.searchProjectsByYear(option.value);
+    },
+    async searchProjectsByYear(year) {
+      try {
+        const response = await Axios.get(`https://sua-api.com/buscar-projetos/ano/${year}`);
+        this.projects = response.data;
+      } catch (error) {
+        console.error('Erro ao buscar projetos por ano:', error);
+      }
+    },
+
     visualizar(projectId) {
       this.$router.push(`/Visualizar/Projeto/${projectId}`);
     },
@@ -110,7 +168,12 @@ body {
    display: flex;
    align-items: center;
 }
-
+.Button{
+  margin-top: 20% !important;
+}
+.select-styled{
+  z-index: 2;
+}
 .cards {
   display: flex;
   justify-content: space-around;

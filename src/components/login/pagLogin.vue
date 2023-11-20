@@ -12,8 +12,9 @@
                   <div class="card-front">
                     <div v-if="isLoading" class="loading-animation">
 
-                          <div class="spinner"></div>
-                          </div>
+                      <div class="spinner"></div>
+                    </div>
+            
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                       class="bi bi-chevron-left justify-content-start" viewBox="0 0 16 16" @click="Home">
                       <path fill-rule="evenodd"
@@ -94,6 +95,7 @@ export default {
       credenciaisError: false,
       select: '',
       isLoading: false,
+      entrou:false,
     };
   },
 
@@ -139,8 +141,8 @@ export default {
       if (this.selectedOption === 'professor') {
         userType = 'professor';
         this.select = false;
-      } 
-      
+      }
+
       else if (this.selectedOption === 'aluno') {
         userType = 'aluno';
         this.select = false;
@@ -154,7 +156,7 @@ export default {
       this.credenciaisError = false;
       this.select = false;
       //informações que foram enviadas na requisição
-    
+
       const formData = {
         email: this.loginEmail,
         senha: this.loginPassword,
@@ -162,22 +164,22 @@ export default {
       };
 
       this.isLoading = true;
- 
+
       axios.post('https://api-thesis-track.vercel.app/user/login', formData)
         .then((response) => {
           console.log(response);
-
+          this.entrou = true;
           if (response.data.auth) {
             if ((userType == 'professor' && response.data.user.professor === 1) ||
               (userType == 'aluno' && response.data.user.professor === 0)) {
               //salvando informações nos cookies definindo seu tempo 
               axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-        Cookies.set('token', response.data.token, { expires: 8 / 24 });
-        localStorage.setItem('token', response.data.token);
-        Cookies.set('userType', userType, { expires: 8 / 24 });
-        Cookies.set('userName', response.data.user.nome, { expires: 8 / 24 }); 
-        Cookies.set('userEmail', response.data.user.email, { expires: 8 / 24 }); 
-        Cookies.set('id', response.data.user.id, { expires: 8 / 24 });
+              Cookies.set('token', response.data.token, { expires: 8 / 24 });
+              localStorage.setItem('token', response.data.token);
+              Cookies.set('userType', userType, { expires: 8 / 24 });
+              Cookies.set('userName', response.data.user.nome, { expires: 8 / 24 });
+              Cookies.set('userEmail', response.data.user.email, { expires: 8 / 24 });
+              Cookies.set('id', response.data.user.id, { expires: 8 / 24 });
               if (userType == 'professor') {
 
                 this.$router.push('/Professor');
@@ -261,7 +263,13 @@ export default {
     transform: rotate(360deg);
   }
 }
-
+.mensagem-container {
+  position: fixed;
+  top: 20%;
+  left: 30px; 
+  transform: translateY(-50%);
+  z-index: 999;
+}
 .v-input__control {
   display: flex;
   flex-wrap: wrap;

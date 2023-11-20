@@ -9,7 +9,7 @@
         </div>
 
         <!-- Exibição do Spinner durante o carregamento -->
-        <v-col cols="12" v-if="loading">
+        <v-col cols="12">
             <div v-if="loading" class="loading-spinner">
                 <div class="three-body">
                     <div class="three-body__dot"></div>
@@ -18,6 +18,14 @@
                 </div>
             </div>
         </v-col>
+
+        <!-- Alerta de projeto adicionado -->
+        <v-col cols="12" v-if="projetoAdicionado">
+            <v-alert color="green" type="info" shaped class="mensagem-container">
+                Projeto adicionado
+            </v-alert>
+        </v-col>
+
 
         <!-- Linha divisória -->
         <hr class="linhaAzul">
@@ -170,17 +178,30 @@
                 <p class="cor" v-if="pdfAdicionado">PDF adicionado com sucesso</p>
 
                 <!-- Exibição de mensagem de erro -->
-                <div class="col-md-10 col-sm-8 align-self-center mt-5 ">
-                    <div class="text-danger">{{ errorMessages.problema }}</div>
-                    <div class="text-danger">{{ errorMessages.tema }}</div>
-                    <div class="text-danger">{{ errorMessages.titulo }}</div>
-                    <div class="text-danger">{{ errorMessages.objetivo_geral }}</div>
-                    <div class="text-danger">{{ errorMessages.objetivo_especifico }}</div>
-                    <div class="text-danger">{{ errorMessages.resumo }}</div>
-                    <div class="text-danger">{{ errorMessages.abstract }}</div>
-                    <div class="text-danger">{{ errorMessages.ano_publicacao }}</div>
-                    <div class="text-danger">{{ errorMessages.alunosSelecionados }}</div>
-                    <div class="text-danger">{{ errorMessages.orientadorSelecionado }}</div>
+                <div class="col-md-6 col-sm-6 align-self-center mt-5 ">
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.problema !== ''">{{ errorMessages.problema }} </v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.tema !== ''">{{ errorMessages.tema }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.titulo !== ''">{{ errorMessages.titulo }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.objetivo_geral !== ''">{{ errorMessages.objetivo_geral }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.objetivo_especifico !== ''">{{ errorMessages.objetivo_especifico
+                        }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.resumo !== ''">{{ errorMessages.resumo }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.abstract !== ''">{{ errorMessages.abstract }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.ano_publicacao !== ''">{{ errorMessages.ano_publicacao }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.alunosSelecionados !== ''">{{ errorMessages.alunosSelecionados
+                        }}</v-alert>
+                    <v-alert color="orange" dense outlined prominent shaped text type="info"
+                        v-if="mensagem && errorMessages.orientadorSelecionado !== ''">{{ errorMessages.orientadorSelecionado
+                        }}</v-alert>
                 </div>
 
             </div>
@@ -229,7 +250,9 @@ export default {
                 abstract: '',
                 ano_publicacao: '',
             },
+            mensagem: false,
             valueDeterminate: 50,
+            projetoAdicionado: false,
             alunosSelecionados: [],
             alunoSelecionado: { id: null },
             professoresSelecionados: [],
@@ -477,15 +500,17 @@ export default {
                     if (!this[field] || (Array.isArray(this[field]) && this[field].length === 0)) {
                         // Verifique se o campo está vazio ou se é um array vazio
                         this.errorMessages[field] = `Por favor, preencha o campo ${field.replace(/_/g, ' ')}.`;
+                        this.mensagem = true;
                         setTimeout(() => {
-                        for (const field of this.requiredFields) {
-                            this.errorMessages[field] = '';
-                        }
-                    }, 4000);
+                            for (const field of this.requiredFields) {
+                                this.errorMessages[field] = '';
+                                this.mensagem = false;
+                            }
+                        }, 4000);
 
                         return;
                     }
-                  
+
 
                 }
                 console.log(this.field);
@@ -545,27 +570,27 @@ export default {
                     'x-access-token': `${token}`
                 };
                 const response = await axios.post('https://api-thesis-track.vercel.app/projeto/adiciona', formData, { headers });
-                this.mensagemErro = null;
+                this.loading = false;
+                this.projetoAdicionado = true;
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
                 if (response && response.status === 200 && response.data) {
                     console.log(response);
                     const projeto = response.data;
                     const projetoId = projeto.id_projeto;
 
-                    // Redirecione para a rota apropriada com os detalhes do projeto
                     this.$router.push({
                         path: '/Projetos',
                         query: { projetoId: projetoId }
                     });
                 } else {
                     console.error('Resposta inválida:', response);
+                    this.projetoAdicionado = false;
                 }
             } catch (error) {
                 console.error('Erro:', error);
 
                 this.mensagemErro = 'Ocorreu um erro ao adicionar o projeto. Por favor, tente novamente.';
-            } finally {
-
-                this.loading = false;
             }
         }
     }
@@ -583,8 +608,9 @@ export default {
     --background-color: #1B2F4A;
     --primary-color: #1b4a3c;
 }
-*{
-    border:none!important;
+
+* {
+    border: none !important;
 }
 
 .animated-title {
@@ -613,6 +639,14 @@ export default {
     height: var(--uib-size);
     width: var(--uib-size);
     animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+}
+
+.mensagem-container {
+    position: fixed;
+    top: 20%;
+    left: 30px;
+    transform: translateY(-50%);
+    z-index: 999;
 }
 
 .text-danger {

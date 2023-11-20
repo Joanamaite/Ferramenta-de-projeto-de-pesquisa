@@ -18,12 +18,18 @@
                 </div>
             </div>
         </v-col>
+        <!-- Alerta de projeto adicionado -->
+        <v-col cols="12" v-if="projetoSalvo">
+            <v-alert color="green" type="info" shaped class="mensagem-container">
+                Projeto adicionado
+            </v-alert>
+        </v-col>
 
         <div class="container align-items-center justify-content-center mx-auto d-flex ">
             <div class="row">
                 <div class="col-md-10 col-sm-8 align-self-center  shadow-lg">
-                    <v-text-field label="Título" hide-details="auto" @input="atualizarTitulo" class="input" filled dense rounded elevation="2"
-                        v-model="projetoEdit.titulo" maxlength="50">
+                    <v-text-field label="Título" hide-details="auto" @input="atualizarTitulo" class="input" filled dense
+                        rounded elevation="2" v-model="projetoEdit.titulo" maxlength="50">
                     </v-text-field>
 
                 </div>
@@ -121,46 +127,47 @@ import Cookies from 'js-cookie';
 export default {
     data() {
         return {
-      projetoEdit: {
-         titulo: '',
-         tema: '',
-         delimitacao: '',
-         problema: '',
-         resumo: '',
-         abstract: '',
-         publico: "0",
-         objetivo_geral: '',
-         objetivo_especifico: '',
-         logo_projeto: [],
-      },
+            projetoEdit: {
+                titulo: '',
+                tema: '',
+                delimitacao: '',
+                problema: '',
+                resumo: '',
+                abstract: '',
+                publico: "0",
+                objetivo_geral: '',
+                objetivo_especifico: '',
+                logo_projeto: [],
+            },
             charCount: {
-                    titulo: 0,
-                    tema: 0,
-                    delimitacao: 0,
+                titulo: 0,
+                tema: 0,
+                delimitacao: 0,
 
-                },
-                 numeroMaximoAutores: 3,
-                loading: false,
-                mensagemSucesso: null,
-                pdfAdicionado: false,
-                isPrivate: false,
-                alunosSelecionados: [],
-                alunoSelecionado: { id: null },
-                professoresSelecionados: [],
-                professorSelecionado: { id: null },
-                orientadorSelecionados: [],
-                orientadorSelecionado: { id: null },
-                alunosDisponiveis: [],
-                professoresDisponiveis: [],
-                arquivoAdicionado: false,
+            },
+            numeroMaximoAutores: 3,
+            loading: false,
+            mensagemSucesso: null,
+            pdfAdicionado: false,
+            isPrivate: false,
+            alunosSelecionados: [],
+            alunoSelecionado: { id: null },
+            professoresSelecionados: [],
+            professorSelecionado: { id: null },
+            orientadorSelecionados: [],
+            orientadorSelecionado: { id: null },
+            alunosDisponiveis: [],
+            professoresDisponiveis: [],
+            arquivoAdicionado: false,
+            projetoSalvo: false,
         };
-        
+
     },
-        async created() {
+    async created() {
         const projetoId = this.$route.params.id;
 
         if (projetoId) {
-      
+
             await this.fetchProjeto(projetoId);
         }
 
@@ -169,9 +176,9 @@ export default {
     },
 
     methods: {
-         atualizarTitulo() {
-      console.log('Título atualizado:', this.projetoEdit.titulo);
-   },
+        atualizarTitulo() {
+            console.log('Título atualizado:', this.projetoEdit.titulo);
+        },
         limitCharCount(field, limit) {
             if (this.projetoEdit[field].length > limit) {
                 this.projetoEdit[field] = this.projetoEdit[field].substr(0, limit);
@@ -316,7 +323,7 @@ export default {
                 console.log(response);
 
                 this.projetoEdit = response.data;
-    
+
 
 
             } catch (error) {
@@ -334,15 +341,16 @@ export default {
                 console.log(this.projetoEdit)
 
                 await axios.put(`https://api-thesis-track.vercel.app/projeto/atualiza/${this.$route.params.id}`, this.projetoEdit, { headers });
-                this.loading = false;
+                setTimeout(() => {
+                    this.projetoSalvo = true;
+                    this.loading = false;
+                }, 4000);
                 console.log('Resposta da edição:', this.projetoEdit);
                 this.mensagemSucesso = 'Projeto editado com sucesso';
                 this.$router.push(`/visualizar/${this.$route.params.id}`);
                 console.log('Projeto editado com sucesso');
             } catch (error) {
                 console.error('Erro ao editar projeto:', error);
-            } finally {
-
                 this.loading = false;
             }
         }
@@ -358,6 +366,16 @@ export default {
     background-color: #1B2F4A;
     max-width: 100%;
     max-height: 75vh;
+}
+
+.mensagem-container {
+    position: fixed;
+    top: 20%;
+    left: 30px;
+    transform: translateY(-50%);
+    z-index: 999;
+    background-color: rgb(189, 14, 14)818 !important;
+    color: #fff !important;
 }
 
 .toggle-label {
@@ -591,4 +609,5 @@ input[type="file"] {
         margin: 0;
         width: 100%;
     }
-}</style>
+}
+</style>

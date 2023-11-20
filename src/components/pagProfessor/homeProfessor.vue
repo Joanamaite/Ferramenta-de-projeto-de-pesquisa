@@ -18,17 +18,24 @@
          <h1 class="escreva fade-up">Olá {{ userName }}, Orientar seus alunos ficou mais fácil</h1>
           </div>
           <div class="col-sm-4">
-            <img src="Images/alunos4.png" class="imagem">
+            <img src="Images/imagem7.png" class="imagem">
           </div>
         </div>
       </div>
     </div>
-    <div class="cards row mt-5 mb-5 me-2">
+    
+    <div class="search-box mt-5">
+      <input v-model="searchQuery" type="text" placeholder="Procurar">
+      <button @click="searchProjects">Pesquisar</button>
+    </div>
+
+    <div class="cards row mt-5 mb-5">
       <div
         v-for="project in projects"
         :key="project.id_projeto"
         class="card col-sm-6 col-md-4 col-lg-3"
       >
+      
       <div class="card__img">
     <img
       v-if="project.logo_projeto"
@@ -63,6 +70,7 @@
       return {
       projects: [], 
       activeIndex: -1,
+      searchQuery: '',
     };
       },
     computed: {
@@ -76,23 +84,32 @@
       },
     },
     methods: {
+      async searchProjects() {
+  try {
+    const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos', {
+      params: { titulo: this.searchQuery }
+    });
+    this.projects = response.data;
+  } catch (error) {
+    console.error('Erro ao buscar projetos:', error);
+  }
+},
+
           connect(index) {
       this.activeIndex = index;
       // Add your connect logic here
     },
-      async loadProjects() {
-        try {
-        
-          const response = await axios.get('https://api-thesis-track.vercel.app/projeto/listar');
-          console.log(response);
-          // Armazenar os projetos na variável projects
-          this.projects = response.data;
-          // const id = this.projects.id_projeto
-          console.log(this.projects);
-        } catch (error) {
-          console.error('Erro ao carregar projetos:', error);
-        }
-      },
+    async loadProjects() {
+      try {
+        const response = await axios.get('https://api-thesis-track.vercel.app/projeto/listar');
+        this.projects = response.data;
+      } catch (error) {
+        console.error('Erro ao carregar projetos:', error);
+      }
+  },
+  created() {
+    this.loadProjects();
+  },
       
       visualizar(projectId) {
         // Redirecionar para a página de visualização do projeto com o ID do projeto
@@ -143,11 +160,37 @@ body {
    align-items: center;
 }
 
+.search-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+}
+.search-box input {
+  height: 40px;
+  padding: 10px;
+  width: 20vw ;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+}
+.search-box button {
+  height: 40px;
+  padding: 0 10px;
+  background-color: #1b2f4afa;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .cards {
   display: flex;
   justify-content: space-around;
   gap: 20px; 
   max-width: 100%;
+  margin-top: 20px;
+ 
 }
 
 .card {
@@ -287,9 +330,8 @@ html, body {
 }
 
 .imagem {
-  width: 23vw;
-  margin-top: 4rem;
-  margin-left: 8rem;
+  width: 55vw;
+  margin-top: 2rem;
 }
 
 .escreva{ font-family: 'Inika', serif; color: #fff; margin-top: 5rem; font-size: 4rem; } @keyframes fade-in-down { 0% { opacity: 0; transform: translateX(-57px); } 100% { opacity: 1; transform: translateX(0); } } @keyframes slideUpFadeIn { from { opacity: 0; transform: translateY(50px); /* Altere a distância desejada do slide-up */ } to { opacity: 1; transform: translateY(0); } } .fade-up { animation: slideUpFadeIn 3s ease-in-out; }
