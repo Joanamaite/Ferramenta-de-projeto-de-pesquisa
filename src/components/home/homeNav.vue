@@ -28,6 +28,7 @@
             <!--header dos professores-->
             <!--header dos alunos-->
             <div  class="ajustando" v-if="userType === 'professor'">
+              
               <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
@@ -41,8 +42,70 @@
               </v-menu>
 
               <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
+              <v-container class="ms-5">
+              <v-row justify="center">
+                <v-menu
+                  bottom
+                  min-width="200px"
+                  rounded
+                  offset-y
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      icon
+                      x-large
+                   
+                      v-on="on"
+                    >
+                      <v-img
+                        src="images/icone.png"
+                        class="imagemIcone"
+                        size="40"
+                      >
+                       
+                      </v-img>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-list-item-content class="justify-center">
+                      <div class="mx-auto text-center">
+                        <v-img
+                        src="images/icone.png"
+  
+                          class="imagemIcone"
+                        >
+                         
+                        </v-img>
+                        <h3>{{ userName }}</h3>
+                        <p class="text-caption mt-1">
+                          {{userEmail}}
+                        </p>
+                        <v-divider class="my-3"></v-divider>
+                        <v-btn
+                          depressed
+                          rounded
+                          text
+                          @click="logout"
+                        >
+                          Deslogar
+                        </v-btn>
+                        <v-divider class="my-3"></v-divider>
+                        <v-btn
+                          depressed
+                          rounded
+                          text
+                          @click="trocaSenha"
+                        >
+                          Troca de senha
+                        </v-btn>
+                      </div>
+                    </v-list-item-content>
+                  </v-card>
+                </v-menu>
+              </v-row>
+            </v-container>
 
-              <v-container class="fill-height itens_header">
+              <!-- <v-container class="fill-height itens_header">
               <v-row justify="center">
                 <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
               </v-row>
@@ -51,7 +114,7 @@
             <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
               <v-list-item>
                 <v-list-item-avatar>
-                  <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+                  <v-img src="Images/icone.png"></v-img>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
@@ -73,7 +136,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-navigation-drawer>  
+            </v-navigation-drawer>   -->
             </div>
 
 
@@ -93,16 +156,79 @@
 
               <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
 
-              <v-container class="fill-height itens_header">
+              <v-container
+              fluid
+              style="height: 300px"
+            >
               <v-row justify="center">
-                <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
+                <v-menu
+                  bottom
+                  min-width="200px"
+                  rounded
+                  offset-y
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      icon
+                      src="images/icone.png"
+                      x-large
+                      v-on="on"
+                    >
+                      <v-img
+                        color="brown"
+                        src="images/icone.png"
+                        size="48"
+                      >
+                        <span class="white--text text-h5">{{ user.initials }}</span>
+                      </v-img>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-list-item-content class="justify-center">
+                      <div class="mx-auto text-center">
+                        <v-avatar
+                          color="brown"
+                        >
+                          <span class="white--text text-h5">{{ user.initials }}</span>
+                        </v-avatar>
+                        <h3>{{ userName }}</h3>
+                        <p class="text-caption mt-1">
+                          {{userEmail}}
+                        </p>
+                        <v-divider class="my-3"></v-divider>
+                        <v-btn
+                          depressed
+                          rounded
+                          text
+                        >
+                          Edit Account
+                        </v-btn>
+                        <v-divider class="my-3"></v-divider>
+                        <v-btn
+                          depressed
+                          rounded
+                          text
+                         
+                        >
+                          Disconnect
+                        </v-btn>
+                      </div>
+                    </v-list-item-content>
+                  </v-card>
+                </v-menu>
               </v-row>
             </v-container>
 
-            <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
+              <!-- <v-container class="fill-height itens_header">
+              <v-row justify="center">
+                <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
+              </v-row>
+            </v-container> -->
+
+            <!-- <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
               <v-list-item>
                 <v-list-item-avatar>
-                  <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+                  <v-img src="Images/icone.png"></v-img>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
@@ -124,7 +250,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-navigation-drawer>  
+            </v-navigation-drawer>   -->
             </div>
             <!--header usuario não logados-->
             <div class="ajustando" v-else>
@@ -174,6 +300,11 @@ export default {
   },
   data() {
     return {
+      user: {
+        initials: 'JD',
+        fullName: 'John Doe',
+        email: 'john.doe@doe.com',
+      },
       isMenuOpen: false,
       drawer: null,
       items: [
@@ -215,6 +346,9 @@ export default {
       Cookies.remove('userName');
       this.$router.push('/');
       window.location.reload();
+    },
+    trocaSenha(){
+      this.$router.push('/enviar');
     },
     escola() {
       window.open("http://www.cimol.g12.br/", "_blank"); //leva para o site do cimol
@@ -303,12 +437,17 @@ export default {
   display: flex;
   align-items: center;
 }
+.imagemIcone{
+  width: 0.2vw;
+ align-items: center !important;
+}
 
 .ajustando {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
 
 .email {
   font-size: 1vw;
@@ -407,6 +546,10 @@ export default {
     transform-origin: top right;
     opacity: 0;
   }
+  .container {
+    margin-left: 0% !important;
+  }
+  
 
   .ajustando {
     flex-direction: column;
