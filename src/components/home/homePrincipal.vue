@@ -148,6 +148,7 @@ body {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1s forwards;
+
 }
 
 .fade-in {
@@ -370,6 +371,10 @@ html, body {
   .card {
     margin-top:3rem !important;
     justify-content: center !important;
+  }
+  .fade-in-up{
+    font-size: 1rem;
+    margin-top: 5%;
   }
 
   .tam{
