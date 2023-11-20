@@ -180,7 +180,7 @@ body {
   background-color: #1b2f4afa;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
 }
 
@@ -376,6 +376,9 @@ html, body {
   .tam{
     max-width: 350px !important;
     margin-left: 0 !important;
+  }
+  .search-box input {
+    width:50vw;
   }
 
   .row{
