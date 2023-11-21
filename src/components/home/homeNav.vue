@@ -24,11 +24,11 @@
                   d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
               </svg>
             </button>
-           
+
             <!--header dos professores-->
             <!--header dos alunos-->
-            <div  class="ajustando" v-if="userType === 'professor'">
-              
+            <div class="ajustando" v-if="userType === 'professor'">
+
               <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
@@ -41,107 +41,56 @@
                 </v-list>
               </v-menu>
 
-              <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
+              <v-btn text class="button-item itens_header margin" @click="projetos()">PROJETOS</v-btn>
               <v-container>
-              <v-row justify="center">
-                <v-menu
-                  bottom
-                  min-width="200px"
-                  rounded
-                  offset-y
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      icon
-                      x-large
-                   
-                      v-on="on"
-                    >
-                      <v-img
-                        src="images/icone.png"
-                        class="imagemIcone"
-                        size="40"
-                      >
-                       
-                      </v-img>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-list-item-content class="justify-center">
-                      <div class="mx-auto text-center">
-                        <v-img
-                        src="images/icone.png"
-  
-                          class="imagemIcone"
-                        >
-                         
+                <v-row justify="center">
+                  <v-menu bottom min-width="200px" rounded offset-y>
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon x-large v-on="on">
+                        <v-img src="images/icone.png" class="imagemIcone" size="40">
+
                         </v-img>
-                        <h3>{{ userName }}</h3>
-                        <p class="text-caption mt-1">
-                          {{userEmail}}
-                        </p>
-                        <v-divider class="my-3"></v-divider>
-                        <v-btn
-                          depressed
-                          rounded
-                          text
-                          @click="logout"
-                        >
-                          Deslogar
-                        </v-btn>
-                        <v-divider class="my-3"></v-divider>
-                        <v-btn
-                          depressed
-                          rounded
-                          text
-                          @click="trocaSenha"
-                        >
-                          Troca de senha
-                        </v-btn>
-                      </div>
-                    </v-list-item-content>
-                  </v-card>
-                </v-menu>
-              </v-row>
-            </v-container>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-list-item-content class="justify-center">
+                        <div class="mx-auto text-center">
+                          <v-img src="images/icone.png" class="imagemIcone">
 
-              <!-- <v-container class="fill-height itens_header">
-              <v-row justify="center">
-                <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
-              </v-row>
-            </v-container>
+                          </v-img>
+                          <h3>{{ userName }}</h3>
+                          <p class="text-caption mt-1">
+                            {{ userEmail }}
+                          </p>
+                          <v-divider class="my-3"></v-divider>
+                          <v-btn depressed rounded text @click="logout">
+                            Deslogar
+                          </v-btn>
+                          <v-divider class="my-3"></v-divider>
+                          <v-btn depressed rounded text @click="trocaSenha">
+                            Troca de senha
+                          </v-btn>
+                        </div>
+                      </v-list-item-content>
+                    </v-card>
+                  </v-menu>
+                </v-row>
+              </v-container>
+              <div class="search-box">
+                <input class="search-txt" type="text" name="" placeholder="Tecle para pesquisar" v-model="searchQuery">
+                <button class="search-button" @click="searchProjectsHome">
+                  <i class="fa-solid fa-magnifying-glass" style="color: #1B2F4A;"></i>
+                </button>
 
-            <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
-              <v-list-item>
-                <v-list-item-avatar>
-                  <v-img src="Images/icone.png"></v-img>
-                </v-list-item-avatar>
 
-                <v-list-item-content>
-                  <v-list-item-title>{{ userName }}</v-list-item-title>
-                  <p class="email">{{userEmail}}</p>
-                </v-list-item-content>
-              </v-list-item>
+              </div>
 
-              <v-divider></v-divider>
 
-              <v-list icon @click="logout" dense>
-                <v-list-item v-for="item in items" :key="item.title" link>
-                  <v-list-item-icon>
-                    <v-icon @click="logout">{{ item.icon }}</v-icon>
-                  </v-list-item-icon>
-
-                  <v-list-item-content>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-navigation-drawer>   -->
             </div>
 
 
             <!--header dos alunos-->
-            <div  class="ajustando" v-else-if="userType === 'aluno'">
+            <div class="ajustando" v-else-if="userType === 'aluno'">
               <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
@@ -156,68 +105,40 @@
 
               <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
 
-              <v-container
-              fluid
-              style="height: 300px"
-            >
-              <v-row justify="center">
-                <v-menu
-                  bottom
-                  min-width="200px"
-                  rounded
-                  offset-y
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      icon
-                      src="images/icone.png"
-                      x-large
-                      v-on="on"
-                    >
-                      <v-img
-                        color="brown"
-                        src="images/icone.png"
-                        size="48"
-                      >
-                        <span class="white--text text-h5">{{ user.initials }}</span>
-                      </v-img>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-list-item-content class="justify-center">
-                      <div class="mx-auto text-center">
-                        <v-avatar
-                          color="brown"
-                        >
+              <v-container fluid style="height: 300px">
+                <v-row justify="center">
+                  <v-menu bottom min-width="200px" rounded offset-y>
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon src="images/icone.png" x-large v-on="on">
+                        <v-img color="brown" src="images/icone.png" size="48">
                           <span class="white--text text-h5">{{ user.initials }}</span>
-                        </v-avatar>
-                        <h3>{{ userName }}</h3>
-                        <p class="text-caption mt-1">
-                          {{userEmail}}
-                        </p>
-                        <v-divider class="my-3"></v-divider>
-                        <v-btn
-                          depressed
-                          rounded
-                          text
-                        >
-                          Edit Account
-                        </v-btn>
-                        <v-divider class="my-3"></v-divider>
-                        <v-btn
-                          depressed
-                          rounded
-                          text
-                         
-                        >
-                          Disconnect
-                        </v-btn>
-                      </div>
-                    </v-list-item-content>
-                  </v-card>
-                </v-menu>
-              </v-row>
-            </v-container>
+                        </v-img>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-list-item-content class="justify-center">
+                        <div class="mx-auto text-center">
+                          <v-avatar color="brown">
+                            <span class="white--text text-h5">{{ user.initials }}</span>
+                          </v-avatar>
+                          <h3>{{ userName }}</h3>
+                          <p class="text-caption mt-1">
+                            {{ userEmail }}
+                          </p>
+                          <v-divider class="my-3"></v-divider>
+                          <v-btn depressed rounded text>
+                            Edit Account
+                          </v-btn>
+                          <v-divider class="my-3"></v-divider>
+                          <v-btn depressed rounded text>
+                            Disconnect
+                          </v-btn>
+                        </div>
+                      </v-list-item-content>
+                    </v-card>
+                  </v-menu>
+                </v-row>
+              </v-container>
 
               <!-- <v-container class="fill-height itens_header">
               <v-row justify="center">
@@ -225,7 +146,7 @@
               </v-row>
             </v-container> -->
 
-            <!-- <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
+              <!-- <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
               <v-list-item>
                 <v-list-item-avatar>
                   <v-img src="Images/icone.png"></v-img>
@@ -279,20 +200,20 @@
 
 <script>
 import Cookies from 'js-cookie';
-
+import axios from 'axios';
 export default {
   computed: {
     userType() {
       return Cookies.get('userType') || 'default';
     },
     userName() {
-       const userName = Cookies.get('userName');
-       return userName || 'default';
-      },
-      userEmail() {
-       const userEmail = Cookies.get('userEmail');
-       return userEmail || 'default';
-      },
+      const userName = Cookies.get('userName');
+      return userName || 'default';
+    },
+    userEmail() {
+      const userEmail = Cookies.get('userEmail');
+      return userEmail || 'default';
+    },
   },
   created() {
     // Verifique se o usuário já fez login e atualize o userType com base nos cookies.
@@ -300,11 +221,9 @@ export default {
   },
   data() {
     return {
-      user: {
-        initials: 'JD',
-        fullName: 'John Doe',
-        email: 'john.doe@doe.com',
-      },
+      searchQuery: '',
+      searchQueryAno: '',
+      searchOption: '',
       isMenuOpen: false,
       drawer: null,
       items: [
@@ -331,6 +250,32 @@ export default {
       this.$router.push(path); // Redirecionar para a página desejada
       this.isMenuOpen = false; // Fechar o menu
     },
+    async searchProjectsHome() {
+      try {
+        if (this.searchQuery && /^\d{4}$/.test(this.searchQuery)) {
+          // Se a pesquisa contém um ano válido (4 dígitos numéricos), pesquise por ano
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos/ano', {
+            params: { ano: this.searchQuery },
+          });
+          this.projects = response.data.data;
+        } else {
+          // Caso contrário, pesquise por título
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos', {
+            params: { titulo: this.searchQuery },
+          });
+          this.projects = response.data.data;
+        }
+      } catch (error) {
+        console.error('Erro ao buscar projetos:', error);
+        alert('Erro ao buscar projetos. Tente novamente.');
+      }
+    },
+
+
+    connect(index) {
+      this.activeIndex = index;
+
+    },
 
     updateUserTypeFromCookies() {
       const userType = Cookies.get('userType');
@@ -347,7 +292,7 @@ export default {
       this.$router.push('/');
       window.location.reload();
     },
-    trocaSenha(){
+    trocaSenha() {
       this.$router.push('/enviar');
     },
     escola() {
@@ -412,7 +357,7 @@ export default {
         content.classList.remove('showSidebar');
       }, 300);
     },
-    
+
     closeSidebar() {
       const navigationHeader = document.getElementById('navigation_header');
       navigationHeader.classList.remove("showSidebar");
@@ -437,14 +382,77 @@ export default {
   display: flex;
   align-items: center;
 }
-.imagemIcone{
+
+.imagemIcone {
   width: 0.2vw;
- align-items: center !important;
+  align-items: center !important;
 }
 
 .ajustando {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.select {
+  border: #fff 1px solid;
+}
+
+.search-box {
+  position: absolute;
+  margin-left: auto;
+  top: 18%;
+  left: 70%;
+  background: #1B2F4A;
+  height: 40px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  border: 2px solid #fff;
+
+}
+
+.margin {
+  margin-right: 7% !important;
+}
+
+.search-button {
+  float: right;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s;
+}
+
+.search-box:hover>.search-txt {
+  width: 300px;
+  padding: 0 7.5px;
+}
+
+.search-box:hover>.search-button {
+  background: #ffffff;
+}
+
+.search-txt {
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: #ffffff;
+  font-size: 20px;
+  transition: 0.4s;
+  line-height: 50px;
+  width: 0;
+}
+
+
+.button-group {
+  display: flex;
   align-items: center;
 }
 
@@ -493,7 +501,8 @@ export default {
   width: 35px;
 }
 
-.header, .navigation_header {
+.header,
+.navigation_header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -529,10 +538,21 @@ export default {
 .itens_header {
   width: 4vw;
   margin-left: 3.5rem;
-  margin-right: 0.3rem; 
+  margin-right: 0.3rem;
 }
 
 @media screen and (max-width: 675px) {
+  .search-box{
+    top:60%;
+    left:40%;
+
+  }
+  .search-box:hover>.search-txt{
+    width:150px;
+  }
+  .search-button{
+    widows: 10vw;
+  }
   .navigation_header {
     position: absolute;
     flex-direction: column !important;
@@ -546,9 +566,11 @@ export default {
     transform-origin: top right;
     opacity: 0;
   }
+
   .container {
     margin-left: 0 !important;
   }
+
   .v-application--is-ltr {
     margin-left: 0 !important;
   }
@@ -629,6 +651,9 @@ export default {
     font-size: 3vw;
     text-align: center;
   }
+}
+.margin {
+  margin-right: 0% !important;
 }
 
 @keyframes bubble {

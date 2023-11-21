@@ -4,6 +4,7 @@ import router from './router';
 import vuetify from './plugins/vuetify';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import '@fortawesome/fontawesome-free/css/all.css'
 
 Vue.config.productionTip = false;
 Vue.prototype.$userType = null;

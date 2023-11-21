@@ -164,8 +164,6 @@
                     </label>
                 </div>
 
-                <!-- Mensagem de sucesso após adicionar arquivos -->
-                <p class="cor" @click="projetos" v-if="logoAdicionada">Arquivo adicionado com sucesso</p>
 
                 <!-- Botão de Adicionar PDF -->
                 <div class="col-md-6 col-sm-6 align-self-center mt-5">
@@ -174,9 +172,11 @@
                         <span>Adicionar PDF</span>
                     </label>
                 </div>
-                <!-- Exibe a mensagem de sucesso após adicionar PDF -->
-                <p class="cor" v-if="pdfAdicionado">PDF adicionado com sucesso</p>
+                <v-alert color="green" dense outlined prominent shaped text type="sucess"
+                    v-if="pdfAdicionado">PDF adicionado com sucesso </v-alert>
 
+                    <v-alert color="green" dense outlined prominent shaped text type="sucess"
+                    v-if="logoAdicionada" >Arquivo adicionado com sucesso </v-alert>
                 <!-- Exibição de mensagem de erro -->
                 <div class="col-md-6 col-sm-6 align-self-center mt-5 ">
                     <v-alert color="orange" dense outlined prominent shaped text type="info"
@@ -400,12 +400,13 @@ export default {
                         axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`, formData)
                     );
                 }
-                this.logoAdicionada = true;
+               
                 Promise.all(uploadPromises)
                     .then((responses) => {
                         const imageUrls = responses.map((response) => response.data.secure_url);
                         this.logo_projeto = imageUrls;
                         console.log(this.logo_projeto);
+                         this.logoAdicionada = true;
                     })
 
                     .catch((error) => {
