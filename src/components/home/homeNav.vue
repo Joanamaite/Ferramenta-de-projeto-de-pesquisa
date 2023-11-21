@@ -47,7 +47,7 @@
                   <v-menu bottom min-width="200px" rounded offset-y>
                     <template v-slot:activator="{ on }">
                       <v-btn icon x-large v-on="on">
-                        <v-img src="images/icone.png" class="imagemIcone" size="40">
+                        <v-img src="Images/icone.png" class="imagemIcone" size="40">
 
                         </v-img>
                       </v-btn>
@@ -55,7 +55,7 @@
                     <v-card>
                       <v-list-item-content class="justify-center">
                         <div class="mx-auto text-center">
-                          <v-img src="images/icone.png" class="imagemIcone">
+                          <v-img src="Images/icone.png" class="imagemIcone">
 
                           </v-img>
                           <h3>{{ userName }}</h3>
@@ -91,7 +91,7 @@
 
             <!--header dos alunos-->
             <div class="ajustando" v-else-if="userType === 'aluno'">
-              <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
+               <v-btn text class="itens_header" @click="professor()">INÍCIO</v-btn>
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
                   <v-btn class="itens_header  col-md-2 col-sm-2" text v-on="on">CURSOS</v-btn>
@@ -103,35 +103,34 @@
                 </v-list>
               </v-menu>
 
-              <v-btn text class="button-item itens_header" @click="projetos()">PROJETOS</v-btn>
-
-              <v-container fluid style="height: 300px">
+              <v-btn text class="button-item itens_header margin" @click="projetos()">PROJETOS</v-btn>
+              <v-container>
                 <v-row justify="center">
                   <v-menu bottom min-width="200px" rounded offset-y>
                     <template v-slot:activator="{ on }">
-                      <v-btn icon src="images/icone.png" x-large v-on="on">
-                        <v-img color="brown" src="images/icone.png" size="48">
-                          <span class="white--text text-h5">{{ user.initials }}</span>
+                      <v-btn icon x-large v-on="on">
+                        <v-img src="Images/icone.png" class="imagemIcone" size="40">
+
                         </v-img>
                       </v-btn>
                     </template>
                     <v-card>
                       <v-list-item-content class="justify-center">
                         <div class="mx-auto text-center">
-                          <v-avatar color="brown">
-                            <span class="white--text text-h5">{{ user.initials }}</span>
-                          </v-avatar>
+                          <v-img src="Images/icone.png" class="imagemIcone">
+
+                          </v-img>
                           <h3>{{ userName }}</h3>
                           <p class="text-caption mt-1">
                             {{ userEmail }}
                           </p>
                           <v-divider class="my-3"></v-divider>
-                          <v-btn depressed rounded text>
-                            Edit Account
+                          <v-btn depressed rounded text @click="logout">
+                            Deslogar
                           </v-btn>
                           <v-divider class="my-3"></v-divider>
-                          <v-btn depressed rounded text>
-                            Disconnect
+                          <v-btn depressed rounded text @click="trocaSenha">
+                            Troca de senha
                           </v-btn>
                         </div>
                       </v-list-item-content>
@@ -139,39 +138,15 @@
                   </v-menu>
                 </v-row>
               </v-container>
+              <div class="search-box telaMenor">
+                <input class="search-txt" type="text" name="" placeholder="Tecle para pesquisar" v-model="searchQuery">
+                <button class="search-button" @click="searchProjectsHome">
+                  <i class="fa-solid fa-magnifying-glass" style="color: #1B2F4A;"></i>
+                </button>
 
-              <!-- <v-container class="fill-height itens_header">
-              <v-row justify="center">
-                <v-img src="https://randomuser.me/api/portraits/men/78.jpg" class="imagem" @click.stop="drawer = !drawer"></v-img>
-              </v-row>
-            </v-container> -->
 
-              <!-- <v-navigation-drawer v-model="drawer" height="900" absolute right temporary class="perfil">
-              <v-list-item>
-                <v-list-item-avatar>
-                  <v-img src="Images/icone.png"></v-img>
-                </v-list-item-avatar>
+              </div>
 
-                <v-list-item-content>
-                  <v-list-item-title>{{ userName }}</v-list-item-title>
-                  <p class="email">{{userEmail}}</p>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-divider></v-divider>
-
-              <v-list icon @click="logout" dense>
-                <v-list-item v-for="item in items" :key="item.title" link>
-                  <v-list-item-icon>
-                    <v-icon @click="logout">{{ item.icon }}</v-icon>
-                  </v-list-item-icon>
-
-                  <v-list-item-content>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-navigation-drawer>   -->
             </div>
             <!--header usuario não logados-->
             <div class="ajustando" v-else>
