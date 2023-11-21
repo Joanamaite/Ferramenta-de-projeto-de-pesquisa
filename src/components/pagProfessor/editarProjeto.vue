@@ -65,7 +65,7 @@
                         elevation="3" v-model="projetoEdit.url">
                     </v-text-field>
                 </div>
-                <div class="col-md-10 col-sm-8 align-self-center  shadow-lg">
+                <div class="col-md-6 col-sm-6 align-self-center  shadow-lg">
                     <label class="custom-file-upload">
                         <input type="file" ref="fileInput" id="fileInput" name="file" multiple
                             @change="handleFileUpload($event)" />
@@ -74,7 +74,6 @@
                     </label>
 
                 </div>
-                <p class="cor" v-if="arquivoAdicionado">Arquivo adicionado com sucesso</p>
 
                 <!-- Botão de Adicionar PDF -->
                 <div class="col-md-6 col-sm-6 align-self-center mt-5 shadow-lg">
@@ -84,15 +83,17 @@
                     </label>
                 </div>
                 <!-- Exibe a mensagem de sucesso após adicionar PDF -->
-                <p class="cor" v-if="pdfAdicionado">PDF adicionado com sucesso</p>
-
+                <v-alert color="green" dense outlined prominent shaped text type="sucess" v-if="pdfAdicionado">PDF
+                    adicionado com sucesso</v-alert>
+                <v-alert color="green" dense outlined prominent shaped text type="sucess" v-if="arquivoAdicionado">Logo
+                    adicionada com sucesso </v-alert>
             </div>
         </div>
         <!-- Controle de Privacidade -->
         <div>
             <label for="privacyToggle" class="toggle-label ms-5">Tornar {{ isPrivate ? 'Público' : 'Privado' }} ?</label>
             <input type="checkbox" id="privacyToggle" @change="togglePrivacy" class="toggle-checkbox ms-3"
-                :checked="isPrivate">
+                :checked="!isPrivate">
         </div>
         <div class="float-end mb-5 me-5 ">
             <v-btn class="color" @click="editarProjeto" :disabled="loading">
@@ -134,7 +135,6 @@ export default {
                 problema: '',
                 resumo: '',
                 abstract: '',
-                publico: "0",
                 objetivo_geral: '',
                 objetivo_especifico: '',
                 logo_projeto: [],
@@ -188,7 +188,7 @@ export default {
 
         togglePrivacy() {
             this.isPrivate = !this.isPrivate;
-            console.log(this.isPrivate);
+            this.projetoEdit.publico = this.isPrivate ? 0 : 1; 
         },
 
         limitarAutores() {
@@ -198,6 +198,7 @@ export default {
         },
         async handleFile(event) {
             try {
+                this.loading = true;
                 const file = event.target.files[0];
                 const cloudinaryCloudName = 'dzpbclwij';
                 const cloudinaryUploadPreset = 'bdsmg4su';
@@ -223,6 +224,7 @@ export default {
                         console.log(cloudinaryResponse.data.secure_url);
 
                         this.pdfAdicionado = true;
+                        this.loading = false;
                     } else {
                         console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
                     }
@@ -243,7 +245,7 @@ export default {
                 const cloudinaryCloudName = 'dzpbclwij';
                 const cloudinaryUploadPreset = 'bdsmg4su';
                 const uploadPromises = [];
-
+                this.loading = true;
                 for (const file of files) {
                     const formData = new FormData();
                     formData.append('file', file);
@@ -253,6 +255,7 @@ export default {
                         axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`, formData)
                     );
                     this.arquivoAdicionado = true;
+                    this.loading = false;
                 }
 
 

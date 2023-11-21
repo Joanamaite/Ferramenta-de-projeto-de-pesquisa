@@ -547,8 +547,11 @@ export default {
     left:40%;
 
   }
+  .margin {
+  margin-right: 0% !important;
+}
   .search-box:hover>.search-txt{
-    width:150px;
+    width:100px;
   }
   .search-button{
     widows: 10vw;
@@ -652,9 +655,7 @@ export default {
     text-align: center;
   }
 }
-.margin {
-  margin-right: 0% !important;
-}
+
 
 @keyframes bubble {
   0% {
