@@ -76,7 +76,7 @@
                   </v-menu>
                 </v-row>
               </v-container>
-              <div class="search-box">
+              <div class="search-box telaMenor">
                 <input class="search-txt" type="text" name="" placeholder="Tecle para pesquisar" v-model="searchQuery">
                 <button class="search-button" @click="searchProjectsHome">
                   <i class="fa-solid fa-magnifying-glass" style="color: #1B2F4A;"></i>
@@ -191,6 +191,14 @@
               <v-btn text class=" itens_header" @click="login()">ENTRAR</v-btn>
             </div>
           </div>
+          <div class="search-box display">
+                <input class="search-txt" type="text" name="" placeholder="Tecle para pesquisar" v-model="searchQuery">
+                <button class="search-button" @click="searchProjectsHome">
+                  <i class="fa-solid fa-magnifying-glass" style="color: #1B2F4A;"></i>
+                </button>
+
+
+              </div>
         </div>
       </div>
     </v-app-bar>
@@ -382,6 +390,9 @@ export default {
   display: flex;
   align-items: center;
 }
+.display{
+  display:none !important;
+}
 
 .imagemIcone {
   width: 0.2vw;
@@ -547,11 +558,18 @@ export default {
     left:40%;
 
   }
+  .telaMenor{
+    display:none;
+  }
+  .display{
+    top:10%;
+    display:flex !important;
+  }
   .margin {
   margin-right: 0% !important;
 }
   .search-box:hover>.search-txt{
-    width:100px;
+    width:150px;
   }
   .search-button{
     widows: 10vw;

@@ -344,6 +344,7 @@ export default {
         //função para enviar o pdf para o Cloudinary
         async handleFile(event) {
             try {
+                this.loading = true;
                 const file = event.target.files[0];
                 const cloudinaryCloudName = 'dzpbclwij';
                 const cloudinaryUploadPreset = 'bdsmg4su';
@@ -369,6 +370,7 @@ export default {
                         console.log(cloudinaryResponse.data.secure_url);
 
                         this.pdfAdicionado = true;
+                        this.loading = false;
                     } else {
                         console.error('Erro ao fazer upload do PDF:', cloudinaryResponse.data);
                     }
@@ -382,6 +384,7 @@ export default {
 
         //função para enviar a imagem para o Cloudinary
         handleFileUpload(event) {
+            this.loading = true;
             const files = event.target.files;
 
             if (files.length > 0) {
@@ -407,6 +410,7 @@ export default {
                         this.logo_projeto = imageUrls;
                         console.log(this.logo_projeto);
                          this.logoAdicionada = true;
+                         this.loading = false;
                     })
 
                     .catch((error) => {
