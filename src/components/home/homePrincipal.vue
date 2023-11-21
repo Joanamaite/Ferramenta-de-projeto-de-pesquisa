@@ -13,7 +13,11 @@
     <div class="content-section">
       <h1 class="fade-in">Projetos Aprovados e Compartilhados</h1>
     </div>
+    <div class="search-box mt-5">
+      <input v-model="searchQuery" type="text" placeholder="Procurar título ou ano do projeto ">
 
+      <button @click="searchProjects">Pesquisar</button>
+    </div>
 
     <div class="cards row mt-5 mb-5">
       <div
@@ -57,6 +61,9 @@ export default {
   data() {
     return {
       projects: [], // Array para armazenar os projetos da API
+      searchQuery: '',
+      searchQueryAno: '', 
+      searchOption: '',
     };
   },
   computed: {
@@ -67,19 +74,42 @@ export default {
     
   },
   methods: {
+     async searchProjects() {
+      try {
+        if (this.searchQuery && /^\d{4}$/.test(this.searchQuery)) {
+          console.log(this.searchQuery);
+          // Se a pesquisa contém um ano válido (4 dígitos numéricos), pesquise por ano
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos/ano/', {
+            params: { ano: this.searchQuery },
+          });
+          this.projects = response.data.data;
+        } else {
+          console.log(this.searchQuery);
+          // Caso contrário, pesquise por título
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos/', {
+            params: { titulo: this.searchQuery },
+          });
+          this.projects = response.data.data;
+        }
+      } catch (error) {
+        console.error('Erro ao buscar projetos:', error);
+        // Adicione uma mensagem de erro para o usuário
+        alert('Erro ao buscar projetos. Tente novamente.');
+      }
+    },
+
+          connect(index) {
+      this.activeIndex = index;
+     
+    },
     async loadProjects() {
       try {
-      
-        const response = await axios.get('https://api-thesis-track.vercel.app/projeto/listar/');
-        console.log(response);
-        // Armazenar os projetos na variável projects
+        const response = await axios.get('https://api-thesis-track.vercel.app/projeto/listar');
         this.projects = response.data;
-        // const id = this.projects.id_projeto
-        console.log(this.projects);
       } catch (error) {
         console.error('Erro ao carregar projetos:', error);
       }
-    },
+  },
     
     visualizar(projectId) {
       // Redirecionar para a página de visualização do projeto com o ID do projeto
@@ -114,6 +144,38 @@ export default {
 img {
    max-width: 100%;
    display: block;
+}
+body {
+   font-family: 'Open Sans', sans-serif;
+   font-size: 100%;
+   line-height: 1.6;
+   color: var(--clr-body);
+   background-color: var(--clr-bg);
+   align-items: center;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+}
+.search-box input {
+  height: 40px;
+  padding: 10px;
+  width: 20vw ;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+}
+.search-box button {
+  height: 40px;
+  padding: 0 10px;
+  background-color: #1b2f4afa;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 a {

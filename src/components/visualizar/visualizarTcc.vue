@@ -23,7 +23,7 @@
       <v-row>
         <v-col cols="12" sm="4">
           <p class="estiloEscrita">
-            Autores: {{ getAutoresNome(projeto) || '' }}
+            {{ getAutoresNome(projeto) || '' }}
           </p>
         </v-col>
         <v-col cols="12" sm="4">

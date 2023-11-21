@@ -76,14 +76,6 @@
                   </v-menu>
                 </v-row>
               </v-container>
-              <div class="search-box telaMenor">
-                <input class="search-txt" type="text" name="" placeholder="Tecle para pesquisar" v-model="searchQuery">
-                <button class="search-button" @click="searchProjectsHome">
-                  <i class="fa-solid fa-magnifying-glass" style="color: #1B2F4A;"></i>
-                </button>
-
-
-              </div>
 
 
             </div>

@@ -26,13 +26,7 @@
 
          <!-- Barra de Pesquisa com Dropdown -->
     <div class="search-box mt-5">
-      <input v-model="searchQuery" type="text" placeholder="Procurar">
-      
-      <!-- Dropdown para escolher entre Título e Ano -->
-      <select v-model="searchOption">
-        <option value="titulo">Titulo</option>
-        <option value="ano">Ano</option>
-      </select>
+      <input v-model="searchQuery" type="text" placeholder="Procurar título ou ano do projeto ">
 
       <button @click="searchProjects">Pesquisar</button>
     </div>
@@ -92,14 +86,18 @@
     methods: {
       async searchProjects() {
       try {
-        if (this.searchOption === 'titulo') {
-          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos', {
-            params: { titulo: this.searchQuery },
+        if (this.searchQuery && /^\d{4}$/.test(this.searchQuery)) {
+          console.log(this.searchQuery);
+          // Se a pesquisa contém um ano válido (4 dígitos numéricos), pesquise por ano
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos/ano/', {
+            params: { ano: this.searchQuery },
           });
           this.projects = response.data.data;
-        } else if (this.searchOption === 'ano') {
-          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos/ano', {
-            params: { ano: this.searchQuery },
+        } else {
+          console.log(this.searchQuery);
+          // Caso contrário, pesquise por título
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos/', {
+            params: { titulo: this.searchQuery },
           });
           this.projects = response.data.data;
         }
