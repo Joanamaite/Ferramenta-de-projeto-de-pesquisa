@@ -2,7 +2,7 @@
   <div>
     <div class="imagemFundo col-sm-12">
       <div class="container">
-        <!--Caso o aluno esteja logado ele direciona este texto e imagem-->
+        <!-- Caso o aluno esteja logado ele direciona este texto e imagem -->
         <div class="row" v-if="userType === 'aluno'">
           <div class="col-sm-8">
             <h1 class="escreva fade-up">Olá {{ userName }}, Desenvolva todos os seus projetos aqui na nossa plataforma</h1>
@@ -12,10 +12,10 @@
           </div>
         </div>
 
-        <!--Caso o professor esteja logado ele direciona este texto e imagem-->
+        <!-- Caso o professor esteja logado ele direciona este texto e imagem -->
         <div class="row" v-else-if="userType === 'professor'">
           <div class="col-sm-8">
-         <h1 class="escreva fade-up">Olá {{ userName }}, Orientar seus alunos ficou mais fácil</h1>
+            <h1 class="escreva fade-up">Olá {{ userName }}, Orientar seus alunos ficou mais fácil</h1>
           </div>
           <div class="col-sm-4">
             <img src="Images/imagem7.png" class="imagem">
@@ -23,31 +23,28 @@
         </div>
       </div>
     </div>
-    
+
     <div class="search-box mt-5">
       <input v-model="searchQuery" type="text" placeholder="Procurar">
       <button @click="searchProjects">Pesquisar</button>
     </div>
 
+    
+  
     <div class="cards row mt-5 mb-5">
-      <div
-        v-for="project in projects"
-        :key="project.id_projeto"
-        class="card col-sm-6 col-md-4 col-lg-3"
-      >
-      
-      <div class="card__img">
-    <img
-      v-if="project.logo_projeto"
-      :src="project.logo_projeto"
-      :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
-    />
-    <img
-      v-else
-      src="Images/Logo.png"
-      :style="{ 'height': '140px', 'object-fit': 'cover', 'border-radius': '12px' }"
-    />
-  </div>
+      <div v-for="project in projects" :key="project.id_projeto" class="card col-sm-6 col-md-4 col-lg-3">
+        <div class="card__img">
+          <img
+            v-if="project.logo_projeto"
+            :src="project.logo_projeto"
+            :style="{ 'height': '150px', 'object-fit': 'cover', 'border-radius': '12px' }"
+          />
+          <img
+            v-else
+            src="Images/Logo.png"
+            :style="{ 'height': '140px', 'object-fit': 'cover', 'border-radius': '12px' }"
+          />
+        </div>
         <div class="card__body">
           <h2 class="card__head">{{ project.tema }}</h2>
           <p class="card__desc">{{ project.titulo }}</p>
@@ -59,6 +56,7 @@
     </div>
   </div>
 </template>
+
 
   <script>
   import Cookies from 'js-cookie';
@@ -84,20 +82,24 @@
       },
     },
     methods: {
+
       async searchProjects() {
-  try {
-    const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos', {
-      params: { titulo: this.searchQuery }
-    });
-    this.projects = response.data;
-  } catch (error) {
-    console.error('Erro ao buscar projetos:', error);
-  }
-},
+      try {
+        const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos', {
+          params: { titulo: this.searchQuery },
+        });
+        this.projects = response.data.data; // Assumindo que os projetos estão dentro do array 'data'
+      } catch (error) {
+        console.error('Erro ao buscar projetos:', error);
+        // Adicione uma mensagem de erro para o usuário
+        alert('Erro ao buscar projetos. Tente novamente mais tarde.');
+      }
+    
+  },
 
           connect(index) {
       this.activeIndex = index;
-      // Add your connect logic here
+     
     },
     async loadProjects() {
       try {
