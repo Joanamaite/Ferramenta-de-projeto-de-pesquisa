@@ -24,13 +24,19 @@
       </div>
     </div>
 
+         <!-- Barra de Pesquisa com Dropdown -->
     <div class="search-box mt-5">
       <input v-model="searchQuery" type="text" placeholder="Procurar">
+      
+      <!-- Dropdown para escolher entre Título e Ano -->
+      <select v-model="searchOption">
+        <option value="titulo">Titulo</option>
+        <option value="ano">Ano</option>
+      </select>
+
       <button @click="searchProjects">Pesquisar</button>
     </div>
 
-    
-  
     <div class="cards row mt-5 mb-5">
       <div v-for="project in projects" :key="project.id_projeto" class="card col-sm-6 col-md-4 col-lg-3">
         <div class="card__img">
@@ -69,6 +75,8 @@
       projects: [], 
       activeIndex: -1,
       searchQuery: '',
+      searchQueryAno: '', 
+      searchOption: '',
     };
       },
     computed: {
@@ -82,20 +90,25 @@
       },
     },
     methods: {
-
       async searchProjects() {
       try {
-        const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos', {
-          params: { titulo: this.searchQuery },
-        });
-        this.projects = response.data.data; // Assumindo que os projetos estão dentro do array 'data'
+        if (this.searchOption === 'titulo') {
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos', {
+            params: { titulo: this.searchQuery },
+          });
+          this.projects = response.data.data;
+        } else if (this.searchOption === 'ano') {
+          const response = await axios.get('https://api-thesis-track.vercel.app/buscar-projetos/ano', {
+            params: { ano: this.searchQuery },
+          });
+          this.projects = response.data.data;
+        }
       } catch (error) {
         console.error('Erro ao buscar projetos:', error);
         // Adicione uma mensagem de erro para o usuário
-        alert('Erro ao buscar projetos. Tente novamente mais tarde.');
+        alert('Erro ao buscar projetos. Tente novamente.');
       }
-    
-  },
+    },
 
           connect(index) {
       this.activeIndex = index;
