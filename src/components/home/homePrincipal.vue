@@ -438,7 +438,10 @@ html, body {
     font-size: 1rem;
     margin-top: 5%;
   }
-
+.search-box input {
+    width:50vw;
+}
+  
   .tam{
     max-width: 350px !important;
     margin-left: 0 !important;
